@@ -63,14 +63,14 @@ T1 <- function(X,Y,Xmed, Ymed) {
     t <- X
     X <- Y
     Y <- t
-  }  
-  
+  }
+
   Z.center <- median(c(X,Y))
   X.plus <- X - Z.center
   X.plus <- X.plus[X.plus > 0]
-  Y.minus <- Y - Z.center
-  Y.minus <- -Y.minus[Y.minus < 0]
-  
+  Y.minus <- Z.center - Y
+  Y.minus <- Y.minus[Y.minus > 0]
+
   -(sum(log(1 + X.plus)) + sum(log(1 + Y.minus)))
 }
 
@@ -99,12 +99,12 @@ K <- function(Z, A) {
     K2 = (mX-mY)**2,
     L1 = sum(log(1+tmp)),
     L1C = sum(log(1+tmpA)),
-    T1 = T1(X,Y,Xmed, Ymed),
-    #L2 = sum(log(1+tmp**2)),
-    #L2C = sum(log(1+tmpA**2)),
+    # L2 = sum(log(1+tmp**2)),
+    # L2C = sum(log(1+tmpA**2)),
     #L0.5 = sum(log(1+tmp**.5)),
     #L0.5C = sum(log(1+tmpA**.5)),
     #K10 = sum(log(tmp)),
+    T1 = T1(X,Y,Xmed, Ymed),
     new_norm_criterion = ( vX + (mX-mY)**2 ) / vY + ( vY+(mX-mY)**2 ) / vX,
     #new_cauchy_criterion = sum(log( 1 + abs(X-Ymed) )) + sum(log( 1 + abs(Y-Xmed) )),
     #new_cauchy_criterion2 = sum(log( 1 + (abs(X-Ymed))**2 )) + sum(log( 1 + (abs(Y-Xmed))**2 )),
