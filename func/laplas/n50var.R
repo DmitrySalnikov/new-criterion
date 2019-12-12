@@ -15,7 +15,7 @@ if (!dir.exists(tables)) dir.create(tables)
 
 # modelling
 
-par <- seq(1, 5, length.out = 5)
+par <- seq(1, 3, length.out = 5)
 first <- 0
 second <- par
 res <- vector()
