@@ -5,7 +5,7 @@
 \usepackage{indentfirst}
 \usepackage{longtable}
 \usepackage{amsmath,accents}
-\usepackage[left=0cm, right=0cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[left=0cm, right=0cm, top=1.5cm, bottom=1.5cm]{geometry}
 
 \begin{document}
 
@@ -24,16 +24,18 @@ $X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
   \label{L2C}
   L_2^C(Z)&=&\sum_{i,j=1}^{n}{\ln\left(1+\left(\frac{|X_{i}-Y_{j}|}{C}\right)^2\right)},\qquad C=\sum_{1\le i<j\le 2n}{|Z_{i}-Z_{j}|}/(n(2n-1)),\\
   \label{T1}
-  T_1(Z) &=& -\left( \sum_{i=1}^{n} \ln(1+[X_{i}-Z_{med}]_{+}) + \sum_{j=1}^{n} \ln(1+[Z_{med}-Y_{j}]_{+}) \right), \;\; X_{med}\le Y_{med}, \;\; [a]_{+} = a \;\; if \;\; a>0,\\
+  T_1(Z) &=& -\left( \sum_{i=1}^{n} \ln(1+[X_{i}-Z_{cen}]_{+}) + \sum_{j=1}^{n} \ln(1+[Z_{cen}-Y_{j}]_{+}) \right), \;\; X_{cen}\le Y_{cen}, \;\; [a]_{+} = a \;\; if \;\; a>0,\\
   \label{NC}
   NC &=& \frac{S_X^2+(\bar X-\bar Y)^2}{S_Y^2} + \frac{S_Y^2+(\bar X-\bar Y)^2}{S_X^2},\\
   \label{CC}
-  CC^C &=& \sum_{i=1}^n\left\{\ln\left(1+\frac{|X_i-Y_{med}|}{C_Y}\right) + \ln\left(1+\frac{|Y_i-X_{med}|}{C_X}\right)\right\},\\
+  CC^C &=& \sum_{i=1}^n\left\{\ln\left(1+\frac{|X_i-Y_{cen}|}{Y_{sd}}\right) + \ln\left(1+\frac{|Y_i-X_{cen}|}{X_{sd}}\right)\right\},\\
   \label{CC2}
-  CC_2^C &=& \sum_{i=1}^n\left\{\ln\left(1+\left(\frac{|X_i-Y_{med}|}{C_Y}\right)^2\right) + \ln\left(1+\left(\frac{|Y_i-X_{med}|}{C_X}\right)^2\right)\right\},\\
+  CC_2^C &=& \sum_{i=1}^n\left\{\ln\left(1+\left(\frac{|X_i-Y_{cen}|}{Y_{sd}}\right)^2\right) + \ln\left(1+\left(\frac{|Y_i-X_{cen}|}{X_{sd}}\right)^2\right)\right\},\\
   \label{CC3}
-  CC_3^C &=& \sum_{i,j=1}^n \ln \left( 1+\left| \frac{X_i}{C_Y} - \frac{Y_j}{C_X} \right|^2 \right),\\
-  C_X &=& \sum_{i=1}^n|X_i-X_{med}|/(n-1),\qquad C_Y = \sum_{i=1}^n|Y_i-Y_{med}|/(n-1).
+  CC_3^C &=& \sum_{i,j=1}^n \ln \left( 1+\left| \frac{X_i}{Y_{sd}} - \frac{Y_j}{X_{sd}} \right|^2 \right),\\
+  X_{cen},~X_{sd}&~-~&\text{max likelihood estimations of mean and standard deviation with starting points}\\
+  &&\text{the 25\% trimmed mean and the interquartile range respectively.}
+  % X_{sd} &=& \sum_{i=1}^n|X_i-X_{cen}|/(n-1),\qquad Y_{sd} = \sum_{i=1}^n|Y_i-Y_{cen}|/(n-1).
   \label{K1}
 \end{eqnarray}
 
@@ -41,42 +43,42 @@ $X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
   \caption{Мощность тестов при размерах выборок $n=5$}
   \label{table:n5} \\
   \hline
-  $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
-  \input{tables/norm/meanN5M1000Exact}
-  \input{tables/norm/varN5M1000Exact}
-  \input{tables/norm/mean1varN5M1000Exact}
-  \input{tables/norm/mean2varN5M1000Exact}
+  % $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
+  % \input{tables/norm/meanN5M1000Exact}
+  % \input{tables/norm/varN5M1000Exact}
+  % \input{tables/norm/mean1varN5M1000Exact}
+  % \input{tables/norm/mean2varN5M1000Exact}
   $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
   \input{tables/cauchy/meanN5M1000Exact}
   \input{tables/cauchy/varN5M1000Exact}
   \input{tables/cauchy/mean1varN5M1000Exact}
   \input{tables/cauchy/mean2varN5M1000Exact}
-  $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
-  \input{tables/laplas/meanN5M1000Exact}
-  \input{tables/laplas/varN5M1000Exact}
-  \input{tables/laplas/mean1varN5M1000Exact}
-  \input{tables/laplas/mean2varN5M1000Exact}
+  % $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
+  % \input{tables/laplas/meanN5M1000Exact}
+  % \input{tables/laplas/varN5M1000Exact}
+  % \input{tables/laplas/mean1varN5M1000Exact}
+  % \input{tables/laplas/mean2varN5M1000Exact}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов при размерах выборок $n=50$}
   \label{table:n50} \\
   \hline
-  $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
-  \input{tables/norm/meanN50M1000D800}
-  \input{tables/norm/varN50M1000D800}
-  \input{tables/norm/mean1varN50M1000D800}
-  \input{tables/norm/mean2varN50M1000D800}
+  % $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
+  % \input{tables/norm/meanN50M1000D800}
+  % \input{tables/norm/varN50M1000D800}
+  % \input{tables/norm/mean1varN50M1000D800}
+  % \input{tables/norm/mean2varN50M1000D800}
   $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
   \input{tables/cauchy/meanN50M1000D800}
   \input{tables/cauchy/varN50M1000D800}
   \input{tables/cauchy/mean1varN50M1000D800}
   \input{tables/cauchy/mean2varN50M1000D800}
-  $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
-  \input{tables/laplas/meanN50M1000D800}
-  \input{tables/laplas/varN50M1000D800}
-  \input{tables/laplas/mean1varN50M1000D800}
-  \input{tables/laplas/mean2varN50M1000D800}
+  % $F_2$ & $K_{1}$ & $K_{2}$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $T_1$ & $NC$ & $CC^C$ & $CC_2^C$ & $CC_3^C$ & t & w & ks & f \\ \hline
+  % \input{tables/laplas/meanN50M1000D800}
+  % \input{tables/laplas/varN50M1000D800}
+  % \input{tables/laplas/mean1varN50M1000D800}
+  % \input{tables/laplas/mean2varN50M1000D800}
 \end{longtable}
 
 \end{document}
