@@ -1,3 +1,5 @@
+library(rootSolve)
+
 exact_perm <- function(X, Y) {
   perms <- c(X,Y)
 
@@ -58,14 +60,36 @@ center_estim <- function(X) {
   sum(ord_stat * w)
 }
 
-T1 <- function(X,Y,Xmed, Ymed) {
-  if (Xmed > Ymed) {
+mean.var <- function(s) {
+  res0 <- c(mean(s, trim=0.24), IQR(s))
+
+  res <- multiroot(
+    f = function(x) {
+      F1 <- 0
+      F2 <- -length(s)/2
+      for (i in s) {
+        F1 <- F1 + (i - x[1]) / (x[2]^2 + (i - x[1])^2)
+        F2 <- F2 + ((i - x[1])^2) / (x[2]^2 + (i - x[1])^2)
+      }
+      c(F1 = F1, F2 = F2)
+    }, start = res0)$root
+  res[2] <- abs(res[2])
+
+  if (res[2] < min(s-res[1]) || res[2] > max(s-res[1]) || res[2] > sd(s)*10) {
+    res0
+  } else {
+    res
+  }
+}
+
+T1 <- function(X, Y, X.center, Y.center) {
+  if (X.center > Y.center) {
     t <- X
     X <- Y
     Y <- t
   }
 
-  Z.center <- median(c(X,Y))
+  Z.center <- mean.var(c(X,Y))[1]
   X.plus <- X - Z.center
   X.plus <- X.plus[X.plus > 0]
   Y.minus <- Z.center - Y
@@ -85,38 +109,38 @@ K <- function(Z, A) {
   mY <- mean(Y)
   vX <- sum( ( X-mX )**2 ) / n
   vY <- sum( ( Y-mY )**2 ) / n
-  Xmed <- median(X)
-  Ymed <- median(Y)
-  CX <- C(X, Xmed)
-  CY <- C(Y, Ymed)
+  X.mean.var <- mean.var(X)
+  Y.mean.var <- mean.var(Y)
 
   tmp <- vector()
-  for (y in Y)
+  for (y in Y) {
     tmp <- c(tmp, abs(y - X))
-  tmpA <- tmp/A
+  }
+  tmpA <- tmp / A
 
   cc3 = 0
-  for (y in Y)
-    cc3 <- cc3 + log( 1 + abs( X/CY - y/CX )**2 )
+  for (y in Y) {
+    cc3 <- cc3 + log( 1 + abs( X / Y.mean.var[2] - y / X.mean.var[2] )**2 )
+  }
 
   c(K1 = sum(tmp),
-    K2 = (mX-mY)**2,
-    L1 = sum(log(1+tmp)),
-    L1C = sum(log(1+tmpA)),
-    L2 = sum(log(1+tmp**2)),
-    L2C = sum(log(1+tmpA**2)),
-    L2new = sum(G(X - mY)) + sum(G(Y - mX)),
-    L2Cnew = sum(G( (n-1) * (X - mY) / sum((X - mX)**2) ))  + sum(G( (n-1) * (Y - mX) / sum((Y - mY)**2) )),
-    L2Cnew.med = sum(G( (n-1) * (X - Ymed) / sum((X - Xmed)**2) ))  + sum(G( (n-1) * (Y - Xmed) / sum((Y - Ymed)**2) )),
-    #L0.5 = sum(log(1+tmp**.5)),
-    #L0.5C = sum(log(1+tmpA**.5)),
+    K2 = (mX - mY)**2,
+    L1 = sum(log(1 + tmp)),
+    L1C = sum(log(1 + tmpA)),
+    L2 = sum(log(1 + tmp**2)),
+    L2C = sum(log(1 + tmpA**2)),
+    # L2new = sum(G(X - mY)) + sum(G(Y - mX)),
+    # L2Cnew = sum(G( (n-1) * (X - mY) / sum((X - mX)**2) ))  + sum(G( (n-1) * (Y - mX) / sum((Y - mY)**2) )),
+    # L2Cnew.med = sum(G( (n-1) * (X - Ymed) / sum((X - Xmed)**2) ))  + sum(G( (n-1) * (Y - Xmed) / sum((Y - Ymed)**2) )),
+    #L0.5 = sum(log(1 + tmp**.5)),
+    #L0.5C = sum(log(1 + tmpA**.5)),
     #K10 = sum(log(tmp)),
-    T1 = T1(X,Y,Xmed, Ymed),
-    new_norm_criterion = ( vX + (mX-mY)**2 ) / vY + ( vY+(mX-mY)**2 ) / vX,
-    #new_cauchy_criterion = sum(log( 1 + abs(X-Ymed) )) + sum(log( 1 + abs(Y-Xmed) )),
-    #new_cauchy_criterion2 = sum(log( 1 + (abs(X-Ymed))**2 )) + sum(log( 1 + (abs(Y-Xmed))**2 )),
-    new_cauchy_criterion_n = sum(log( 1 + abs(X-Ymed) / CY )) + sum(log( 1 + abs(Y-Xmed) / CX )),
-    new_cauchy_criterion2_n = sum(log( 1 + (abs(X-Ymed) / CY )**2 )) + sum(log( 1 + (abs(Y-Xmed) / CX)**2 )),
+    T1 = T1(X, Y, X.mean.var[1], Y.mean.var[1]),
+    new_norm_criterion = ( vX + (mX - mY)**2 ) / vY + ( vY + (mX - mY)**2 ) / vX,
+    #new_cauchy_criterion = sum(log( 1 + abs(X - Y.mean.var[1]) )) + sum(log( 1 + abs(Y - X.mean.var[1]) )),
+    #new_cauchy_criterion2 = sum(log( 1 + (abs(X - Y.mean.var[1]))**2 )) + sum(log( 1 + (abs(Y - X.mean.var[1]))**2 )),
+    new_cauchy_criterion_n = sum(log( 1 + abs(X - Y.mean.var[1]) / Y.mean.var[2] )) + sum(log( 1 + abs(Y - X.mean.var[1]) / X.mean.var[2] )),
+    new_cauchy_criterion2_n = sum(log( 1 + (abs(X - Y.mean.var[1]) / Y.mean.var[2] )**2 )) + sum(log( 1 + (abs(Y - X.mean.var[1]) / X.mean.var[2])**2 )),
     new_cauchy_criterion3 = sum(cc3)
   )
 }
@@ -136,10 +160,10 @@ Power <- function(Zd, exact = FALSE) {
     stat <- rbind(stat, t(apply(perm,1,function(Zp) { K(Zp, A) })))
 
     res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
-      # t.test      = t.test(Z[1:n], Z[(n+1):(2*n)],var.equal = FALSE)$p.value,
-      # wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
-      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value#,
-      # var.test    = var.test(Z[1:n], Z[(n+1):(2*n)])$p.value
+      t.test      = t.test(Z[1:n], Z[(n+1):(2*n)], var.equal = FALSE)$p.value,
+      wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
+      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
+      var.test    = var.test(Z[1:n], Z[(n+1):(2*n)])$p.value
     ) < alpha
   }))
 }
