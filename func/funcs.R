@@ -74,6 +74,10 @@ T1 <- function(X,Y,Xmed, Ymed) {
   -(sum(log(1 + X.plus)) + sum(log(1 + Y.minus)))
 }
 
+G <- function(Z) {
+  log(1 + Z**2)
+}
+
 K <- function(Z, A) {
   X <- Z[1:n]
   Y <- Z[(n+1):(2*n)]
@@ -101,6 +105,9 @@ K <- function(Z, A) {
     L1C = sum(log(1+tmpA)),
     L2 = sum(log(1+tmp**2)),
     L2C = sum(log(1+tmpA**2)),
+    L2new = sum(G(X - mY)) + sum(G(Y - mX)),
+    L2Cnew = sum(G( (n-1) * (X - mY) / sum((X - mX)**2) ))  + sum(G( (n-1) * (Y - mX) / sum((Y - mY)**2) )),
+    L2Cnew.med = sum(G( (n-1) * (X - Ymed) / sum((X - Xmed)**2) ))  + sum(G( (n-1) * (Y - Xmed) / sum((Y - Ymed)**2) )),
     #L0.5 = sum(log(1+tmp**.5)),
     #L0.5C = sum(log(1+tmpA**.5)),
     #K10 = sum(log(tmp)),
@@ -129,10 +136,10 @@ Power <- function(Zd, exact = FALSE) {
     stat <- rbind(stat, t(apply(perm,1,function(Zp) { K(Zp, A) })))
 
     res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
-      t.test      = t.test(Z[1:n], Z[(n+1):(2*n)],var.equal = FALSE)$p.value,
-      wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
-      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
-      var.test    = var.test(Z[1:n], Z[(n+1):(2*n)])$p.value
+      # t.test      = t.test(Z[1:n], Z[(n+1):(2*n)],var.equal = FALSE)$p.value,
+      # wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
+      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value#,
+      # var.test    = var.test(Z[1:n], Z[(n+1):(2*n)])$p.value
     ) < alpha
   }))
 }
