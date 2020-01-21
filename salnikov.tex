@@ -36,7 +36,7 @@ $X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
   \label{CC}
   CC^C &=& \sum_{i=1}^n\left\{\ln\left(1+\frac{|X_i-Y_{cen}|}{Y_{sd}}\right) + \ln\left(1+\frac{|Y_i-X_{cen}|}{X_{sd}}\right)\right\},\\
   \label{CC2}
-  CC_2^C &=& -\left( \frac{1}{n}\sum_{i=1}^n\left\{\ln\left(1+\left(\frac{|X_i-X_{cen}|}{X_{sd}}\right)^2\right) + \ln\left(1+\left(\frac{|Y_i-Y_{cen}|}{Y_{sd}}\right)^2\right)\right\} + \ln(X_{sd}) + \ln(Y_{sd}) \right),\\
+  CC_2^C &=& -\left( \sum_{i=1}^n\left\{\ln\left(1+\left(\frac{|X_i-X_{cen}|}{X_{sd}}\right)^2\right) + \ln\left(1+\left(\frac{|Y_i-Y_{cen}|}{Y_{sd}}\right)^2\right)\right\} + n(\ln(X_{sd}) + \ln(Y_{sd})) \right),\\
   \label{CC3}
   CC_3^C &=& \sum_{i,j=1}^n \ln \left( 1+\left| \frac{X_i}{Y_{sd}} - \frac{Y_j}{X_{sd}} \right|^2 \right),\\
   X_{cen},~X_{sd}&~-~&\text{max likelihood estimations of mean and standard deviation with starting points}\\

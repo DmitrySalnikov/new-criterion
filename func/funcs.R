@@ -140,7 +140,7 @@ K <- function(Z, A) {
     #new_cauchy_criterion = sum(log( 1 + abs(X - Y.mean.var[1]) )) + sum(log( 1 + abs(Y - X.mean.var[1]) )),
     #new_cauchy_criterion2 = sum(log( 1 + (abs(X - Y.mean.var[1]))**2 )) + sum(log( 1 + (abs(Y - X.mean.var[1]))**2 )),
     new_cauchy_criterion_n = sum(log( 1 + abs(X - Y.mean.var[1]) / Y.mean.var[2] )) + sum(log( 1 + abs(Y - X.mean.var[1]) / X.mean.var[2] )),
-    new_cauchy_criterion2_n = -(mean(log( 1 + (abs(X - X.mean.var[1]) / X.mean.var[2] )**2 )) + mean(log( 1 + (abs(Y - Y.mean.var[1]) / Y.mean.var[2])**2 )) + log(X.mean.var[2]) + log(Y.mean.var[2])),
+    new_cauchy_criterion2_n = -(sum(log( 1 + (abs(X - X.mean.var[1]) / X.mean.var[2] )**2 )) + sum(log( 1 + (abs(Y - Y.mean.var[1]) / Y.mean.var[2])**2 )) + n * ( log(X.mean.var[2]) + log(Y.mean.var[2]) )),
     new_cauchy_criterion3 = sum(cc3)
   )
 }
