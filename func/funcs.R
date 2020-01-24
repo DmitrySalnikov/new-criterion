@@ -1,5 +1,3 @@
-library(rootSolve)
-
 exact_perm <- function(X, Y) {
   perms <- c(X,Y)
 
@@ -60,26 +58,36 @@ center_estim <- function(X) {
   sum(ord_stat * w)
 }
 
-mean.var <- function(s) {
-  res0 <- c(mean(s, trim=0.24), IQR(s))
-
-  res <- multiroot(
-    f = function(x) {
-      F1 <- 0
-      F2 <- -length(s)/2
-      for (i in s) {
-        F1 <- F1 + (i - x[1]) / (x[2]^2 + (i - x[1])^2)
-        F2 <- F2 + ((i - x[1])^2) / (x[2]^2 + (i - x[1])^2)
-      }
-      c(F1 = F1, F2 = F2)
-    }, start = res0)$root
-  res[2] <- abs(res[2])
-
-  if (res[2] < min(s-res[1]) || res[2] > max(s-res[1]) || res[2] > sd(s)*10) {
-    res0
-  } else {
-    res
+mean.var <- function(x, n_st = 3) {
+  loglik <- function(par, x) {
+    -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
   }
+  
+  res0 <- c(mean(x, trim = 0.24), IQR(x) / 2)
+  out <- data.frame(par1_st = rep(NA,n_st),
+                    par2_st = rep(NA,n_st),
+                    par1 = rep(NA,n_st),
+                    par = rep(NA,n_st),
+                    val = rep(NA,n_st))
+  for (s in 1:n_st) {
+    if (s == 1) {
+      out[s, 2] <- res0[2]
+      out[s, 1] <- res0[1]
+    } else {
+      out[s, 2] <- runif(1, 0, 2 * res0[2]) + 1e-6
+      out[s, 1] <- runif(1, 0, 2 * out[s, 2]) - out[s, 2] + res0[1]
+    }
+    tmp <- optim(as.vector(out[s, 1:2]), loglik, method = "L-BFGS-B", 
+                 lower = c(-Inf, 1e-6), upper = c(Inf, res0[2] * 10), x = x)
+    out[s, 3:5] <- c(tmp[[1]], tmp[[2]])
+  }
+  
+  res <- as.vector(out[out$val == min(out$val), 3:4])
+  if (!is.null(dim(res))) {
+    res <- res[1,]
+  }
+
+  as.numeric(res)
 }
 
 T1 <- function(X, Y, X.center, Y.center) {
