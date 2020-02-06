@@ -62,33 +62,29 @@ mean.var <- function(x, n_st = 3) {
   loglik <- function(par, x) {
     -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
   }
-  
-  res0 <- c(mean(x, trim = 0.24), IQR(x) / 2)
-  out <- data.frame(par1_st = rep(NA,n_st),
-                    par2_st = rep(NA,n_st),
-                    par1 = rep(NA,n_st),
-                    par = rep(NA,n_st),
-                    val = rep(NA,n_st))
-  for (s in 1:n_st) {
-    if (s == 1) {
-      out[s, 2] <- res0[2]
-      out[s, 1] <- res0[1]
-    } else {
-      out[s, 2] <- runif(1, 0, 2 * res0[2]) + 1e-6
-      out[s, 1] <- runif(1, 0, 2 * out[s, 2]) - out[s, 2] + res0[1]
-    }
-    tmp <- optim(as.vector(out[s, 1:2]), loglik, method = "L-BFGS-B", 
-                 lower = c(-Inf, 1e-6), upper = c(Inf, res0[2] * 10), x = x)
-    out[s, 3:5] <- c(tmp[[1]], tmp[[2]])
-  }
-  
-  res <- as.vector(out[out$val == min(out$val), 3:4])
-  if (!is.null(dim(res))) {
-    res <- res[1,]
-  }
 
-  as.numeric(res)
+  res <- data.frame(par1_start = mean(x, trim = 0.24), 
+                    par2_start = IQR(x) / 2, 
+                    par1 = NA, par2 = NA, val = NA)
+  for (i in 1:n_start) {
+    if (i > 1) {
+      res <- rbind(res, c(par1_start = res[1, 1] + runif(1, 0, 4 * res[1, 2]) - 2 * res[1, 2], 
+                          par2_start = runif(1, 0, 2 * res[1, 2]) + 1e-6, 
+                          par1 = NA, par2 = NA, val = NA))
+    }
+    tmp <- optim(as.numeric(res[i, 1:2]), loglik, method = "L-BFGS-B", x = x,
+                         lower = c(-Inf, min(1e-6, min(abs(x - par[1])))), upper = c(Inf, max(abs(x - par[1]))))
+    res[i, 3:5] <- c(tmp[[1]], tmp[[2]])
+  }
+  res
 }
+ 
+  # res <- as.vector(out[out$val == min(out$val), 3:4])
+  # if (!is.null(dim(res))) {
+  #   res <- res[1,]
+  # }
+  # 
+  # as.numeric(res)
 
 T1 <- function(X, Y, X.center, Y.center) {
   if (X.center > Y.center) {
