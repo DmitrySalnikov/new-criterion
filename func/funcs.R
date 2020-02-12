@@ -15,7 +15,6 @@ mean.var <- function(x, distribution, n_start = 1) {
     }
     tmp <- optim(res[i, 1:2], loglik, method = "L-BFGS-B", x = x,
                          lower = c(-Inf, 1e-6), upper = c(Inf, Inf))
-    print(tmp)
     res[i, 3:5] <- c(tmp$par, tmp$value)
   }
   res[res$val == min(res$val), 3:4]
