@@ -1,23 +1,53 @@
-mean.var <- function(x, distribution, n_start = 1) {
-  loglik <- function(par, x) {
-    -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
-  }
+library(VaRES)
 
-  res <- data.frame(par1_start = c(mean(x, trim = 0.24), rep(NA, n_start - 1)), 
-                    par2_start = c(IQR(x) / 2, rep(NA, n_start - 1)), 
-                    par1 = rep(NA, n_start), 
-                    par2 = rep(NA, n_start), 
-                    val = rep(NA, n_start))
+rlogcauchy <- function(n, location, scale) {
+  res <- exp(rcauchy(n, location, scale))
+  idx.inf <- c(is.infinite(res))
+  n.inf <- sum(res)
+}
+
+log.likelyhood <- function(par, x, distribution) {
+  switch (distribution,
+    cauchy = {
+      -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
+    }, logcauchy = {
+      -sum(dlogcauchy(x, mu = par[1], sigma = par[2], log = TRUE))
+    }, {
+      print('unknown distribution')
+      return()
+    })
+}
+
+mean.var <- function(x, distribution, n_start = 1) {
+  res <- matrix(ncol = 5, nrow = n_start)
+  lower <- c(-Inf, 1e-6)
+  upper <- c(Inf, Inf)
+  
+  switch (distribution,
+    cauchy = {
+      location_estim <- mean(x, trim = 0.24)
+      scale_estim <- IQR(x) / 2
+      res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
+      res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
+    }, logcauchy = {
+      location_estim <- mean(log(x), trim = 0.24)
+      scale_estim <- IQR(log(x)) / 2
+      res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
+      res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
+    }, norm = {
+      return(c(mean(x), sd(x)))
+    }, {
+      print('unknown distribution')
+      return()
+    })
+  
   for (i in 1:n_start) {
-    if (i > 1) {
-      res[i, 1:2] <- c(par1_start = res[1, 1] + runif(1, -2 * res[1, 2], 2 * res[1, 2]), 
-                       par2_start = runif(1, 0, 2 * res[1, 2]) + 1e-6)
-    }
-    tmp <- optim(res[i, 1:2], loglik, method = "L-BFGS-B", x = x,
-                         lower = c(-Inf, 1e-6), upper = c(Inf, Inf))
+    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, 
+                 x = x, distribution = distribution)
     res[i, 3:5] <- c(tmp$par, tmp$value)
   }
-  res[res$val == min(res$val), 3:4]
+  
+  return(res[which.min(res[, 5] == min(res[, 5])), 3:4])
 }
  
 K <- function(Z, A) {
@@ -25,10 +55,10 @@ K <- function(Z, A) {
   Y <- Z[(n+1):(2*n)]
   X.mean.var <- mean.var(X, 'cauchy')
   Y.mean.var <- mean.var(Y, 'cauchy')
-  X.meam <- X.mean.var[[1]]
-  X.var <- X.mean.var[[2]]
-  vX <- sum( ( X-mX )**2 ) / n
-  vY <- sum( ( Y-mY )**2 ) / n
+  X.meam <- X.mean.var[1]
+  X.var <- X.mean.var[2]
+  Y.meam <- Y.mean.var[1]
+  Y.var <- Y.mean.var[2]
 
   tmp <- vector()
   for (y in Y) {
@@ -36,54 +66,31 @@ K <- function(Z, A) {
   }
   tmpA <- tmp / A
 
-  cc3 = 0
-  for (y in Y) {
-    cc3 <- cc3 + log( 1 + abs( X / Y.mean.var[2] - y / X.mean.var[2] )**2 )
-  }
-
-  c(#K1 = sum(tmp),
-    #K2 = (mX - mY)**2,
-    L05 = sum(log(1 + tmp**.5)),
+  c(L05 = sum(log(1 + tmp**.5)),
     L05C = sum(log(1 + tmpA**.5)),
     L1 = sum(log(1 + tmp)),
     L1C = sum(log(1 + tmpA)),
     L2 = sum(log(1 + tmp**2)),
-    L2C = sum(log(1 + tmpA**2)),
-    # L2new = sum(G(X - mY)) + sum(G(Y - mX)),
-    # L2Cnew = sum(G( (n-1) * (X - mY) / sum((X - mX)**2) ))  + sum(G( (n-1) * (Y - mX) / sum((Y - mY)**2) )),
-    # L2Cnew.med = sum(G( (n-1) * (X - Ymed) / sum((X - Xmed)**2) ))  + sum(G( (n-1) * (Y - Xmed) / sum((Y - Ymed)**2) )),
-    #L0.5 = sum(log(1 + tmp**.5)),
-    #L0.5C = sum(log(1 + tmpA**.5)),
-    #K10 = sum(log(tmp)),
-    #T1 = T1(X, Y, X.mean.var[1], Y.mean.var[1]),
-    #new_norm_criterion = ( vX + (mX - mY)**2 ) / vY + ( vY + (mX - mY)**2 ) / vX,
-    #new_cauchy_criterion = sum(log( 1 + abs(X - Y.mean.var[1]) )) + sum(log( 1 + abs(Y - X.mean.var[1]) )),
-    #new_cauchy_criterion2 = sum(log( 1 + (abs(X - Y.mean.var[1]))**2 )) + sum(log( 1 + (abs(Y - X.mean.var[1]))**2 )),
-    #new_cauchy_criterion_n = sum(log( 1 + abs(X - Y.mean.var[1]) / Y.mean.var[2] )) + sum(log( 1 + abs(Y - X.mean.var[1]) / X.mean.var[2] )),
-    #new_cauchy_criterion2_n = -(sum(log( 1 + (abs(X - X.mean.var[1]) / X.mean.var[2] )**2 )) + sum(log( 1 + (abs(Y - Y.mean.var[1]) / Y.mean.var[2])**2 )) + n * ( log(X.mean.var[2]) + log(Y.mean.var[2]) )),
-    #new_cauchy_criterion3 = sum(cc3)
-  )
+    L2C = sum(log(1 + tmpA**2)))
 }
 
 Power <- function(Zd, exact = FALSE) {
   print("step")
   rowMeans(apply(Zd,1,function(Z) {
     A <- 0
-    for (i in 1:(2*n-1))
-      for (j in (i+1):(2*n))
-        A <- A + abs(Z[i]-Z[j])
-    A <- A/(n*(2*n-1))
+    for (i in 1:(2*n - 1))
+      for (j in (i + 1):(2*n))
+        A <- A + abs(Z[i] - Z[j])
+    A <- A/(n * (2*n - 1))
 
     stat <- K(Z, A)
 
     perm <- if (exact) exact_perm(Z[1:5], Z[6:10]) else t(replicate(D,sample(Z)))
-    stat <- rbind(stat, t(apply(perm,1,function(Zp) { K(Zp, A) })))
+    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp, A) })))
 
     res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
-      #t.test      = t.test(Z[1:n], Z[(n+1):(2*n)], var.equal = FALSE)$p.value,
       wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
-      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value#,
-      # var.test    = var.test(Z[1:n], Z[(n+1):(2*n)])$p.value
+      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value
     ) < alpha
   }))
 }
@@ -94,8 +101,8 @@ MakeTable <- function(idx1 = vector(), with_F1 = FALSE) {
 
   cat('% ', file = paste0(tables, tname, '.tex'))
   write.table(res, paste0(tables, tname, '.tex'),
-              quote = F, sep = ' & ', row.names = F, eol = ' \\\\\n',
-              col.names = T, append = TRUE)
+              quote = F, sep = ' & ', eol = ' \\\\\n',
+              row.names = F, col.names = T, append = TRUE)
   write('\\hline', paste0(tables, tname, '.tex'), append = TRUE)
 }
 
