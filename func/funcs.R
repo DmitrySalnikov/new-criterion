@@ -1,71 +1,80 @@
 library(VaRES)
+library(rmutil)
 
 rlogcauchy <- function(n, location, scale) {
   res <- exp(rcauchy(n, location, scale))
-  idx.inf <- c(is.infinite(res))
-  n.inf <- sum(res)
+  idx.inf <- is.infinite(res) | res == 0
+  n.inf <- sum(idx.inf)
+  while (n.inf > 0) {
+    res[idx.inf] <- exp(rcauchy(n.inf, location, scale))
+    idx.inf <- is.infinite(res) | res == 0
+    n.inf <- sum(idx.inf)
+  }
+  res
 }
 
-log.likelyhood <- function(par, x, distribution) {
-  switch (distribution,
-    cauchy = {
-      -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
-    }, logcauchy = {
-      -sum(dlogcauchy(x, mu = par[1], sigma = par[2], log = TRUE))
-    }, {
-      print('unknown distribution')
-      return()
-    })
+cauchy.log.likelyhood <- function(par, x) {
+  -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
+}
+levy.log.likelyhood <- function(par, x) {
+  -sum(dlevy(x, m = par[1], s = par[2], log = TRUE))
 }
 
-mean.var <- function(x, distribution, n_start = 1) {
-  res <- matrix(ncol = 5, nrow = n_start)
-  lower <- c(-Inf, 1e-6)
-  upper <- c(Inf, Inf)
-  
-  switch (distribution,
-    cauchy = {
-      location_estim <- mean(x, trim = 0.24)
-      scale_estim <- IQR(x) / 2
-      res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
-      res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
-    }, logcauchy = {
-      location_estim <- mean(log(x), trim = 0.24)
-      scale_estim <- IQR(log(x)) / 2
-      res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
-      res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
-    }, norm = {
-      return(c(mean(x), sd(x)))
-    }, {
-      print('unknown distribution')
-      return()
-    })
-  
+find.params <- function(log.likelyhood, n_start, lower, upper, x, res) {
   for (i in 1:n_start) {
-    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, 
-                 x = x, distribution = distribution)
+    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, x = x)
     res[i, 3:5] <- c(tmp$par, tmp$value)
   }
   
-  return(res[which.min(res[, 5] == min(res[, 5])), 3:4])
+  res[which.min(res[, 5] == min(res[, 5])), 3:4]
 }
- 
+cauchy.params <- function(x, n_start = 1) {
+  location_estim <- mean(x, trim = 0.24)
+  scale_estim <- IQR(x) / 2
+
+  res <- matrix(ncol = 5, nrow = n_start)
+  res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
+  res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
+
+  lower <- c(-Inf, 1e-6)
+  upper <- c(Inf, Inf)
+  
+  find.params(cauchy.log.likelyhood, n_start, lower, upper, x, res)
+}
+logcauchy.params <- function(x, n_start = 1) {
+  cauchy.params(log(x), n_start)
+}
+levy.params <- function(x, n_start = 1) {
+  location_estim <- min(x)
+  x.as.gamma <- 1 / (x[x != location_estim] - location_estim)
+  scale_estim <- 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma))
+  
+  res <- matrix(ncol = 5, nrow = n_start)
+  res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
+  res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
+  
+  lower <- c(-Inf, 1e-6)
+  upper <- c(location_estim-1e-6, Inf)
+  
+  find.params(levy.log.likelyhood, n_start, lower, upper, x, res)
+}
+
 K <- function(Z, A) {
   X <- Z[1:n]
   Y <- Z[(n+1):(2*n)]
-  X.mean.var <- mean.var(X, 'cauchy')
-  Y.mean.var <- mean.var(Y, 'cauchy')
-  X.meam <- X.mean.var[1]
-  X.var <- X.mean.var[2]
-  Y.meam <- Y.mean.var[1]
-  Y.var <- Y.mean.var[2]
-
+  X.cauchy.params <- cauchy.params(X)
+  Y.cauchy.params <- cauchy.params(Y)
+  X.logcauchy.params <- cauchy.params(log(X))
+  Y.logcauchy.params <- cauchy.params(log(Y))
+  X.levy.params <- levy.params(X)
+  Y.levy.params <- levy.params(Y)
+  
   tmp <- vector()
   for (y in Y) {
     tmp <- c(tmp, abs(y - X))
   }
   tmpA <- tmp / A
-
+  
   c(L05 = sum(log(1 + tmp**.5)),
     L05C = sum(log(1 + tmpA**.5)),
     L1 = sum(log(1 + tmp)),
