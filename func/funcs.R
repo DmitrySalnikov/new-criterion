@@ -13,61 +13,68 @@ rlogcauchy <- function(n, location, scale) {
   res
 }
 
-cauchy.log.likelyhood <- function(par, x) {
-  -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
-}
-levy.log.likelyhood <- function(par, x) {
-  -sum(dlevy(x, m = par[1], s = par[2], log = TRUE))
+log.likelyhood <- function(par, x, distribution) {
+  switch (distribution,
+    cauchy = {
+      -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
+    }, logcauchy = {
+      -sum(dlogcauchy(x, mu = par[1], sigma = par[2], log = TRUE))
+    }, levy = {
+      -sum(dlevy(x, m = par[1], s = par[2], log = TRUE))
+    }, {
+      print('unknown distribution')
+      return()
+    })
 }
 
-find.params <- function(log.likelyhood, n_start, lower, upper, x, res) {
-  for (i in 1:n_start) {
-    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, x = x)
-    res[i, 3:5] <- c(tmp$par, tmp$value)
+find.params <- function(x, distribution, n_start = 1) {
+  if (distribution == 'norm') {
+    return(c(mean(x), sd(x)))
   }
   
-  res[which.min(res[, 5] == min(res[, 5])), 3:4]
-}
-cauchy.params <- function(x, n_start = 1) {
-  location_estim <- mean(x, trim = 0.24)
-  scale_estim <- IQR(x) / 2
-
+  if (distribution == 'logcauchy') {
+    x = log(x)
+    distribution = 'cauchy'
+  }
+  
   res <- matrix(ncol = 5, nrow = n_start)
-  res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
-  res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
-
   lower <- c(-Inf, 1e-6)
   upper <- c(Inf, Inf)
   
-  find.params(cauchy.log.likelyhood, n_start, lower, upper, x, res)
-}
-logcauchy.params <- function(x, n_start = 1) {
-  cauchy.params(log(x), n_start)
-}
-levy.params <- function(x, n_start = 1) {
-  location_estim <- min(x)
-  x.as.gamma <- 1 / (x[x != location_estim] - location_estim)
-  scale_estim <- 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma))
+  switch (distribution,
+    cauchy = {
+      par1.estim <- mean(x, trim = 0.24)
+      par2.estim <- IQR(x) / 2
+      res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -2*par2.estim, 2*par2.estim))))
+      res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2*par2.estim) + 1e-6)))
+    }, levy = {
+      par1.estim <- min(x)
+      x.as.gamma <- 1 / (x[x != par1.estim] - par1.estim)
+      par2.estim <- 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma))
+      res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -4*par2.estim, 0))))
+      res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * par2.estim) + 1e-6)))
+      upper <- c(par1.estim - 1e-6, Inf)
+    }, {
+      print('unknown distribution')
+      return()
+    })
   
-  res <- matrix(ncol = 5, nrow = n_start)
-  res[, 1] <- c(location_estim, as.numeric(replicate(n_start - 1, location_estim + runif(1, -2 * scale_estim, 2 * scale_estim))))
-  res[, 2] <- c(scale_estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * scale_estim) + 1e-6)))
+  for (i in 1:n_start) {
+    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, 
+                 x = x, distribution = distribution)
+    res[i, 3:5] <- c(tmp$par, tmp$value)
+  }
   
-  lower <- c(-Inf, 1e-6)
-  upper <- c(location_estim-1e-6, Inf)
-  
-  find.params(levy.log.likelyhood, n_start, lower, upper, x, res)
+  return(res[which.min(res[, 5] == min(res[, 5])), 3:4])
 }
 
-K <- function(Z, A) {
+likelyhood.test.stat <- function(X, Y, distribution) {
+  log.likelyhood(find.params(X, distribution), X, distribution) + log.likelyhood(find.params(Y, distribution), Y, distribution)
+}
+
+K <- function(Z, A, distribution) {
   X <- Z[1:n]
   Y <- Z[(n+1):(2*n)]
-  X.cauchy.params <- cauchy.params(X)
-  Y.cauchy.params <- cauchy.params(Y)
-  X.logcauchy.params <- cauchy.params(log(X))
-  Y.logcauchy.params <- cauchy.params(log(Y))
-  X.levy.params <- levy.params(X)
-  Y.levy.params <- levy.params(Y)
   
   tmp <- vector()
   for (y in Y) {
@@ -80,7 +87,8 @@ K <- function(Z, A) {
     L1 = sum(log(1 + tmp)),
     L1C = sum(log(1 + tmpA)),
     L2 = sum(log(1 + tmp**2)),
-    L2C = sum(log(1 + tmpA**2)))
+    L2C = sum(log(1 + tmpA**2)),
+    LL = likelyhood.test.stat(X, Y, distribution))
 }
 
 Power <- function(Zd, exact = FALSE) {
