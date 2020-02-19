@@ -1,7 +1,8 @@
 library(VaRES)
 library(rmutil)
+library(Rmpfr)
 
-rlogcauchy <- function(n, location, scale) {
+rlogcauchy <- function(n, location = 0, scale = 1) {
   res <- exp(rcauchy(n, location, scale))
   idx.inf <- is.infinite(res) | res == 0
   n.inf <- sum(idx.inf)
@@ -15,7 +16,9 @@ rlogcauchy <- function(n, location, scale) {
 
 log.likelyhood <- function(par, x, distribution) {
   switch (distribution,
-    cauchy = {
+    norm = {
+      -sum(dnorm(x, mean = mean(x), sd = sd(x), log = TRUE))
+    }, cauchy = {
       -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
     }, logcauchy = {
       -sum(dlogcauchy(x, mu = par[1], sigma = par[2], log = TRUE))
@@ -27,9 +30,9 @@ log.likelyhood <- function(par, x, distribution) {
     })
 }
 
-find.params <- function(x, distribution, n_start = 1) {
+min.log.likelyhood <- function(x, distribution, n_start = 1) {
   if (distribution == 'norm') {
-    return(c(mean(x), sd(x)))
+    return(log.likelyhood(c(mean(x), sd(x)), x, 'norm'))
   }
   
   if (distribution == 'logcauchy') {
@@ -51,7 +54,7 @@ find.params <- function(x, distribution, n_start = 1) {
       par1.estim <- min(x)
       x.as.gamma <- 1 / (x[x != par1.estim] - par1.estim)
       par2.estim <- 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma))
-      res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -4*par2.estim, 0))))
+      res[, 1] <- c(par1.estim - 2*par2.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -4*par2.estim, 0))))
       res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * par2.estim) + 1e-6)))
       upper <- c(par1.estim - 1e-6, Inf)
     }, {
@@ -65,14 +68,14 @@ find.params <- function(x, distribution, n_start = 1) {
     res[i, 3:5] <- c(tmp$par, tmp$value)
   }
   
-  return(res[which.min(res[, 5] == min(res[, 5])), 3:4])
+  return(res[which.min(res[, 5] == min(res[, 5])), 5])
 }
 
 likelyhood.test.stat <- function(X, Y, distribution) {
-  log.likelyhood(find.params(X, distribution), X, distribution) + log.likelyhood(find.params(Y, distribution), Y, distribution)
+  -min.log.likelyhood(X, distribution) - min.log.likelyhood(Y, distribution)
 }
 
-K <- function(Z, A, distribution) {
+K <- function(Z, A, logcauchy) {
   X <- Z[1:n]
   Y <- Z[(n+1):(2*n)]
   
@@ -82,16 +85,22 @@ K <- function(Z, A, distribution) {
   }
   tmpA <- tmp / A
   
-  c(L05 = sum(log(1 + tmp**.5)),
+  res <- c(L05 = sum(log(1 + tmp**.5)),
     L05C = sum(log(1 + tmpA**.5)),
     L1 = sum(log(1 + tmp)),
     L1C = sum(log(1 + tmpA)),
     L2 = sum(log(1 + tmp**2)),
     L2C = sum(log(1 + tmpA**2)),
-    LL = likelyhood.test.stat(X, Y, distribution))
+    LLn = likelyhood.test.stat(X, Y, 'norm'),
+    LLc = likelyhood.test.stat(X, Y, 'cauchy'),
+    LLl = likelyhood.test.stat(X, Y, 'levy'))
+  if (logcauchy) {
+    res <- c(res, LLlc = likelyhood.test.stat(X, Y, 'logcauchy'))
+  }
+  res
 }
 
-Power <- function(Zd, exact = FALSE) {
+Power <- function(Zd, exact = FALSE, logcauchy = FALSE) {
   print("step")
   rowMeans(apply(Zd,1,function(Z) {
     A <- 0
@@ -100,10 +109,10 @@ Power <- function(Zd, exact = FALSE) {
         A <- A + abs(Z[i] - Z[j])
     A <- A/(n * (2*n - 1))
 
-    stat <- K(Z, A)
+    stat <- K(Z, A, logcauchy)
 
     perm <- if (exact) exact_perm(Z[1:5], Z[6:10]) else t(replicate(D,sample(Z)))
-    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp, A) })))
+    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp, A, logcauchy) })))
 
     res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
       wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
