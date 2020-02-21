@@ -1,4 +1,4 @@
-source('../funcs.R')
+source('/home/d/1/new_criteria/func/funcs.R')
 
 # params
 
@@ -6,9 +6,9 @@ alpha <- 0.05
 n <- 5
 M <- 1000
 
-ress <- '../../res/cauchy/'
+ress <- '/home/d/1/new_criteria/res/cauchy/'
 if (!dir.exists(ress)) dir.create(ress)
-tables <- '../../tables/cauchy/'
+tables <- '/home/d/1/new_criteria/tables/cauchy/'
 if (!dir.exists(tables)) dir.create(tables)
 
 # modelling

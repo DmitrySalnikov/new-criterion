@@ -1,14 +1,13 @@
 library(VaRES)
 library(rmutil)
-library(Rmpfr)
 
 rlogcauchy <- function(n, location = 0, scale = 1) {
   res <- exp(rcauchy(n, location, scale))
-  idx.inf <- is.infinite(res) | res == 0
+  idx.inf <- res > 1e145 | res == 0
   n.inf <- sum(idx.inf)
   while (n.inf > 0) {
     res[idx.inf] <- exp(rcauchy(n.inf, location, scale))
-    idx.inf <- is.infinite(res) | res == 0
+    idx.inf <- res > 1e145 | res == 0
     n.inf <- sum(idx.inf)
   }
   res
@@ -34,16 +33,18 @@ min.log.likelyhood <- function(x, distribution, n_start = 1) {
   if (distribution == 'norm') {
     return(log.likelyhood(c(mean(x), sd(x)), x, 'norm'))
   }
-  
+
+  distribution0 = distribution
   if (distribution == 'logcauchy') {
+    y = x
     x = log(x)
     distribution = 'cauchy'
   }
-  
+
   res <- matrix(ncol = 5, nrow = n_start)
   lower <- c(-Inf, 1e-6)
   upper <- c(Inf, Inf)
-  
+
   switch (distribution,
     cauchy = {
       par1.estim <- mean(x, trim = 0.24)
@@ -51,24 +52,30 @@ min.log.likelyhood <- function(x, distribution, n_start = 1) {
       res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -2*par2.estim, 2*par2.estim))))
       res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2*par2.estim) + 1e-6)))
     }, levy = {
-      par1.estim <- min(x)
-      x.as.gamma <- 1 / (x[x != par1.estim] - par1.estim)
-      par2.estim <- 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma))
-      res[, 1] <- c(par1.estim - 2*par2.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -4*par2.estim, 0))))
+      par1.max <- min(x)
+      x.as.gamma <- 1 / (x[x != par1.max] - par1.max)
+      par2.estim <- max(1e-6, 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma)), na.rm = TRUE)
+      res[, 1] <- c(par1.max - 2*par2.estim, as.numeric(replicate(n_start - 1, par1.max + runif(1, -4*par2.estim, 0))))
       res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * par2.estim) + 1e-6)))
-      upper <- c(par1.estim - 1e-6, Inf)
+      upper <- c(par1.max - 1e-6, Inf)
     }, {
       print('unknown distribution')
       return()
     })
-  
+
   for (i in 1:n_start) {
-    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper, 
+    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper,
                  x = x, distribution = distribution)
     res[i, 3:5] <- c(tmp$par, tmp$value)
   }
-  
-  return(res[which.min(res[, 5] == min(res[, 5])), 5])
+
+  min.idx <- which.min(res[, 5] == min(res[, 5]))
+
+  if (distribution0 == 'logcauchy') {
+    return(log.likelyhood(res[min.idx, 3:4], y, 'logcauchy'))
+  }
+
+  return(res[min.idx, 5])
 }
 
 likelyhood.test.stat <- function(X, Y, distribution) {
@@ -78,14 +85,15 @@ likelyhood.test.stat <- function(X, Y, distribution) {
 K <- function(Z, A, logcauchy) {
   X <- Z[1:n]
   Y <- Z[(n+1):(2*n)]
-  
+
   tmp <- vector()
   for (y in Y) {
     tmp <- c(tmp, abs(y - X))
   }
   tmpA <- tmp / A
-  
-  res <- c(L05 = sum(log(1 + tmp**.5)),
+
+  res <- c(
+    L05 = sum(log(1 + tmp**.5)),
     L05C = sum(log(1 + tmpA**.5)),
     L1 = sum(log(1 + tmp)),
     L1C = sum(log(1 + tmpA)),
@@ -93,7 +101,8 @@ K <- function(Z, A, logcauchy) {
     L2C = sum(log(1 + tmpA**2)),
     LLn = likelyhood.test.stat(X, Y, 'norm'),
     LLc = likelyhood.test.stat(X, Y, 'cauchy'),
-    LLl = likelyhood.test.stat(X, Y, 'levy'))
+    LLl = likelyhood.test.stat(X, Y, 'levy')
+  )
   if (logcauchy) {
     res <- c(res, LLlc = likelyhood.test.stat(X, Y, 'logcauchy'))
   }
@@ -147,13 +156,13 @@ T1 <- function(X, Y, X.center, Y.center) {
     X <- Y
     Y <- t
   }
-  
+
   Z.center <- mean.var(c(X,Y))[1]
   X.plus <- X - Z.center
   X.plus <- X.plus[X.plus > 0]
   Y.minus <- Z.center - Y
   Y.minus <- Y.minus[Y.minus > 0]
-  
+
   -(sum(log(1 + X.plus)) + sum(log(1 + Y.minus)))
 }
 
@@ -163,7 +172,7 @@ G <- function(Z) {
 
 exact_perm <- function(X, Y) {
   perms <- c(X,Y)
-  
+
   for (i in 1:5)
     for (j in 1:5) {
       x <- X
@@ -173,7 +182,7 @@ exact_perm <- function(X, Y) {
       y[j] <- tmp
       perms <- rbind(perms, c(x,y))
     }
-  
+
   i <- c(1,2,1,2)
   while(TRUE) {
     x <- X
@@ -182,7 +191,7 @@ exact_perm <- function(X, Y) {
     x[c(i[1],i[2])] <- y[c(i[3],i[4])]
     y[c(i[3],i[4])] <- tmp
     perms <- rbind(perms, c(x,y))
-    
+
     if (i[4] > 4) {
       if (i[3] > 3) {
         if (i[2] > 4) {
@@ -207,7 +216,7 @@ exact_perm <- function(X, Y) {
       i[4] <- i[4]+1
     }
   }
-  
+
   perms
 }
 

@@ -6,9 +6,9 @@ alpha <- 0.05
 n <- 5
 M <- 1000
 
-ress <- '../../res/levy/'
+ress <- '/home/d/1/new_criteria/res/levy/'
 if (!dir.exists(ress)) dir.create(ress)
-tables <- '../../tables/levy/'
+tables <- '/home/d/1/new_criteria/tables/levy/'
 if (!dir.exists(tables)) dir.create(tables)
 
 # modelling

@@ -5,7 +5,7 @@
 \usepackage{indentfirst}
 \usepackage{longtable}
 \usepackage{amsmath,accents}
-\usepackage[left=0cm, right=0cm, top=1.5cm, bottom=1.5cm]{geometry}
+\usepackage[left=0.1cm, right=0.1cm, top=1.5cm, bottom=1.5cm]{geometry}
 
 \begin{document}
 
@@ -30,46 +30,56 @@ $X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
   LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
 \end{eqnarray}
 
-\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов при размерах выборок $n=5$}
   \label{table:n5} \\
   \hline
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/norm/meanN5M1000Exact}
   \input{tables/norm/varN5M1000Exact}
   \input{tables/norm/mean1varN5M1000Exact}
   \input{tables/norm/mean2varN5M1000Exact}
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/cauchy/meanN5M1000Exact}
   \input{tables/cauchy/varN5M1000Exact}
   \input{tables/cauchy/mean1varN5M1000Exact}
   \input{tables/cauchy/mean2varN5M1000Exact}
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/levy/meanN5M1000Exact}
   \input{tables/levy/varN5M1000Exact}
   \input{tables/levy/mean1varN5M1000Exact}
   \input{tables/levy/mean2varN5M1000Exact}
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/logcauchy/meanN5M1000Exact}
+  \input{tables/logcauchy/varN5M1000Exact}
+  \input{tables/logcauchy/mean1varN5M1000Exact}
+  \input{tables/logcauchy/mean2varN5M1000Exact}
 \end{longtable}
 
-\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов при размерах выборок $n=50$}
   \label{table:n50} \\
   \hline
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  % \input{tables/norm/meanN50M1000D800}
-  % \input{tables/norm/varN50M1000D800}
-  % \input{tables/norm/mean1varN50M1000D800}
-  % \input{tables/norm/mean2varN50M1000D800}
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  % \input{tables/cauchy/meanN50M1000D800}
-  % \input{tables/cauchy/varN50M1000D800}
-  % \input{tables/cauchy/mean1varN50M1000D800}
-  % \input{tables/cauchy/mean2varN50M1000D800}
-  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  % \input{tables/levy/meanN50M1000D800}
-  % \input{tables/levy/varN50M1000D800}
-  % \input{tables/levy/mean1varN50M1000D800}
-  % \input{tables/levy/mean2varN50M1000D800}
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/norm/meanN50M1000D800}
+  \input{tables/norm/varN50M1000D800}
+  \input{tables/norm/mean1varN50M1000D800}
+  \input{tables/norm/mean2varN50M1000D800}
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/cauchy/meanN50M1000D800}
+  \input{tables/cauchy/varN50M1000D800}
+  \input{tables/cauchy/mean1varN50M1000D800}
+  \input{tables/cauchy/mean2varN50M1000D800}
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/levy/meanN50M1000D800}
+  \input{tables/levy/varN50M1000D800}
+  \input{tables/levy/mean1varN50M1000D800}
+  \input{tables/levy/mean2varN50M1000D800}
+  $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/logcauchy/meanN50M1000D800}
+  \input{tables/logcauchy/varN50M1000D800}
+  \input{tables/logcauchy/mean1varN50M1000D800}
+  \input{tables/logcauchy/mean2varN50M1000D800}
 \end{longtable}
 
 \end{document}
