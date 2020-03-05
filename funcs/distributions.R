@@ -1,21 +1,22 @@
 library(VaRES)
 library(rmutil)
 
-rlaplace <- function(n, m, b) {
-  m + b * sqrt(2*rexp(n, 1)) * rnorm(n, 0, 1)
+rloglaplace <- function(n, m, b) {
+  res <- exp(rlaplace(n, m, b))
 }
 
-rloglaplace <- function(n, m, b) {
-  exp(rlaplace(n, m, b))
+dloglaplace <- function(x, m, b, log = FALSE) {
+  probabilities <- sapply(x, function(x.i) { exp( -abs(log(x.i) - m) / b ) / 2 / b / x.i })
+  if (log) log(probabilities) else probabilities
 }
 
 rlogcauchy <- function(n, location = 0, scale = 1) {
   res <- exp(rcauchy(n, location, scale))
-  idx.inf <- res > 1e153 | res == 0
+  idx.inf <- res > 1e145 | res == 0
   n.inf <- sum(idx.inf)
   while (n.inf > 0) {
     res[idx.inf] <- exp(rcauchy(n.inf, location, scale))
-    idx.inf <- res > 1e153 | res == 0
+    idx.inf <- res > 1e145 | res == 0
     n.inf <- sum(idx.inf)
   }
   res

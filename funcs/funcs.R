@@ -1,3 +1,8 @@
+path = '/home/d/1/new_criteria/'
+
+source(paste0(path, 'funcs/exact.permutations.R'))
+source(paste0(path, 'funcs/distributions.R'))
+
 log.likelyhood <- function(par, x, distribution) {
   switch (distribution,
     norm = {
@@ -105,7 +110,7 @@ Power <- function(Zd, exact = FALSE, logcauchy = FALSE) {
 
     stat <- K(Z, A, logcauchy)
 
-    perm <- if (exact) exact_perm(Z[1:5], Z[6:10]) else t(replicate(D,sample(Z)))
+    perm <- if (exact) t(exact.permutations(Z[1:5], Z[6:10])) else t(replicate(D,sample(Z)))
     stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp, A, logcauchy) })))
 
     res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),

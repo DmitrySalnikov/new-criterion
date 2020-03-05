@@ -1,5 +1,6 @@
-source('/home/d/1/new_criteria/func/funcs.R')
-source('/home/d/1/new_criteria/func/laplas/rlaplas.R')
+source('/home/d/1/new_criteria/funcs/funcs.R')
+
+distribution_name <- tail(strsplit(getwd(), '/')[[1]], 1)
 
 # params
 
@@ -7,9 +8,9 @@ alpha <- 0.05
 n <- 5
 M <- 1000
 
-ress <- '/home/d/1/new_criteria/res/laplas/'
+res_path <- paste0(path, 'res/', distribution_name)
 if (!dir.exists(ress)) dir.create(ress)
-tables <- '/home/d/1/new_criteria/tables/laplas/'
+tables_path <- paste0(path, 'tables/', distribution_name)
 if (!dir.exists(tables)) dir.create(tables)
 
 # modelling
