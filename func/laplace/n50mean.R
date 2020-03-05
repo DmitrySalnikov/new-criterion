@@ -1,5 +1,5 @@
 source('/home/d/1/new_criteria/func/funcs.R')
-source('/home/d/1/new_criteria/func/laplas/rlaplas.R')
+source('/home/d/1/new_criteria/func/laplace/rlaplace.R')
 
 # params
 
@@ -8,9 +8,9 @@ n <- 50
 M <- 1000
 D <- 800
 
-ress <- '/home/d/1/new_criteria/res/laplas/'
+ress <- '/home/d/1/new_criteria/res/laplace/'
 if (!dir.exists(ress)) dir.create(ress)
-tables <- '/home/d/1/new_criteria/tables/laplas/'
+tables <- '/home/d/1/new_criteria/tables/laplace/'
 if (!dir.exists(tables)) dir.create(tables)
 
 # modelling
@@ -19,7 +19,7 @@ par <- seq(0, 1, length.out = 5)
 first <- par
 second <- 1
 res <- vector()
-for(x in par) res <- rbind(res, Power(t(replicate(M, c(rlaplas(n,first[1],second), rlaplas(n,x,second)))), exact = FALSE))
+for(x in par) res <- rbind(res, Power(t(replicate(M, c(rlaplace(n,first[1],second), rlaplace(n,x,second)))), exact = FALSE))
 res
 
 # store
