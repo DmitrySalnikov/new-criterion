@@ -8,7 +8,7 @@ get.A <- function(Z, n) {
   A / (n * (2*n - 1))
 }
 
-generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 1000, D = 800) {
+generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 10000, D = 1600) {
   path <- paste0('../data/', substring(as.character(substitute(distr)), 2))
   if (!dir.exists(path)) dir.create(path)
   path <- paste0(path, '/', folder)
@@ -30,7 +30,7 @@ generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 1000, D = 
       A <- get.A(Z, n)
       
       D.exact = if (exact) ',exact' else paste0(',D=', D)
-      current_path = paste0(path, '/n=', n, ',par1=', par1[1], '_', par2[1], ',par2=', par1[i.par], '_', par2[i.par], ',M=', M, D.exact)
+      current_path = paste0(path, '/n=', n, ',M=', M, D.exact, ',par1=', par1[1], '_', par2[1], ',par2=', par1[i.par], '_', par2[i.par])
       if (!dir.exists(current_path)) dir.create(current_path)
       saveRDS(list(Z = Z, Z.perm = Z.perm, A = A), paste0(current_path, '/', i, '.RDS'))
     })

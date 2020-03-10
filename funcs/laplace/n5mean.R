@@ -19,7 +19,7 @@ par <- seq(0, 3, length.out = 5)
 first <- par
 second <- 1
 res <- vector()
-for(x in par) res <- rbind(res, Power(t(replicate(M, c(rlaplas(n,first[1],second), rlaplas(n,x,second)))), exact = TRUE))
+for(x in par) res <- rbind(res, Power(t(replicate(M, c(rlaplace(n,first[1],second), rlaplace(n,x,second)))), exact = TRUE))
 res
 
 # store
