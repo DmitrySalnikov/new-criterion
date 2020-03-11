@@ -1,7 +1,7 @@
-path = '/home/d/1/new_criteria/'
+path = '/home/d/1/new_criteria'
 
-source(paste0(path, 'funcs/exact.permutations.R'))
-source(paste0(path, 'funcs/distributions.R'))
+library(stringr)
+source(paste(path, 'funcs', 'distributions.R', sep = '/'))
 
 MeanAD <- function(x, center, power = 1) {
   mean(abs(x - center)**power)
@@ -93,10 +93,7 @@ likelyhood.test.stat <- function(X, Y, distribution) {
   -min.log.likelyhood(X, distribution) - min.log.likelyhood(Y, distribution)
 }
 
-K <- function(Z, A, only_positive) {
-  X <- Z[1:n]
-  Y <- Z[(n+1):(2*n)]
-
+K <- function(X, Y, A, only_positive) {
   tmp <- vector()
   for (y in Y) {
     tmp <- c(tmp, abs(y - X))
@@ -125,25 +122,41 @@ K <- function(Z, A, only_positive) {
   res
 }
 
-Power <- function(Zd, exact = FALSE, only_positive = FALSE) {
-  print("step")
-  rowMeans(apply(Zd,1,function(Z) {
-    A <- 0
-    for (i in 1:(2*n - 1))
-      for (j in (i + 1):(2*n))
-        A <- A + abs(Z[i] - Z[j])
-    A <- A/(n * (2*n - 1))
-
-    stat <- K(Z, A, only_positive)
-
-    perm <- if (exact) t(exact.permutations(Z[1:5], Z[6:10])) else t(replicate(D,sample(Z)))
-    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp, A, only_positive) })))
-
-    res <- c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
-      wilcox.test = wilcox.test(Z[1:n], Z[(n+1):(2*n)])$p.value,
-      ks.test     = ks.test(Z[1:n], Z[(n+1):(2*n)])$p.value
+Power <- function(data_path, only_positive = FALSE, n = 50, alpha = 0.05) {
+  n <<- n 
+  setwd(data_path)
+  res <- rowMeans(sapply(str_sort(dir(), numeric = TRUE), function(RDSname) {
+    print(RDSname)
+    resRDS <- readRDS(RDSname)
+    
+    Z <- resRDS[['Z']]
+    X <- Z[1:n]
+    Y <- Z[(n+1):(2*n)]
+    perm <- resRDS[['Z.perm']]
+    A <- resRDS[['A']]
+  
+    stat <- K(X, Y, A, only_positive)
+    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp[1:n], Zp[(n+1):(2*n)], A, only_positive) })))
+  
+    c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
+      wilcox.test = wilcox.test(X, Y)$p.value,
+      ks.test     = ks.test(X, Y)$p.value
     ) < alpha
   }))
+  
+  print(res)
+  
+  distribution <- tail(strsplit(data_path, '/')[[1]], 3)[1]
+  parameter <- tail(strsplit(data_path, '/')[[1]], 3)[2]
+  details <- paste(strsplit(tail(strsplit(data_path, '/')[[1]], 3)[3], ',')[[1]][1:3], collapse = ',')
+  params <- paste0(paste(strsplit(tail(strsplit(data_path, '/')[[1]], 3)[3], ',')[[1]][4:5], collapse = ','), '.RDS')
+  if (!dir.exists(paste(path, 'res', distribution, sep = '/'))) dir.create(paste(path, 'res', distribution, sep = '/'))
+  if (!dir.exists(paste(path, 'res', distribution, parameter, sep = '/'))) dir.create(paste(path, 'res', distribution, parameter, sep = '/'))
+  if (!dir.exists(paste(path, 'res', distribution, parameter, details, sep = '/'))) dir.create(paste(path, 'res', distribution, parameter, details, sep = '/'))
+  res_name <- paste(path, 'res', distribution, parameter, details, params, sep = '/')
+  saveRDS(res, res_name)
+  
+  NULL
 }
 
 MakeTable <- function(idx1 = vector(), with_F1 = FALSE) {
