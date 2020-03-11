@@ -8,7 +8,7 @@ get.A <- function(Z, n) {
   A / (n * (2*n - 1))
 }
 
-generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 10000, D = 1600) {
+generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 10000, D = 1600, start = 1) {
   path <- paste0('../data/', substring(as.character(substitute(distr)), 2))
   if (!dir.exists(path)) dir.create(path)
   path <- paste0(path, '/', folder)
@@ -22,7 +22,7 @@ generate <- function(distr, n, par1, par2, exact = FALSE, folder, M = 10000, D =
   n.par = max(n.par1, n.par2)
   
   sapply(1:n.par, function(i.par) {
-    sapply(1:M, function(i) {
+    sapply(start:M, function(i) {
       Z <- c(distr(n, par1[1], par2[1]), distr(n, par1[i.par], par2[i.par]))
       
       Z.perm <- t(if (exact) exact.permutations(Z[1:n], Z[(n+1):(2*n)], n, n) else replicate(D,sample(Z)))
