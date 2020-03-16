@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{amsmath,accents}
+\usepackage[left=3cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+
+\begin{document}
+
+$X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
+
+\begin{eqnarray}
+  \label{L0.5}
+  L_{0.5}(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^{0.5})},\\
+  \label{L1}
+  L_1(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|)},\\
+  \label{L2}
+  L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
+  \label{LL}
+  LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
+\end{eqnarray}
+
+Мощность тестов в процентах. Размер выборок $n=50$. Количество экспериментов $M=1000$ (будет 10000). Количество перестановок $D=800$ (будет 1600). Также думаю, что первый столбец из таблиц можно убрать, написав, что параметры $F_1$ всегда (0, 1).
+
+Также можно при пересчете изменить некоторые параметры распределений, например, во второй строке Table 2 посчитать $N(0, 1)$ vs $N(0.5, 1)$ (сейчас $N(0.6, 1)$).
+
+Рассматривая $L_\gamma$ критерии можно сказать, что чем тяжелее хвост, тем лучше $L_{0.5}$ и наоборот, для нормального $L_2$ лучше.
+
+Из Table 3 убрал $LL_{norm}$ и $LL_{levy}$, так как они хороши только для своих распределений.
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Table 2}
+  \label{table:n5} \\
+  \hline
+  $F_1$ & $F_2$ & $L_{0.5}$ & $L_{1}$ & $L_{2}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{table2}
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|}
+  \caption{Table 3}
+  \label{table:n50} \\
+  \hline
+  $F_1$ & $F_2$ & $L_{0.5}$ & $L_{1}$ & $L_{2}$ & $LL_{cauchy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{table3}
+\end{longtable}
+
+\end{document}
