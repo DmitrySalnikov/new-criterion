@@ -1,50 +1,46 @@
 path = '/home/d/1/new_criteria'
 
-library(stringr)
 source(paste(path, 'funcs', 'distributions.R', sep = '/'))
+source(paste(path, 'funcs', 'exact.permutations.R', sep = '/'))
+
+DISTRIBUTIONS <- c('norm', 'laplace', 'cauchy', 'levy')
+LOG.DISTRIBUTIONS <- c('loglaplace', 'logcauchy')
 
 MeanAD <- function(x, center, power = 1) {
   mean(abs(x - center)**power)
 }
 
-log.likelyhood <- function(par, x, distribution) {
-  switch (distribution,
-    norm = {
-      -sum(dnorm(x, mean = mean(x), sd = sd(x), log = TRUE))
-    }, cauchy = {
-      -sum(dcauchy(x, location = par[1], scale = par[2], log = TRUE))
-    }, laplace = {
-      -sum(dlaplace(x, m = par[1], s = par[2], log = TRUE))
-    }, levy = {
-      -sum(dlevy(x, m = par[1], s = par[2], log = TRUE))
-    }, loglaplace = {
-      -sum(dloglaplace(x, m = par[1], s = par[2], log = TRUE))
-    }, logcauchy = {
-      -sum(dlogcauchy(x, mu = par[1], sigma = par[2], log = TRUE))
-    }, {
-      print('unknown distribution')
-      return()
-    })
+sd.center <- function(x, center) {
+  sqrt(sum((x - center)**2) / (length(x) - 1))
 }
 
-min.log.likelyhood <- function(x, distribution, n_start = 1) {
+get.A <- function(z) {
+  A <- 0
+  for (i in 1:(2*n - 1)) {
+    for (j in (i + 1):(2*n)) {
+      A <- A + abs(z[i] - z[j])
+    }
+  }
+  
+  A / (n * (2*n - 1))
+}
+
+log.likelyhood <- function(par, x, distribution) {
+  density_function <- get(paste0('d', distribution))
+  
+  -sum(density_function(x, par[1], par[2], log = TRUE))
+}
+
+find.distribution.par <- function(x, distribution) {
   if (distribution == 'norm') {
-    return(log.likelyhood(c(mean(x), sd(x)), x, 'norm'))
+    return(c(mean(x), sd(x)))
+  }
+  
+  if (distribution %in% LOG.DISTRIBUTIONS) {
+    x = log(x)
+    distribution = substring(distribution, 4)
   }
 
-  distribution0 = distribution
-  if (distribution == 'logcauchy') {
-    y = x
-    x = log(x)
-    distribution = 'cauchy'
-  }
-  if (distribution == 'loglaplace') {
-    y = x
-    x = log(x)
-    distribution = 'laplace'
-  }
-
-  res <- matrix(ncol = 5, nrow = n_start)
   lower <- c(-Inf, 1e-6)
   upper <- c(Inf, Inf)
 
@@ -52,93 +48,153 @@ min.log.likelyhood <- function(x, distribution, n_start = 1) {
     cauchy = {
       par1.estim <- mean(x, trim = 0.24)
       par2.estim <- IQR(x) / 2
-      res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -2*par2.estim, 2*par2.estim))))
-      res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2*par2.estim) + 1e-6)))
     }, laplace = {
       par1.estim <- median(x)
       par2.estim <- MeanAD(x, par1.estim)
-      res[, 1] <- c(par1.estim, as.numeric(replicate(n_start - 1, par1.estim + runif(1, -2*par2.estim, 2*par2.estim))))
-      res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2*par2.estim) + 1e-6)))
     }, levy = {
       par1.max <- min(x)
       x.as.gamma <- 1 / (x[x != par1.max] - par1.max)
       par2.estim <- max(1e-6, 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma)), na.rm = TRUE)
-      res[, 1] <- c(par1.max - 2*par2.estim, as.numeric(replicate(n_start - 1, par1.max + runif(1, -4*par2.estim, 0))))
-      res[, 2] <- c(par2.estim, as.numeric(replicate(n_start - 1, runif(1, 0, 2 * par2.estim) + 1e-6)))
-      upper <- c(par1.max - 1e-6, Inf)
+      par1.estim <- par1.max - 2*par2.estim
+      upper <- c(par1.estim - 1e-6, Inf)
     }, {
       print('unknown distribution')
       return()
     })
+  par.estim <- c(par1.estim, par2.estim)
 
-  for (i in 1:n_start) {
-    tmp <- optim(res[i, 1:2], log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper,
-                 x = x, distribution = distribution)
-    res[i, 3:5] <- c(tmp$par, tmp$value)
-  }
-
-  min.idx <- which.min(res[, 5] == min(res[, 5]))
-
-  if (distribution0 == 'logcauchy') {
-    return(log.likelyhood(res[min.idx, 3:4], y, 'logcauchy'))
-  }
-  if (distribution0 == 'loglaplace') {
-    return(log.likelyhood(res[min.idx, 3:4], y, 'loglaplace'))
-  }
-
-  return(res[min.idx, 5])
+  optim(par.estim, log.likelyhood, method = "L-BFGS-B", lower = lower, upper = upper,
+        x = x, distribution = distribution)$par
 }
 
-likelyhood.test.stat <- function(X, Y, distribution) {
-  -min.log.likelyhood(X, distribution) - min.log.likelyhood(Y, distribution)
+likelyhood.test.stat <- function(x, y, par.x, par.y, distribution) {
+  -log.likelyhood(par.x, x, distribution) - log.likelyhood(par.y, y, distribution)
 }
 
-K <- function(X, Y, A, only_positive) {
-  tmp <- vector()
-  for (y in Y) {
-    tmp <- c(tmp, abs(y - X))
-  }
-  tmpA <- tmp / A
-
-  res <- c(
-    L05 = sum(log(1 + tmp**.5)),
-    L05C = sum(log(1 + tmpA**.5)),
-    L1 = sum(log(1 + tmp)),
-    L1C = sum(log(1 + tmpA)),
-    L2 = sum(log(1 + tmp**2)),
-    L2C = sum(log(1 + tmpA**2)),
-    LLnorm = likelyhood.test.stat(X, Y, 'norm'),
-    LLcauchy = likelyhood.test.stat(X, Y, 'cauchy'),
-    LLlaplace = likelyhood.test.stat(X, Y, 'laplace'),
-    LLlevy = likelyhood.test.stat(X, Y, 'levy')
+L.test <- function(x, y, z, A, permutations) {
+  diff <- sapply(x, function(x.i) { abs(x.i - y) })
+  dim(diff) <- NULL
+  diff.A <- diff / A
+  stat0 <- c(
+    L05 = sum(log(1 + diff**.5)),
+    L05C = sum(log(1 + diff.A**.5)),
+    L1 = sum(log(1 + diff)),
+    L1C = sum(log(1 + diff.A)),
+    L2 = sum(log(1 + diff**2)),
+    L2C = sum(log(1 + diff.A**2))
   )
-  if (only_positive) {
-    res <- c(res, 
-      LLlogcauchy = likelyhood.test.stat(X, Y, 'logcauchy'),
-      LLloglaplace = likelyhood.test.stat(X, Y, 'loglaplace')
-    )
-  }
   
-  res
+  stat <- t(apply(permutations, 1, function(p) { 
+    x <- z[p[1:n]]
+    y <- z[p[(n+1):(2*n)]]
+    diff <- sapply(x, function(x.i) { abs(x.i - y) })
+    dim(diff) <- NULL
+    diff.A <- diff / A
+    c(
+      L05 = sum(log(1 + diff**.5)),
+      L05C = sum(log(1 + diff.A**.5)),
+      L1 = sum(log(1 + diff)),
+      L1C = sum(log(1 + diff.A)),
+      L2 = sum(log(1 + diff**2)),
+      L2C = sum(log(1 + diff.A**2))
+    )
+  }))
+  
+  rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
 }
 
-Power <- function(data_path, only_positive = FALSE, n = 50, alpha = 0.05) {
-  n <<- n 
-  setwd(data_path)
-  res <- rowMeans(sapply(str_sort(dir(), numeric = TRUE), function(RDSname) {
-    print(RDSname)
-    resRDS <- readRDS(RDSname)
+LL.norm.var.equal.test <- function(x, y, z, permutations) {
+  sd.z <- sd(z)
+  par.x <- c(mean(x), sd.z)
+  par.y <- c(mean(y), sd.z)
+  stat0 <- likelyhood.test.stat(x, y, par.x, par.y, 'norm')
+  stat <- apply(permutations, 1, function(p) { 
+    x <- z[p[1:n]]
+    y <- z[p[(n+1):(2*n)]]
+    par.x <- c(mean(x), sd.z)
+    par.y <- c(mean(y), sd.z)
+    likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
+  })
+  
+  mean(stat > stat0)
+}
+
+LL.norm.mean.equal.test <- function(x, y, z, permutations) {
+  mean.z <- mean(z)
+  par.x <- c(mean.z, sd.center(x, mean.z))
+  par.y <- c(mean.z, sd.center(y, mean.z))
+  stat0 <- likelyhood.test.stat(x, y, par.x, par.y, 'norm')
+  stat <- apply(permutations, 1, function(p) { 
+    x <- z[p[1:n]]
+    y <- z[p[(n+1):(2*n)]]
+    par.x <- c(mean.z, sd.center(x, mean.z))
+    par.y <- c(mean.z, sd.center(y, mean.z))
+    likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
+  })
+  
+  mean(stat > stat0)
+}
+
+LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean.equal = FALSE) {
+  if (distribution == 'norm' && var.equal == TRUE) {
+    return(LL.norm.var.equal.test(x, y, z, permutations))
+  }
+  if (distribution == 'norm' && mean.equal == TRUE) {
+    return(LL.norm.mean.equal.test(x, y, z, permutations))
+  }
+  
+  par.x <- find.distribution.par(x, distribution)
+  par.y <- find.distribution.par(y, distribution)
+  stat0 <- likelyhood.test.stat(x, y, par.x, par.y, distribution)
+
+  stat <- apply(permutations, 1, function(p) { 
+    x <- z[p[1:n]]
+    y <- z[p[(n+1):(2*n)]]
+    par.x <- find.distribution.par(x, distribution)
+    par.y <- find.distribution.par(y, distribution)
+    likelyhood.test.stat(x, y, par.x, par.y, distribution) 
+  })
+  
+  mean(stat > stat0)
+}
+
+Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D = 1600, alpha = 0.05) {
+  n <<- n
+  
+  set.seed(500)
+  X.set <- get(paste0('r', distribution))(n * M, par1[1], par1[2])
+  Y.set <- get(paste0('r', distribution))(n * M, par2[1], par2[2])
+  permutations.set <- replicate(M, t(replicate(D, sample(1:(2*n)))), simplify = FALSE)
+  dim(X.set) <- c(M, n)
+  dim(Y.set) <- c(M, n)
+  Z.set <- cbind(X.set, Y.set)
+  A.set <- apply(Z.set, 1, get.A)
+  
+  res <- rowMeans(sapply(1:M, function(i) {
+    print(i)
+    X <- X.set[i, ]
+    Y <- Y.set[i, ]
+    Z <- Z.set[i, ]
+    permutations <- permutations.set[[i]]
+    A <- A.set[i]
+  
+    res <- c(
+      L.test(X, Y, Z, A, permutations),
+      LLnorm = LL.test(X, Y, Z, 'norm', permutations),
+      LLnorm.var.eq = LL.test(X, Y, Z, 'norm', permutations, var.equal = TRUE),
+      LLnorm.mean.eq = LL.test(X, Y, Z, 'norm', permutations, mean.equal = TRUE),
+      LLcauchy = LL.test(X, Y, Z, 'cauchy', permutations),
+      LLlaplace = LL.test(X, Y, Z, 'laplace', permutations),
+      LLlevy = LL.test(X, Y, Z, 'levy', permutations)
+    )
+    if (distribution %in% LOG.DISTRIBUTIONS) {
+      res <- c(res,
+         LLlogcauchy = LL.test(X, Y, Z, 'logcauchy', permutations),
+         LLloglaplace = LL.test(X, Y, Z, 'loglaplace', permutations)
+      )
+    }
     
-    Z <- resRDS[['Z']]
-    X <- Z[1:n]
-    Y <- Z[(n+1):(2*n)]
-    perm <- resRDS[['Z.perm']]
-    A <- resRDS[['A']]
-  
-    stat <- K(X, Y, A, only_positive)
-    stat <- rbind(stat, t(apply(perm, 1, function(Zp) { K(Zp[1:n], Zp[(n+1):(2*n)], A, only_positive) })))
-  
-    c(rowMeans(apply(stat[-1,], 1, function(x) x > stat[1,])),
+    c(res,
       wilcox.test = wilcox.test(X, Y)$p.value,
       ks.test     = ks.test(X, Y)$p.value
     ) < alpha
@@ -146,14 +202,10 @@ Power <- function(data_path, only_positive = FALSE, n = 50, alpha = 0.05) {
   
   print(res)
   
-  distribution <- tail(strsplit(data_path, '/')[[1]], 3)[1]
-  parameter <- tail(strsplit(data_path, '/')[[1]], 3)[2]
-  details <- paste(strsplit(tail(strsplit(data_path, '/')[[1]], 3)[3], ',')[[1]][1:3], collapse = ',')
-  params <- paste0(paste(strsplit(tail(strsplit(data_path, '/')[[1]], 3)[3], ',')[[1]][4:5], collapse = ','), '.RDS')
+  details <- paste0('par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D, '.RDS')
   if (!dir.exists(paste(path, 'res', distribution, sep = '/'))) dir.create(paste(path, 'res', distribution, sep = '/'))
-  if (!dir.exists(paste(path, 'res', distribution, parameter, sep = '/'))) dir.create(paste(path, 'res', distribution, parameter, sep = '/'))
-  if (!dir.exists(paste(path, 'res', distribution, parameter, details, sep = '/'))) dir.create(paste(path, 'res', distribution, parameter, details, sep = '/'))
-  res_name <- paste(path, 'res', distribution, parameter, details, params, sep = '/')
+  if (!dir.exists(paste(path, 'res', distribution, type, sep = '/'))) dir.create(paste(path, 'res', distribution, type, sep = '/'))
+  res_name <- paste(path, 'res', distribution, type, details, sep = '/')
   saveRDS(res, res_name)
   
   NULL
