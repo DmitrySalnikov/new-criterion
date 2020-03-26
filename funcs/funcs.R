@@ -1,10 +1,27 @@
 path = '/home/d/1/new_criteria'
 
+library(foreach)
+library(doParallel)
+
+cores <- detectCores()
+
 source(paste(path, 'funcs', 'distributions.R', sep = '/'))
 source(paste(path, 'funcs', 'exact.permutations.R', sep = '/'))
 
 DISTRIBUTIONS <- c('norm', 'laplace', 'cauchy', 'levy')
 LOG.DISTRIBUTIONS <- c('loglaplace', 'logcauchy')
+
+create_folder <- function(folder_path) {
+  res <- folder_path[1]
+  for (folder in folder_path[-1]) {
+    res <- paste(res, folder, sep = '/')
+    if (!dir.exists(res)) {
+      dir.create(res)
+    }
+  }
+  
+  res
+}
 
 MeanAD <- function(x, center, power = 1) {
   mean(abs(x - center)**power)
@@ -84,9 +101,9 @@ L.test <- function(x, y, z, A, permutations) {
     L2C = sum(log(1 + diff.A**2))
   )
   
-  stat <- t(apply(permutations, 1, function(p) { 
-    x <- z[p[1:n]]
-    y <- z[p[(n+1):(2*n)]]
+  stat <- t(apply(permutations, 1, function(z) { 
+    x <- z[1:n]
+    y <- z[(n+1):(2*n)]
     diff <- sapply(x, function(x.i) { abs(x.i - y) })
     dim(diff) <- NULL
     diff.A <- diff / A
@@ -108,9 +125,9 @@ LL.norm.var.equal.test <- function(x, y, z, permutations) {
   par.x <- c(mean(x), sd.z)
   par.y <- c(mean(y), sd.z)
   stat0 <- likelyhood.test.stat(x, y, par.x, par.y, 'norm')
-  stat <- apply(permutations, 1, function(p) { 
-    x <- z[p[1:n]]
-    y <- z[p[(n+1):(2*n)]]
+  stat <- apply(permutations, 1, function(z) { 
+    x <- z[1:n]
+    y <- z[(n+1):(2*n)]
     par.x <- c(mean(x), sd.z)
     par.y <- c(mean(y), sd.z)
     likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
@@ -124,9 +141,9 @@ LL.norm.mean.equal.test <- function(x, y, z, permutations) {
   par.x <- c(mean.z, sd.center(x, mean.z))
   par.y <- c(mean.z, sd.center(y, mean.z))
   stat0 <- likelyhood.test.stat(x, y, par.x, par.y, 'norm')
-  stat <- apply(permutations, 1, function(p) { 
-    x <- z[p[1:n]]
-    y <- z[p[(n+1):(2*n)]]
+  stat <- apply(permutations, 1, function(z) { 
+    x <- z[1:n]
+    y <- z[(n+1):(2*n)]
     par.x <- c(mean.z, sd.center(x, mean.z))
     par.y <- c(mean.z, sd.center(y, mean.z))
     likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
@@ -147,9 +164,9 @@ LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean
   par.y <- find.distribution.par(y, distribution)
   stat0 <- likelyhood.test.stat(x, y, par.x, par.y, distribution)
 
-  stat <- apply(permutations, 1, function(p) { 
-    x <- z[p[1:n]]
-    y <- z[p[(n+1):(2*n)]]
+  stat <- apply(permutations, 1, function(z) { 
+    x <- z[1:n]
+    y <- z[(n+1):(2*n)]
     par.x <- find.distribution.par(x, distribution)
     par.y <- find.distribution.par(y, distribution)
     likelyhood.test.stat(x, y, par.x, par.y, distribution) 
@@ -158,26 +175,38 @@ LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean
   mean(stat > stat0)
 }
 
-Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D = 1600, alpha = 0.05) {
+Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D = 1600, alpha = 0.05, data.is.generated = FALSE) {
   n <<- n
+  
+  details <- paste0('par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
+  data_path <- create_folder(c(path, 'data', distribution, type, details))
   
   set.seed(500)
   X.set <- get(paste0('r', distribution))(n * M, par1[1], par1[2])
   Y.set <- get(paste0('r', distribution))(n * M, par2[1], par2[2])
-  permutations.set <- replicate(M, t(replicate(D, sample(1:(2*n)))), simplify = FALSE)
   dim(X.set) <- c(M, n)
   dim(Y.set) <- c(M, n)
   Z.set <- cbind(X.set, Y.set)
+  if (!data.is.generated) {
+    for (i in 1:M) { 
+      saveRDS(t(replicate(D, sample(Z.set[i, ]))), paste0(data_path, '/', i, '.RDS')) 
+    }
+  }
   A.set <- apply(Z.set, 1, get.A)
   
-  res <- rowMeans(sapply(1:M, function(i) {
-    print(i)
+  cluster <- makeCluster(cores - 1, outfile = "")
+  registerDoParallel(cluster)
+  res <- rowMeans(foreach(i = 1:M, .combine = cbind, .export = ls(globalenv()), .packages = c('VaRES', 'rmutil')) %dopar% {
+    if (i %% 100 == 0) {
+      print(i)
+    }
+    
     X <- X.set[i, ]
     Y <- Y.set[i, ]
     Z <- Z.set[i, ]
-    permutations <- permutations.set[[i]]
+    permutations <- readRDS(paste0(data_path, '/', i, '.RDS'))
     A <- A.set[i]
-  
+    
     res <- c(
       L.test(X, Y, Z, A, permutations),
       LLnorm = LL.test(X, Y, Z, 'norm', permutations),
@@ -198,17 +227,16 @@ Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D
       wilcox.test = wilcox.test(X, Y)$p.value,
       ks.test     = ks.test(X, Y)$p.value
     ) < alpha
-  }))
+  })
+  stopCluster(cluster)
   
   print(res)
   
-  details <- paste0('par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D, '.RDS')
-  if (!dir.exists(paste(path, 'res', distribution, sep = '/'))) dir.create(paste(path, 'res', distribution, sep = '/'))
-  if (!dir.exists(paste(path, 'res', distribution, type, sep = '/'))) dir.create(paste(path, 'res', distribution, type, sep = '/'))
-  res_name <- paste(path, 'res', distribution, type, details, sep = '/')
+  res_path <- create_folder(c(path, 'res', distribution, type))
+  res_name <- paste0(res_path, '/', details, '.RDS')
   saveRDS(res, res_name)
   
-  NULL
+  unlink(data_path, recursive = TRUE)
 }
 
 MakeTable <- function(idx1 = vector(), with_F1 = FALSE) {
