@@ -1,4 +1,4 @@
-path = '/home/d/1/new_criteria'
+path <- '/home/d/1/new_criteria'
 
 library(foreach)
 library(doParallel)
@@ -239,13 +239,46 @@ Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D
   unlink(data_path, recursive = TRUE)
 }
 
-MakeTable <- function(idx1 = vector(), with_F1 = FALSE) {
-  if (length(idx1)) res <- res[,c(1,2,idx1)]
-  if (!with_F1) res <- res[,-1]
+short.name <- function(distribution) {
+  switch (distribution,
+    laplace = 'La',
+    levy = 'Le',
+    toupper(substr(distribution, 1, 1))
+  )
+}
 
-  cat('% ', file = paste0(tables, tname, '.tex'))
-  write.table(res, paste0(tables, tname, '.tex'),
-              quote = F, sep = ' & ', eol = ' \\\\\n',
+read.res <- function(distribution, par2, type, tests.numbers = NULL, n = 50, M = 10000, D = 1600) {
+  details <- paste0('par2=(', par2[, 1], ',', par2[, 2], '),n=', n, ',M=', M, ',D=', D)
+  res <- vector() 
+  for (x in details) {
+    temp <- readRDS(paste0(path, '/res/', distribution, '/', type, '/', x, '.RDS'))
+    res <- if (is.null(tests.numbers)) {
+      rbind(res, temp)
+    } else {
+      rbind(res, temp[tests.numbers])
+    }
+  }
+  F2 <- paste0(short.name(distribution), '(', par2[, 1], ', ', par2[, 2], ')')
+  
+  cbind(F2, round(res, 3) * 100)
+}
+
+make.table <- function(distribution, par2, tests.numbers = NULL, n = 50, M = 10000, D = 1600) {
+  table.name <- paste0(distribution, ',n=', n, ',M=', M, ',D=', D, '.tex')
+  table.path <- paste0(path, '/tables/', table.name)
+  
+  cat('% ', file = table.path)
+  write.table(read.res(distribution, par2[[1]], 'mean', tests.numbers, n, M, D), 
+              table.path, quote = F, sep = ' & ', eol = ' \\\\\n',
               row.names = F, col.names = T, append = TRUE)
-  write('\\hline', paste0(tables, tname, '.tex'), append = TRUE)
+  write('\\hline', table.path, append = TRUE)
+  
+  lapply(par2[-1], function(x) {
+    write.table(read.res(distribution, x[[1]], x[[2]], tests.numbers, n, M, D), 
+                table.path, quote = F, sep = ' & ', eol = ' \\\\\n',
+                row.names = F, col.names = F, append = TRUE)
+    write('\\hline', table.path, append = TRUE)
+  })
+  
+  NULL
 }
