@@ -1,4 +1,4 @@
-path <- '/home/d/1/new_criteria'
+path = '/home/d/1/new_criteria'
 
 library(foreach)
 library(doParallel)
@@ -113,7 +113,8 @@ L.test <- function(x, y, z, A, permutations) {
       L1 = sum(log(1 + diff)),
       L1C = sum(log(1 + diff.A)),
       L2 = sum(log(1 + diff**2)),
-      L2C = sum(log(1 + diff.A**2))
+      L2C = sum(log(1 + diff.A**2)),
+      Linf = sum(log(diff))
     )
   }))
   
@@ -175,11 +176,17 @@ LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean
   mean(stat > stat0)
 }
 
-Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D = 1600, alpha = 0.05, data.is.generated = FALSE) {
+Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 1000, D = 800, alpha = 0.05) {
   n <<- n
   
   details <- paste0('par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
   data_path <- create_folder(c(path, 'data', distribution, type, details))
+  res_path <- create_folder(c(path, 'res', distribution, type))
+  res_name <- paste0(res_path, '/', details, '.RDS')
+  
+  if (file.exists(res_name)) {
+    return()
+  }
   
   set.seed(500)
   X.set <- get(paste0('r', distribution))(n * M, par1[1], par1[2])
@@ -187,7 +194,7 @@ Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D
   dim(X.set) <- c(M, n)
   dim(Y.set) <- c(M, n)
   Z.set <- cbind(X.set, Y.set)
-  if (!data.is.generated) {
+  if (!dir.exists(data_path) || length(dir(data_path)) != M) {
     for (i in 1:M) { 
       saveRDS(t(replicate(D, sample(Z.set[i, ]))), paste0(data_path, '/', i, '.RDS')) 
     }
@@ -225,60 +232,27 @@ Power <- function(distribution, par2, type, par1 = c(0, 1), n = 50, M = 10000, D
     
     c(res,
       wilcox.test = wilcox.test(X, Y)$p.value,
-      ks.test     = ks.test(X, Y)$p.value
+      ks.test     = ks.test(X, Y)$p.value,
+      t.test      = t.test(X, Y)$p.value,
+      var.test    = var.test(X, Y)$p.value
     ) < alpha
   })
   stopCluster(cluster)
   
   print(res)
   
-  res_path <- create_folder(c(path, 'res', distribution, type))
-  res_name <- paste0(res_path, '/', details, '.RDS')
   saveRDS(res, res_name)
   
   unlink(data_path, recursive = TRUE)
 }
 
-short.name <- function(distribution) {
-  switch (distribution,
-    laplace = 'La',
-    levy = 'Le',
-    toupper(substr(distribution, 1, 1))
-  )
-}
+MakeTable <- function(idx1 = vector(), with_F1 = FALSE) {
+  if (length(idx1)) res <- res[,c(1,2,idx1)]
+  if (!with_F1) res <- res[,-1]
 
-read.res <- function(distribution, par2, type, tests.numbers = NULL, n = 50, M = 10000, D = 1600) {
-  details <- paste0('par2=(', par2[, 1], ',', par2[, 2], '),n=', n, ',M=', M, ',D=', D)
-  res <- vector() 
-  for (x in details) {
-    temp <- readRDS(paste0(path, '/res/', distribution, '/', type, '/', x, '.RDS'))
-    res <- if (is.null(tests.numbers)) {
-      rbind(res, temp)
-    } else {
-      rbind(res, temp[tests.numbers])
-    }
-  }
-  F2 <- paste0(short.name(distribution), '(', par2[, 1], ', ', par2[, 2], ')')
-  
-  cbind(F2, round(res, 3) * 100)
-}
-
-make.table <- function(distribution, par2, tests.numbers = NULL, n = 50, M = 10000, D = 1600) {
-  table.name <- paste0(distribution, ',n=', n, ',M=', M, ',D=', D, '.tex')
-  table.path <- paste0(path, '/tables/', table.name)
-  
-  cat('% ', file = table.path)
-  write.table(read.res(distribution, par2[[1]], 'mean', tests.numbers, n, M, D), 
-              table.path, quote = F, sep = ' & ', eol = ' \\\\\n',
+  cat('% ', file = paste0(tables, tname, '.tex'))
+  write.table(res, paste0(tables, tname, '.tex'),
+              quote = F, sep = ' & ', eol = ' \\\\\n',
               row.names = F, col.names = T, append = TRUE)
-  write('\\hline', table.path, append = TRUE)
-  
-  lapply(par2[-1], function(x) {
-    write.table(read.res(distribution, x[[1]], x[[2]], tests.numbers, n, M, D), 
-                table.path, quote = F, sep = ' & ', eol = ' \\\\\n',
-                row.names = F, col.names = F, append = TRUE)
-    write('\\hline', table.path, append = TRUE)
-  })
-  
-  NULL
+  write('\\hline', paste0(tables, tname, '.tex'), append = TRUE)
 }
