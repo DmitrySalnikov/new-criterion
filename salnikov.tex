@@ -9,59 +9,57 @@
 
 \begin{document}
 
-$X=(X_1,\ldots,X_n)$, $Y=(Y_1,\ldots,Y_n)$, $Z=(X_1,\ldots,X_n,Y_1,\ldots,Y_n)$.
-
 \begin{eqnarray}
-  % \label{L0.5}
-  % L_{0.5}(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^{0.5})},\\
-  % \label{L0.5C}
-  % L_{0.5}^C(Z)&=&\sum_{i,j=1}^{n}{\ln\left(1+\left(\frac{|X_{i}-Y_{j}|}{C}\right)^{0.5}\right)},\\
   \label{L1}
   L_1(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|)},\\
-  % \label{L1C}
-  % L_1^C(Z)&=&\sum_{i,j=1}^{n}{\ln\left(1+\left(\frac{|X_{i}-Y_{j}|}{C}\right)\right)},\\
   \label{L2}
   L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
-  % \label{L2C}
-  % L_2^C(Z)&=&\sum_{i,j=1}^{n}{\ln\left(1+\left(\frac{|X_{i}-Y_{j}|}{C}\right)^2\right)},\\
-  % \label{C}
-  % C&=&\sum_{1\le i<j\le 2n}{|Z_{i}-Z_{j}|}/(n(2n-1)),\\
+  \label{Linf}
+  L_\infty(Z)&=&\sum_{i,j=1}^{n}{\ln(|X_{i}-Y_{j}|)},\\
   \label{LL}
   LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
 \end{eqnarray}
 
-% \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-%   \caption{Мощность тестов при размерах выборок $n=5$}
-%   \label{table:n5} \\
-%   \hline
-%   $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
-%   \input{tables/norm/meanN5M1000Exact}
-%   \input{tables/norm/varN5M1000Exact}
-%   \input{tables/norm/mean1varN5M1000Exact}
-%   \input{tables/norm/mean2varN5M1000Exact}
-%   $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
-%   \input{tables/cauchy/meanN5M1000Exact}
-%   \input{tables/cauchy/varN5M1000Exact}
-%   \input{tables/cauchy/mean1varN5M1000Exact}
-%   \input{tables/cauchy/mean2varN5M1000Exact}
-%   $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
-%   \input{tables/levy/meanN5M1000Exact}
-%   \input{tables/levy/varN5M1000Exact}
-%   \input{tables/levy/mean1varN5M1000Exact}
-%   \input{tables/levy/mean2varN5M1000Exact}
-%   $F_2$ & $L_{0.5}$ & $L_{0.5}^C$ & $L_{1}$ & $L_{1}^C$ & $L_{2}$ & $L_{2}^C$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
-%   \input{tables/logcauchy/meanN5M1000Exact}
-%   \input{tables/logcauchy/varN5M1000Exact}
-%   \input{tables/logcauchy/mean1varN5M1000Exact}
-%   \input{tables/logcauchy/mean2varN5M1000Exact}
-% \end{longtable}
-
-\begin{longtable}{|c|c|c|c|c|c|c|c|c|}
-  \caption{Мощность тестов при размерах выборок $n=50$, 10000 итераций, 1600 перестановок в каждой итерации}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для Нормального распределения,\\размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
   \label{table:n50} \\
   \hline
-  $F_2$ & $L_{1}$ & $L_{2}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/norm,n=50,M=1000,D=800}
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши,\\размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/cauchy,n=50,M=1000,D=800}
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Лапласа,\\размер выборок $n=50$, 10000 итераций, 1600 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/laplace,n=50,M=10000,D=1600}
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Леви,\\размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/levy,n=50,M=1000,D=800}
+\end{longtable}
+
+\newpage
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Лог-Коши,\\размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/logcauchy,n=50,M=1000,D=800}
 \end{longtable}
 
 \end{document}
