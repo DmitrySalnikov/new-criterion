@@ -6,8 +6,12 @@ merge.res <- function(distribution, type, par2, n = 50, M = 1000, D = 800, prefi
   res <- readRDS(res.name)
   prefix.res <- readRDS(prefix.res.name)
   
-  saveRDS(c(res[1:6], prefix.res[2], res[7:14], prefix.res[4:5]), res.name)
-  unlink(prefix.res.name)
+  # saveRDS(c(res[1:12], prefix.res[1], res[14:17]), res.name)
+  # unlink(prefix.res.name)
+  
+  print(res)
+  print(prefix.res)
+  print(c(res[1:12], prefix.res[1], res[14:17]))
 }
 
 merge.res.common <- function(distribution, par, n = 50, M = 1000, D = 800, prefix) {
@@ -20,4 +24,9 @@ merge.res.common <- function(distribution, par, n = 50, M = 1000, D = 800, prefi
   }  
 }
 
-merge.res.common('laplace', seq(0, 1, length.out = 5), M = 10000, D = 1600, prefix = 'Linf')
+# merge.res.common('laplace', seq(0, 1, length.out = 5), M = 10000, D = 1600, prefix = 'Linf')
+# merge.res.common('levy', seq(0, 1, length.out = 5), prefix = 'LLlevy')
+# merge.res.common('norm', seq(0,1,length.out = 5), prefix = 'LLlevy')
+# merge.res.common('cauchy', seq(0,1,length.out = 5), prefix = 'LLlevy')
+# merge.res.common('logcauchy', seq(0,1,length.out = 5), prefix = 'LLlevy')
+# merge.res.common('laplace', seq(0,1,length.out = 5), M = 10000, D = 1600, prefix = 'LLlevy')

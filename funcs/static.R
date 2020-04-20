@@ -79,7 +79,7 @@ find.distribution.par <- function(x, distribution) {
             x.as.gamma <- 1 / (x[x != par1.max] - par1.max)
             par2.estim <- max(1e-6, 2*(n-1)*(n-2) / ((n-1) * sum(x.as.gamma * log(x.as.gamma)) - sum(log(x.as.gamma)) * sum(x.as.gamma)), na.rm = TRUE)
             par1.estim <- par1.max - 2*par2.estim
-            upper <- c(par1.estim - 1e-6, Inf)
+            upper <- c(par1.max - 1e-6, Inf)
           }, {
             print('unknown distribution')
             return()

@@ -14,4 +14,11 @@ calculate('norm', seq(0, 1, length.out = 5))
 calculate('cauchy', seq(0, 1, length.out = 5))
 calculate('levy', seq(0, 1, length.out = 5))
 calculate('logcauchy', seq(0, 1, length.out = 5))
-calculate('laplace', seq(0, 1, length.out = 5), M = 10000, D = 1600, prefix = 'Linf')
+calculate('laplace', seq(0, 1, length.out = 5), M = 10000, D = 1600)
+
+calculate('norm', seq(0, 1, length.out = 5), prefix = 'LLlevy')
+calculate('cauchy', seq(0, 1, length.out = 5), prefix = 'LLlevy')
+calculate('logcauchy', seq(0, 1, length.out = 5), prefix = 'LLlevy')
+calculate('laplace', seq(0, 1, length.out = 5), M = 10000, D = 1600, prefix = 'LLlevy')
+
+# Power('norm', 'temp', c(0,1), prefix = 'LLlevy', n = 10, M = 100, D = 100)
