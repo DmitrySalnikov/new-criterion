@@ -45,8 +45,9 @@ make.table <- function(distribution, par, tests.numbers, n = 50, M = 1000, D = 8
 
 read.res('laplace', 'mean', cbind(1, 1), M = 10000, D = 1600)
 read.res('logcauchy', 'mean', cbind(1, 1))
+read.res('norm', 'mean', cbind(1, 1))
 
-make.table('norm', seq(0, 1, length.out = 5), c(3, 5, 7:8, 11:15))
+make.table('norm', seq(0, 1, length.out = 5), c(3, 5, 7:9, 11:15))
 make.table('cauchy', seq(0, 1, length.out = 5), c(3, 5, 7:8, 11:15))
 make.table('levy', seq(0, 1, length.out = 5), c(3, 5, 7:8, 11:15))
 make.table('laplace', seq(0, 1, length.out = 5), c(3, 5, 7:8, 11:15), M = 10000, D = 1600)

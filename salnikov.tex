@@ -20,11 +20,11 @@
   LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
 \end{eqnarray}
 
-\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для Нормального распределения,\\размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
   \label{table:n50} \\
   \hline
-  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{norm}^{var.eq}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/norm,n=50,M=1000,D=800}
 \end{longtable}
 
