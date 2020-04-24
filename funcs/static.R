@@ -10,22 +10,27 @@ create.folder <- function(folder.path) {
   res
 }
 
-make.details <- function(par2, n, M, D, prefix) {
-  paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)  
+make.details <- function(par2, n, M, D, prefix, randomization) {
+  details <- paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
+  if(randomization) {
+    details <- paste0(details, ',rand')
+  }
+  
+  details
 }
 
 make.res.path <- function(distribution, type) {
   create.folder(c(path, 'res', distribution, type))
 }
 
-make.res.name <- function(distribution, type, par2, n, M, D, prefix) {
-  details <- make.details(par2, n, M, D, prefix)
+make.res.name <- function(distribution, type, par2, n, M, D, prefix, randomization) {
+  details <- make.details(par2, n, M, D, prefix, randomization)
   res.path <- make.res.path(distribution, type)
   paste0(res.path, '/', details, '.RDS')
 }
 
-read.res <- function(distribution, type, par2, n = 50, M = 1000, D = 800, prefix = NULL) {
-  res.name <- make.res.name(distribution, type, par2, n, M, D, prefix)
+read.res <- function(distribution, type, par2, n = 50, M = 1000, D = 800, prefix = NULL, randomization = TRUE) {
+  res.name <- make.res.name(distribution, type, par2, n, M, D, prefix, randomization)
   readRDS(res.name)
 }
 
@@ -94,6 +99,19 @@ likelyhood.test.stat <- function(x, y, par.x, par.y, distribution) {
   -log.likelyhood(par.x, x, distribution) - log.likelyhood(par.y, y, distribution)
 }
 
+phi <- function(T0, Tk) {
+  Tk <- sort(Tk)
+  k <- n.permutations - round(n.permutations * alpha)
+
+  if (isTRUE(all.equal(T0, Tk[k]))) {
+    Mp <- sum(sapply(Tk, function(Tkk) { !isTRUE(all.equal(Tkk, Tk[k])) & Tkk > Tk[k] } ))
+    M0 <- sum(sapply(Tk, function(Tkk) { isTRUE(all.equal(Tk[k], Tkk)) } ))
+    (n.permutations * alpha - Mp) / M0 
+  } else {
+    T0 > Tk[k]
+  }
+}
+
 L.test <- function(x, y, z, A, permutations) {
   stat0 <- L.test.stat(x, y, A)
   
@@ -103,7 +121,11 @@ L.test <- function(x, y, z, A, permutations) {
     L.test.stat(x, y, A)
   }))
   
-  rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
+  if (randomization) {
+    sapply(1:length(stat0), function(i) { phi(stat0[i], stat[, i]) } ) 
+  } else {
+    rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
+  }
 }
 
 LL.norm.var.equal.test <- function(x, y, z, permutations) {
@@ -119,7 +141,11 @@ LL.norm.var.equal.test <- function(x, y, z, permutations) {
     likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
   })
   
-  mean(stat > stat0)
+  if (randomization) {
+    phi(stat0, stat)
+  } else {
+    mean(stat > stat0)
+  }
 }
 
 LL.norm.mean.equal.test <- function(x, y, z, permutations) {
@@ -135,7 +161,11 @@ LL.norm.mean.equal.test <- function(x, y, z, permutations) {
     likelyhood.test.stat(x, y, par.x, par.y, 'norm') 
   })
   
-  mean(stat > stat0)
+  if (randomization) {
+    phi(stat0, stat)
+  } else {
+    mean(stat > stat0)
+  }
 }
 
 LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean.equal = FALSE) {
@@ -158,5 +188,9 @@ LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean
     likelyhood.test.stat(x, y, par.x, par.y, distribution) 
   })
   
-  mean(stat > stat0)
+  if (randomization) {
+    phi(stat0, stat)
+  } else {
+    mean(stat > stat0)
+  }
 }

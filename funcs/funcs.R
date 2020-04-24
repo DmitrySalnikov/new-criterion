@@ -27,10 +27,16 @@ L.test.stat <- function(x, y, A) {
   )
 }
 
-Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D = 800, alpha = 0.05, prefix = NULL) {
+Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D = 800, alpha = 0.05, prefix = NULL, randomization = TRUE) {
   n <<- n
-
+  n.permutations <<- D
+  alpha <<- alpha
+  randomization <<- randomization
+  
   details <- paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
+  if (randomization) {
+    details <- paste0(details, ',rand')
+  }
   data.path <- create.folder(c(path, 'data', distribution, type, details))
   res.path <- create.folder(c(path, 'res', distribution, type))
   res.name <- paste0(res.path, '/', details, '.RDS')
@@ -82,13 +88,19 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
          LLloglaplace = LL.test(X, Y, Z, 'loglaplace', permutations)
       )
     }
-
+  
+    if (!randomization) {
+      res <- res < alpha
+    }
+    
     c(res,
-      wilcox.test = wilcox.test(X, Y)$p.value,
-      ks.test     = ks.test(X, Y)$p.value,
-      t.test      = t.test(X, Y)$p.value,
-      var.test    = var.test(X, Y)$p.value
-    ) < alpha
+      c(
+        wilcox.test = wilcox.test(X, Y)$p.value,
+        ks.test     = ks.test(X, Y)$p.value,
+        t.test      = t.test(X, Y)$p.value,
+        var.test    = var.test(X, Y)$p.value
+      ) < alpha
+    )
   })
   stopCluster(cluster)
 
