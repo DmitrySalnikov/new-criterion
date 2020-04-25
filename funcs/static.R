@@ -11,7 +11,14 @@ create.folder <- function(folder.path) {
 }
 
 make.details <- function(par2, n, M, D, prefix, randomization) {
+  exact <- n == 5
+  if(exact) {
+    D <- n.exact.perms(5, 5, 10)
+  }
   details <- paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
+  if(exact) {
+    details <- paste0(details, ',exact')
+  }
   if(randomization) {
     details <- paste0(details, ',rand')
   }

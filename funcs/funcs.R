@@ -9,7 +9,7 @@ source(paste(path, 'funcs', 'distributions.R', sep = '/'))
 source(paste(path, 'funcs', 'exact.permutations.R', sep = '/'))
 source(paste(path, 'funcs', 'static.R', sep = '/'))
 
-DISTRIBUTIONS <- c('norm', 'laplace', 'cauchy', 'levy')
+DISTRIBUTIONS <- c('norm', 'cauchy', 'levy', 'laplace')
 LOG.DISTRIBUTIONS <- c('loglaplace', 'logcauchy')
 
 L.test.stat <- function(x, y, A) {
@@ -28,12 +28,20 @@ L.test.stat <- function(x, y, A) {
 }
 
 Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D = 800, alpha = 0.05, prefix = NULL, randomization = TRUE) {
+  exact <- n == 5
+  if(exact) {
+    D <- n.exact.perms(5, 5, 10)
+  }
+  
   n <<- n
   n.permutations <<- D
   alpha <<- alpha
   randomization <<- randomization
   
   details <- paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',D=', D)
+  if (exact) {
+    details <- paste0(details, ',exact')
+  }
   if (randomization) {
     details <- paste0(details, ',rand')
   }
@@ -55,7 +63,11 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
   Z.set <- cbind(X.set, Y.set)
   if (!dir.exists(data.path) || length(dir(data.path)) != M) {
     for (i in 1:M) {
-      saveRDS(t(replicate(D, sample(Z.set[i, ]))), paste0(data.path, '/', i, '.RDS'))
+      if (exact) {
+        saveRDS(t(exact.permutations(X.set[i, ], Y.set[i, ], 5, 5)), paste0(data.path, '/', i, '.RDS'))  
+      } else {
+        saveRDS(t(replicate(D, sample(Z.set[i, ]))), paste0(data.path, '/', i, '.RDS'))
+      }
     }
   }
   A.set <- apply(Z.set, 1, get.A)
