@@ -24,9 +24,9 @@ L.test.stat <- function(x, y, A) {
     L05C = sum(log(1 + diff.A**.5)),
     L1 = sum(log(1 + diff)),
     L1C = sum(log(1 + diff.A)),
-    L2s = L2 / n**2 - sqrt(B1 * B2),
     L2 = L2,
     L2C = sum(log(1 + diff.A**2)),
+    L2s = L2 / n**2 - sqrt(B1 * B2),
     Linf = sum(log(diff))
   )
 }
