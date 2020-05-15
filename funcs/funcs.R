@@ -16,12 +16,16 @@ L.test.stat <- function(x, y, A) {
   diff <- sapply(x, function(x.i) { abs(x.i - y) })
   dim(diff) <- NULL
   diff.A <- diff / A
+  L2 <- sum(log(1 + diff**2))
+  B1 <- sum(log(1 + sapply(x, function(x.i) { abs(x.i - x) })**2)) / n / (n-1)
+  B2 <- sum(log(1 + sapply(y, function(y.i) { abs(y.i - y) })**2)) / n / (n-1)
   c(
     L05 = sum(log(1 + diff**.5)),
     L05C = sum(log(1 + diff.A**.5)),
     L1 = sum(log(1 + diff)),
     L1C = sum(log(1 + diff.A)),
-    L2 = sum(log(1 + diff**2)),
+    L2s = L2 / n**2 - sqrt(B1 * B2),
+    L2 = L2,
     L2C = sum(log(1 + diff.A**2)),
     Linf = sum(log(diff))
   )
