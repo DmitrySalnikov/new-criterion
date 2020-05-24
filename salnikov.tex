@@ -19,15 +19,14 @@
   LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
 \end{eqnarray}
 
-\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-  \caption{Мощность тестов для Нормального распределения без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=1000$, 1000 итераций, 800 перестановок в каждой итерации}
   \label{table:n50} \\
   \hline
-  $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{norm}^{var.eq}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/norm,n=50,M=1000,D=800}
+  $F_2$ & $L_{2}$ & $LL_{cauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/L2LLccauchy,n=1000,M=1000,D=800}
+  \hline
 \end{longtable}
-
-\newpage
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=200$, 1000 итераций, 800 перестановок в каждой итерации}
@@ -35,6 +34,16 @@
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/cauchy,n=200,M=1000,D=800}
+\end{longtable}
+
+\newpage
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для Нормального распределения без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{norm}^{var.eq}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/norm,n=50,M=1000,D=800}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}

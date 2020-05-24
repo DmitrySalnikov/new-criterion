@@ -131,7 +131,11 @@ L.test <- function(x, y, z, A, permutations) {
   if (randomization) {
     sapply(1:length(stat0), function(i) { phi(stat0[i], stat[, i]) } ) 
   } else {
-    rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
+    if (dim(stat)[1] > 1) {
+      rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
+    } else {
+      rowMeans(stat > stat0)
+    }
   }
 }
 

@@ -5,12 +5,12 @@ F2 <- function(distribution, par2) {
   paste0(short.names[distribution], '(', par2[1], ', ', par2[2], ')')
 }
 
-make.table.name <- function(distribution, n, M, D, randomization = TRUE) {
+make.table.name <- function(distribution, n, M, D, randomization = TRUE, prefix = NULL) {
   exact <- n == 5
   if(exact) {
     D <- n.exact.perms(5, 5, 10)
   }
-  details = paste0(path, '/tables/', distribution, ',n=', n, ',M=', M, ',D=', D)
+  details = paste0(path, '/tables/', prefix, distribution, ',n=', n, ',M=', M, ',D=', D)
   if(exact) {
     details <- paste0(details, ',exact')
   }
@@ -21,10 +21,10 @@ make.table.name <- function(distribution, n, M, D, randomization = TRUE) {
   paste0(details, '.tex')
 }
 
-write.row <- function(distribution, type, par2, tests.numbers, n = 50, M = 1000, D = 800, col.names = FALSE, randomization = TRUE) {
+write.row <- function(distribution, type, par2, tests.numbers, n = 50, M = 1000, D = 800, col.names = FALSE, randomization = TRUE, prefix = NULL) {
   res <- c(F2(distribution, par2),
-           round(read.res(distribution, type, par2, n, M, D, randomization = randomization)[tests.numbers], 3) * 100)
-  table.name <- make.table.name(distribution, n, M, D, randomization)
+           round(read.res(distribution, type, par2, n, M, D, randomization = randomization, prefix = prefix)[tests.numbers], 3) * 100)
+  table.name <- make.table.name(distribution, n, M, D, randomization, prefix = prefix)
   if (col.names) {
     cat('% ', file = table.name)
   }
@@ -87,4 +87,10 @@ for (distr in DISTRIBUTIONS) {
   write.table(res[, 1 + c(0, 3, 5, 7:8, 11:13)], table.name, 
               quote = F, sep = ' & ', eol = ' \\\\\n',  row.names = F, col.names = T, append = TRUE)
   write('\\hline', table.name, append = TRUE)
+}
+
+res <- read.res('cauchy', 'mean', cbind(0, 1), randomization = FALSE, prefix = 'L2LLc', n = 1000)
+write.row('cauchy', 'mean', cbind(0, 1), randomization = FALSE, prefix = 'L2LLc', n = 1000, tests.numbers = 1:4, col.names = TRUE)
+for (par2 in seq(0.05, 0.2, length.out = 4)) {
+  write.row('cauchy', 'mean', c(par2, 1), randomization = FALSE, prefix = 'L2LLc', n = 1000, tests.numbers = 1:4)
 }
