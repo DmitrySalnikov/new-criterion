@@ -47,9 +47,12 @@ calculate('laplace', seq(0, 1, length.out = 5), randomization = FALSE)
 
 calculate('cauchy', seq(0, 0.4, length.out = 5), n = 200, M = 1000, D = 800, prefix = NULL, randomization = FALSE)
 
-# Power('cauchy', 'mean', c(0.02, 1), n = 5000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0, 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.05, 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.1, 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.15, 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.2, 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+
+Power('cauchy', 'mean', c(0.1, 1), n = 5000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(0.2, 1), n = 1250, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(0.5, 1), n = 200, prefix = "L2LLc", randomization = FALSE)

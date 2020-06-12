@@ -19,6 +19,15 @@
   LL_{distribution} &=& \text{maximum log likelyhood permutation criterion based on the distribution}
 \end{eqnarray}
 
+\begin{longtable}{|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок n, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  n & $F_2$ & $L_{2}$ & $LL_{cauchy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/L2LLc,M=1000,D=800}
+  \hline
+\end{longtable}
+
 \begin{longtable}{|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=1000$, 1000 итераций, 800 перестановок в каждой итерации}
   \label{table:n50} \\
@@ -36,7 +45,13 @@
   \input{tables/cauchy,n=200,M=1000,D=800}
 \end{longtable}
 
-\newpage
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
+  \label{table:n50} \\
+  \hline
+  $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
+  \input{tables/cauchy,n=50,M=1000,D=800}
+\end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для Нормального распределения без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
@@ -54,8 +69,6 @@
   \input{tables/levy,n=50,M=1000,D=800}
 \end{longtable}
 
-\newpage
-
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Лапласа без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}
   \label{table:n50} \\
@@ -63,6 +76,8 @@
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
   \input{tables/laplace,n=50,M=1000,D=800}
 \end{longtable}
+
+\newpage
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Лог-Коши без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации}

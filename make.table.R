@@ -60,15 +60,15 @@ read.res('logcauchy', 'mean', cbind(1, 1))
 read.res('norm', 'mean', cbind(0, 1), randomization = FALSE)
 read.res('logcauchy', 'mean', cbind(0, 1), randomization = FALSE)
 read.res('cauchy', 'mean', cbind(0, 1), randomization = TRUE)
-read.res('levy', 'mean', cbind(0, 1), randomization = TRUE)
+read.res('levy', 'mean', cbind(0, 1), randomization = FALSE)
 read.res('norm', 'mean', cbind(0, 1), randomization = TRUE)
 read.res('cauchy', 'var', cbind(0, 1.8), randomization = FALSE, n = 200)
 
-make.table('norm', seq(0, 1, length.out = 5), c(3, 5, 7:10, 12:16), randomization = FALSE)
-make.table('cauchy', seq(0, 1, length.out = 5), c(3, 5, 7:9, 12:16), randomization = FALSE)
-make.table('levy', seq(0, 1, length.out = 5), c(3, 5, 7:9, 12:16), randomization = FALSE)
-make.table('laplace', seq(0, 1, length.out = 5), c(3, 6, 5, 8:9, 12:16), randomization = FALSE)
-make.table('logcauchy', seq(0, 1, length.out = 5), c(3, 5, 7:9, 12:15, 17:18), randomization = FALSE)
+make.table('norm', seq(0, 1, length.out = 5), c(3, 5, 8:9, 12:16), randomization = FALSE)
+make.table('cauchy', seq(0, 1, length.out = 5), c(3, 5, 8:9, 12:16), randomization = FALSE)
+make.table('levy', seq(0, 1, length.out = 5), c(3, 5, 8:9, 12:16), randomization = FALSE)
+make.table('laplace', seq(0, 1, length.out = 5), c(3, 6, 8:9, 12:16), randomization = FALSE)
+make.table('logcauchy', seq(0, 1, length.out = 5), c(3, 5, 8:9, 12:13, 15, 17:18), randomization = FALSE)
 
 make.table('norm', seq(0, 1, length.out = 5), c(3, 5, 7:9, 11:15), randomization = TRUE)
 make.table('cauchy', seq(0, 1, length.out = 5), c(3, 5, 7:8, 11:15), randomization = TRUE)
@@ -94,3 +94,20 @@ write.row('cauchy', 'mean', cbind(0, 1), randomization = FALSE, prefix = 'L2LLc'
 for (par2 in seq(0.05, 0.2, length.out = 4)) {
   write.row('cauchy', 'mean', c(par2, 1), randomization = FALSE, prefix = 'L2LLc', n = 1000, tests.numbers = 1:4)
 }
+
+write.table(t(c(50, 'C(1,1)', read.res('cauchy', 'mean', c(1,1), n=50, randomization = FALSE)[c(5, 12, 15:16)]*100)), 'tables/L2LLc,M=1000,D=800.tex', 
+            quote = F, sep = ' & ', eol = ' \\\\\n', row.names = F, col.names = F, append = FALSE)
+write.table(t(c(200, 'C(0.5,1)', read.res('cauchy', 'mean', c(0.5,1), n=200, randomization = FALSE, prefix = 'L2LLc')[1:4]*100)), 'tables/L2LLc,M=1000,D=800.tex', 
+            quote = F, sep = ' & ', eol = ' \\\\\n', row.names = F, col.names = F, append = TRUE)
+write.table(t(c(1250, 'C(0.2,1)', read.res('cauchy', 'mean', c(0.2,1), n=1250, randomization = FALSE, prefix = 'L2LLc')[1:4]*100)), 'tables/L2LLc,M=1000,D=800.tex', 
+            quote = F, sep = ' & ', eol = ' \\\\\n', row.names = F, col.names = F, append = TRUE)
+write.table(t(c(5000, 'C(0.1,1)', read.res('cauchy', 'mean', c(0.1,1), n=5000, randomization = FALSE, prefix = 'L2LLc')[1:4]*100)), 'tables/L2LLc,M=1000,D=800.tex', 
+            quote = F, sep = ' & ', eol = ' \\\\\n', row.names = F, col.names = F, append = TRUE)
+
+nnn <- c(3, 5, 8, 9, 12:14, 15, 17, 18)
+par <- c(1, 1)
+res <- read.res('logcauchy', 'mean', par, randomization = FALSE)[nnn]*100
+res
+write.table(t(res), 'temp', 
+            quote = F, sep = ' & ', eol = ' \\\\\n',
+            row.names = F, col.names = F, append = FALSE)

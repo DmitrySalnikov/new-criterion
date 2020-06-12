@@ -78,10 +78,10 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
   }
   # A.set <- apply(Z.set, 1, get.A)
 
-  cluster <- makeCluster(cores - 1, outfile = "")
+  cluster <- makeCluster(cores - 1)
   registerDoParallel(cluster)
-  res <- rowMeans(foreach(i = 1:M, .combine = cbind, .export = ls(globalenv()), .packages = c('VaRES', 'rmutil')) %dopar% {
-    if (i %% 100 == 0) {
+  res <- rowMeans(sapply(1:M, function(i) {
+    if (i %% 10 == 0) {
       print(paste0(i, ', ', Sys.time() - start.time))
     }
 
@@ -92,7 +92,7 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
     A <- NULL# A <- A.set[i]
 
     res <- c(
-      L.test(X, Y, Z, A, permutations),
+      L.test(X, Y, A, permutations),
       # LLnorm = LL.test(X, Y, Z, 'norm', permutations),
       # LLnorm.var.eq = LL.test(X, Y, Z, 'norm', permutations, var.equal = TRUE),
       # LLnorm.mean.eq = LL.test(X, Y, Z, 'norm', permutations, mean.equal = TRUE),
@@ -120,7 +120,7 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
         var.test    = var.test(X, Y)$p.value
       ) < alpha
     )
-  })
+  }))
   stopCluster(cluster)
 
   print(res)

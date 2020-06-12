@@ -119,14 +119,17 @@ phi <- function(T0, Tk) {
   }
 }
 
-L.test <- function(x, y, z, A, permutations) {
+L.test <- function(x, y, A, permutations) {
   stat0 <- L.test.stat(x, y, A)
   
-  stat <- t(apply(permutations, 1, function(z) { 
+  # combine = 1 L ? c else cbind
+  stat <- t(foreach(i = 1:nrow(permutations), .combine = c, .export = c('n')) %dopar% { 
+    source('/home/d/1/new_criteria/funcs/funcs.R')
+    z <- permutations[i, ]
     x <- z[1:n]
     y <- z[(n+1):(2*n)]
     L.test.stat(x, y, A)
-  }))
+  })
   
   if (randomization) {
     sapply(1:length(stat0), function(i) { phi(stat0[i], stat[, i]) } ) 
@@ -179,7 +182,7 @@ LL.norm.mean.equal.test <- function(x, y, z, permutations) {
   }
 }
 
-LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean.equal = FALSE) {
+LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean.equal = FALSE, par1 = NULL, par2 = NULL) {
   if (distribution == 'norm' && var.equal == TRUE) {
     return(LL.norm.var.equal.test(x, y, z, permutations))
   }
@@ -187,17 +190,19 @@ LL.test <- function(x, y, z, distribution, permutations, var.equal = FALSE, mean
     return(LL.norm.mean.equal.test(x, y, z, permutations))
   }
   
-  par.x <- find.distribution.par(x, distribution)
-  par.y <- find.distribution.par(y, distribution)
+  par.x <- if (is.null(par1)) find.distribution.par(x, distribution) else par1
+  par.y <- if (is.null(par2)) find.distribution.par(y, distribution) else par2
   stat0 <- likelyhood.test.stat(x, y, par.x, par.y, distribution)
   
-  stat <- apply(permutations, 1, function(z) { 
+  stat <- foreach(i = 1:nrow(permutations), .export = c('n')) %dopar% { 
+    source('/home/d/1/new_criteria/funcs/funcs.R')
+    z <- permutations[i, ]
     x <- z[1:n]
     y <- z[(n+1):(2*n)]
-    par.x <- find.distribution.par(x, distribution)
-    par.y <- find.distribution.par(y, distribution)
+    par.x <- if (is.null(par1)) find.distribution.par(x, distribution) else par1
+    par.y <- if (is.null(par2)) find.distribution.par(y, distribution) else par2
     likelyhood.test.stat(x, y, par.x, par.y, distribution) 
-  })
+  }
   
   if (randomization) {
     phi(stat0, stat)
