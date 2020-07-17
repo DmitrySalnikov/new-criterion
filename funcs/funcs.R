@@ -92,11 +92,11 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
     A <- NULL# A <- A.set[i]
 
     res <- c(
-      L.test(X, Y, A, permutations),
+      L.test(X, Y, A, permutations)#,
       # LLnorm = LL.test(X, Y, Z, 'norm', permutations),
       # LLnorm.var.eq = LL.test(X, Y, Z, 'norm', permutations, var.equal = TRUE),
       # LLnorm.mean.eq = LL.test(X, Y, Z, 'norm', permutations, mean.equal = TRUE),
-      LLcauchy = LL.test(X, Y, Z, 'cauchy', permutations)#,
+      # LLcauchy = LL.test(X, Y, Z, 'cauchy', permutations)#,
       # LLlaplace = LL.test(X, Y, Z, 'laplace', permutations),
       # LLlevy = LL.test(X, Y, Z, 'levy', permutations)
     )

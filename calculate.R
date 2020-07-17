@@ -56,3 +56,17 @@ Power('cauchy', 'mean', c(0.2, 1), n = 1000, prefix = "L2LLc", randomization = F
 Power('cauchy', 'mean', c(0.1, 1), n = 5000, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.2, 1), n = 1250, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(0.5, 1), n = 200, prefix = "L2LLc", randomization = FALSE)
+
+Power('cauchy', 'mean', c(1/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(2/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(3/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(4/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(7/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(10/sqrt(1000), 1), n = 1000, prefix = "L2LLc", randomization = FALSE)
+
+Power('cauchy', 'mean', c(1/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(2/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(3/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(5/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(7/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+Power('cauchy', 'mean', c(9/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
