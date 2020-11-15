@@ -30,7 +30,7 @@
   $ah$: $a=0.419$} \\
   \hline
   h & $L_2$ & $n.pL_2$ & $formula$ & $ah+bh^2$ & $ah$ & $n.pLL_{cauchy}$ & $wilcox.test$ & $ks.test$ \\ \hline
-  \input{tables/L2LLc_not_perm,n=1000,M=1000,D=800}
+  \input{../tables/L2LLc_not_perm,n=1000,M=1000,D=800}
   \hline
 \end{longtable}
 
@@ -41,7 +41,7 @@
   $ah$: $a=0.416$} \\
   \hline
   h & $n.pL_2$ & $formula$ & $ah+bh^2$ & $ah$ & $n.pLL_{cauchy}$ & $cv(n.pL_2)$ & $cv(n.pLL_{cauchy})$ \\ \hline
-  \input{tables/not_perm,n=1000,M=10000}
+  \input{../tables/not_perm,n=1000,M=10000}
   \hline
 \end{longtable}
 
@@ -52,7 +52,7 @@
   $ah$: $a=0.4118$} \\
   \hline
   h & $L_2$ & $n.pL_2$ & $formula$ & $ah+bh^2$ & $ah$ & $n.pLL_{cauchy}$ & $cv(n.pL_2)$ & $cv(n.pLL_{cauchy})$ & $wilcox.test$ & $ks.test$ \\ \hline
-  \input{tables/L2LLc_not_perm,n=500,M=1000,D=800}
+  \input{../tables/L2LLc_not_perm,n=500,M=1000,D=800}
   \hline
 \end{longtable}
 
@@ -63,7 +63,7 @@
   $ah$: $a=0.4138$} \\
   \hline
   h & $n.pL_2$ & $formula$ & $ah+bh^2$ & $ah$ & $n.pLL_{cauchy}$ \\ \hline
-  \input{tables/not_perm,n=250,M=1000}
+  \input{../tables/not_perm,n=250,M=1000}
   \hline
 \end{longtable}
 
@@ -74,7 +74,7 @@
   $ah$: $a=0.3813$} \\
   \hline
   h & $n.pL_2$ & $formula$ & $ah+bh^2$ & $ah$ & $n.pLL_{cauchy}$ \\ \hline
-  \input{tables/not_perm,n=50,M=1000}
+  \input{../tables/not_perm,n=50,M=1000}
   \hline
 \end{longtable}
 
@@ -82,7 +82,7 @@
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок n, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   n & $F_2$ & $L_{2}$ & $LL_{cauchy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/L2LLc,M=1000,D=800}
+  \input{../tables/L2LLc,M=1000,D=800}
   \hline
 \end{longtable}
 
@@ -90,7 +90,7 @@
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=1000$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{2}$ & $LL_{cauchy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/L2LLccauchy,n=1000,M=1000,D=800}
+  \input{../tables/L2LLccauchy,n=1000,M=1000,D=800}
   \hline
 \end{longtable}
 
@@ -110,7 +110,7 @@
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=200$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/cauchy,n=200,M=1000,D=800}
+  \input{../tables/cauchy,n=200,M=1000,D=800}
 \end{longtable}
 
 \newpage
@@ -119,35 +119,35 @@
   \caption{Мощность тестов для распределения Коши без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/cauchy,n=50,M=1000,D=800}
+  \input{../tables/cauchy,n=50,M=1000,D=800}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для Нормального распределения без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{norm}^{var.eq}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/norm,n=50,M=1000,D=800}
+  \input{../tables/norm,n=50,M=1000,D=800}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Леви без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/levy,n=50,M=1000,D=800}
+  \input{../tables/levy,n=50,M=1000,D=800}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Лапласа без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/laplace,n=50,M=1000,D=800}
+  \input{../tables/laplace,n=50,M=1000,D=800}
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Мощность тестов для распределения Лог-Коши без рандомизации, размер выборок $n=50$, 1000 итераций, 800 перестановок в каждой итерации} \\
   \hline
   $F_2$ & $L_{1}$ & $L_{2}$ & $L_2^*$ & $L_{\infty}$ & $LL_{norm}$ & $LL_{cauchy}$ & $LL_{laplace}$ & $LL_{levy}$ & $LL_{logcauchy}$ & wilcox.test & ks.test \\ \hline
-  \input{tables/logcauchy,n=50,M=1000,D=800}
+  \input{../tables/logcauchy,n=50,M=1000,D=800}
 \end{longtable}
 
 \end{document}

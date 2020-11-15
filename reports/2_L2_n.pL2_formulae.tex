@@ -1,0 +1,49 @@
+\documentclass{report}
+\usepackage[utf8x]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{amsmath,accents}
+\usepackage[left=0.1cm, right=0.1cm, top=1.5cm, bottom=1.5cm]{geometry}
+
+\captionsetup{width=\linewidth}
+\begin{document}
+
+\begin{eqnarray*}
+  L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
+  n.pL_2 &=& -\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2),\\
+  && \text{critical value of a non-permutation criterion calculated by 1'000'000 iterations}, \\
+  formula &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),\quad z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389
+\end{eqnarray*}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           размер выборок 500, 1000 итераций, 800 перестановок в $L_2$} \\
+  \hline
+  h & $L_2$ & $n.pL_2$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
+  2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
+  3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
+  5 & 50.9  & 51       & 49.5      & 48            & 57.9      \\
+  7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9      \\
+  9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2      \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Мощность тестов для распределения Коши, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           размер выборок 1000, 1000 итераций, 800 перестановок в $L_2$} \\
+  \hline
+  h  & $L_2$ & $n.pL_2$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1  & 6.3   & 6        & 6.8       & 6.8           & 8.1       \\
+  2  & 11.4  & 11.9     & 12.2      & 12.9          & 13.4      \\
+  3  & 21    & 20.9     & 21.5      & 22.8          & 26.2      \\
+  4  & 34.9  & 34.6     & 34.4      & 36.1          & 43        \\
+  7  & 84    & 84.5     & 77.8      & 79.5          & 87.6      \\
+  10 & 99    & 98.9     & 97.4      & 96.8          & 99.2      \\ \hline
+\end{longtable}
+
+\end{document}
