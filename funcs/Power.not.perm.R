@@ -21,25 +21,33 @@ Power.cauchy.not.perm <- function(type, par2, par1 = c(0, 1), n = 50, M = 1000, 
   dim(X.set) <- c(M, n)
   dim(Y.set) <- c(M, n)
 
-  L2.thresholds <- apply(
-    sapply(1:K, function(i) {
-      if (i %% 10000 == 0) {
-        print(paste0(i, ', ', Sys.time() - start.time))
-      }
-      x <- rcauchy(n, par1[1], par1[2])
-      y <- rcauchy(n, par1[1], par1[2])
-      L2 <- L2.test.stat(x, y)
-      c(
-        L2,
-        L2.modified.test.stat(x, y, n, n, L2)
-      )
-    }
-    ), MARGIN = 1, function(row) { quantile(row, 0.95) } )
+  L2.thresholds <- if (par1 == c(0, 1) && K == 1000000 && alpha == 0.05) {
+    switch(toString(n), "100" = c(2.540890150489627194474e+04, 2.215180636276176465160e-02), 
+                        "500" = c(5.871542962609820533544e+05, 4.411051083924476777509e-03), 
+                        "1000" = c(2.303866020282780285925e+06, 2.206212548360962470706e-03))
+  } 
+  # if (is.null(L2.thresholds)) {
+  #   L2.thresholds <- apply(
+  #     sapply(1:K, function(i) {
+  #       if (i %% 10000 == 0) {
+  #         print(paste0(i, ', ', Sys.time() - start.time))
+  #       }
+  #       x <- rcauchy(n, par1[1], par1[2])
+  #       y <- rcauchy(n, par1[1], par1[2])
+  #       L2 <- L2.test.stat(x, y)
+  #       c(
+  #         L2,
+  #         L2.modified.test.stat(x, y, n, n, L2)
+  #       )
+  #     }
+  #     ), MARGIN = 1, function(row) { quantile(row, 1-alpha) } )
+  # }
+  print(L2.thresholds)
 
-  mu_x <- if (par2[1] == 0) 1 else par2[1]
-  LL.threshold <- quantile(sapply(1:K, function(i) {
-    LL.cauchy.test.stat(rcauchy(n, par1[1], par1[2]), mu_x)
-  }), 0.95)
+  # mu_x <- if (par2[1] == 0) 1 else par2[1]
+  # LL.threshold <- quantile(sapply(1:K, function(i) {
+  #   LL.cauchy.test.stat(rcauchy(n, par1[1], par1[2]), mu_x)
+  # }), 0.95)
 
   res <- rowMeans(sapply(1:M, function(i) {
     if (i %% 1000 == 0) {
@@ -50,15 +58,15 @@ Power.cauchy.not.perm <- function(type, par2, par1 = c(0, 1), n = 50, M = 1000, 
 
     L2.stat <- L2.test.stat(X, Y)
     L2.modified.stat <- L2.modified.test.stat(X, Y, n, n, L2.stat)
-    LL.cauchy.stat <- LL.cauchy.test.stat(Y, mu_x)
+    # LL.cauchy.stat <- LL.cauchy.test.stat(Y, mu_x)
 
     c(
       L2.not.perm          = L2.stat > L2.thresholds[1],
       L2.modified.not.perm = L2.modified.stat > L2.thresholds[2],
-      LL.cauchy.not.perm   = LL.cauchy.stat > LL.threshold,
+      # LL.cauchy.not.perm   = LL.cauchy.stat > LL.threshold,
       c(
-        wilcox.test = wilcox.test(X, Y)$p.value#,
-        #ks.test     = ks.test(X, Y)$p.value,
+        wilcox.test = wilcox.test(X, Y)$p.value,
+        ks.test     = ks.test(X, Y)$p.value#,
         #t.test      = t.test(X, Y)$p.value,
         #var.test    = var.test(X, Y)$p.value
       ) < alpha
@@ -66,9 +74,9 @@ Power.cauchy.not.perm <- function(type, par2, par1 = c(0, 1), n = 50, M = 1000, 
   }))
 
   print(res)
-  print(c(L2.thresholds, LL.threshold))
+  print(c(L2.thresholds))#, LL.threshold))
 
-  saveRDS(list(c(L2.thresholds, LL.threshold), res), res.name)
+  saveRDS(list(c(L2.thresholds), res), res.name)#, LL.threshold), res), res.name)
 }
 
 L2.test.stat <- function(x, y) {
