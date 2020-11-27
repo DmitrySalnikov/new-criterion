@@ -1,0 +1,794 @@
+%\documentclass[12pt,slidestop,usepdftitle=false]{beamer}
+\documentclass[slidestop,usepdftitle=false]{beamer}
+%\documentclass[12pt]{beamer}
+\usepackage[accumulated]{beamerseminar}
+\usepackage{beamertexpower}
+\usepackage{beamerthemeshadow}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{graphics}
+%\usepackage{epsfig}
+\usepackage{pgf,xcolor}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{caption}
+
+%\mode<article>
+%\usepackage{placeins}
+%\usepackage{amssymb}
+%\usepackage{latexsym}
+%\usepackage{amsthm}
+%\usepackage{enumerate}
+%\usepackage{epsfig}
+%\usepackage{epstopdf}
+
+
+%\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{proposition}{Proposition}[section]
+\newcommand{\X}{{{\cal X}}}
+\newcommand{\B}{{{\cal B}}}
+\newcommand{\ds}{\displaystyle}
+\newtheorem{algorithm}{Algorithm}[section]
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\argmin}{\operatorname*{argmin}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Max}{\max\limits}
+\newcommand{\Min}{\min\limits}
+\newtheorem{remark}{Remark}[section]
+
+\newcommand{\bea}{\begin{eqnarray*}}
+\newcommand{\eea}{\end{eqnarray*}}
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newtheorem{assumption}{Assumption}[section]
+
+\def\figurename{\bf Figure}
+\def\tablename{\bf Table}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{exam}[thm]{Example}
+
+
+
+\newcommand{\eop}{\quad \hfill%
+  \mbox{\vrule height 8pt width 0.8pt\vrule height 0.8pt width 5pt\hskip-5pt%
+  \vrule height 8pt depth -7.2pt width 5pt\vrule height 8pt width 0.8pt}}
+
+\def\3{\ss}
+\newcommand{\er}{\mathbb{R}}
+\newcommand{\pa}{\partial}
+\newcommand{\al}{\alpha}
+\newcommand{\bet}{w}
+\newcommand{\de}{\delta}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\ka}{\kappa}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cX}{\mathcal{X}}
+
+\newcommand{\ot}{\leftarrow}
+\newcommand{\hs}{\hspace*{10pt}}
+\newcommand{\Hs}{\hspace*{20pt}}
+%\input{beamerexample-lecture-style.tex}
+% CHANGED: Moved \title and \author outside of slide
+%\pagestyle{plain}
+\usepackage{fancyhdr}
+%\setbeamertemplate{caption}[numbered]
+
+\rhead[\fancyplain{}{\bfseries{Optimal Design of Experiments -
+Theory and Application }}]%
+      {\fancyplain{}{\bfseries\thepage}}%
+\rfoot[\fancyplain{}{\bfseries{Optimal Design of Experiments -
+Theory and Application }}]%
+      {\fancyplain{}{\bfseries\thepage}}%
+\cfoot{}
+%{\usepackage{beamerclassic}
+\DeclareMathOperator*{\argsup}{arg\,sup}
+\DeclareMathOperator*{\arginf}{arg\,inf}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\begin{document}
+
+
+
+\title{New test for equality of two disributions}
+
+\begin{slide}
+
+
+\author{\bf { Viatcheslav Melas and Dmitrii Salnikov}\\
+{\it{St.Petersburg State University, Russia}}}
+\date{}
+
+
+\maketitle
+
+\end{slide}
+
+\begin{slide}
+
+\tableofcontents \setcounter{section}{0}
+\setcounter{subsection}{0}
+\end{slide}
+\section{Introduction} \label{sec1}
+
+\begin{slide}
+\frametitle{ 1. Introduction}
+{\bf We introduce a new test for equality of two distributions in a class of models.
+
+\bigskip
+
+
+Let us consider the classical problem of testing hypothesis on the equality of two distributions
+\begin{equation}
+  \label{H0}
+  H_0\,:\,F_1 = F_2
+\end{equation}
+against the alternative
+\begin{equation}
+  \label{H1}
+  H_1\,:\,F_1 \not= F_2
+\end{equation}}
+
+
+
+
+
+
+\end{slide}
+
+\begin{slide}
+\bigskip
+It is well known [see e.g. (Lehman,1986)] that in the case when both distributions differ only by the means and are normal the classical Student test has a few optimal properties.
+\bigskip
+
+
+If the distributions are not normal but still differs only by means a widely popular Wilcoxon-Mann-Whitney (WMW) U-statistic is often used instead.
+\bigskip
+
+However, it can be shown that if two normal populations differ only in variances, the power of WMW test is very low.
+\bigskip
+
+If distributions are arbitrary there are some universal techniques such as tests by Kolmogorov - Smirnov and Cramer-von Mises   that can be applied but in many cases these tests can be not powerful.
+
+
+\end{slide}
+
+\begin{slide}
+\bigskip
+
+
+Zech and Aslan (2005) suggested the test basing on U-statistics with the logarithmic kernel and provided its numerical justification for one and many dimensional cases in comparison with a few alternative techniques.
+\bigskip
+
+However,to the best authors knowledge there are no analytical results about its asymptotic power. Here we introduce a similar but different test and provide a few analytical results on its power.
+\end{slide}
+
+\section{The new test and its statistical motivation}
+
+
+\begin{slide}
+\frametitle{The new test and its statistical motivation}
+
+Assume that the distribution functions
+$F_1$ and $F_2$ belongs to the class of distribution functions of random values  $\xi$, such that
+\begin {equation}\label{Class}
+E [\ln (1+ \xi^2)     ] < \infty.
+\end{equation}
+Many distributions and, in particular, the Caushy distribution have this property.
+ \bigskip
+
+Among all distributions with given parameters of shift and scale having this property the Caushy's one have the maximum entropy.\\
+(Note that Zech and Aslan (2005) took $g(x)=\ln(|x|)$).
+
+\end{slide}
+\begin{slide}
+Consider the following test
+\begin{equation}
+ \Phi_{A}=\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n} g(|X_i-X_j|),
+\Phi_{B}=\frac{1}{m(m-1)}\sum_{1\leq i<j\leq m} g(|Y_i-Y_j|),
+\end{equation}
+\begin{equation}\label{K1}
+\Phi_{AB}=-\frac{1}{nm}\sum_{i=1}^n\sum_{j=1}^m g(|X_i-Y_j|),
+\Phi_{nm}=\Phi_{A}+ \Phi_{B}+ \Phi_{AB},
+\end{equation}
+where
+$$
+g(|u|)= -\ln (1+|u|^2),
+$$
+is under a constant term precision the logarithm of the density of the standard Caushy distribution.
+\end{slide}
+\begin{slide}
+
+{\bf We would like to have a test that is appropriate for two distributions that differ only by shift and scale parameters and belong to a rather general class of distributions}.
+\bigskip
+
+In particular, we consider the class of distributions satisfying (3), but the approach can be generalized for other classes of distributions.\\
+\bigskip
+Consider the class of distributions given by the property (\ref{Class}).  Note that would be parameters are know the test basing on likelihood ratio is the most powerful among tests with a given parameters.
+
+\bigskip
+{\bf The test suggested above can be considered as an approximation of logarithm of this ratio for the Caushy distribution.}
+
+
+
+
+
+
+\end{slide}
+\section{The analytical study of asymptotic power}
+\begin{slide}
+\frametitle{The analytical study of asymptotic power}
+Let us consider the case of two distributions having the property (\ref{Class}) and, in particular, the two that differ only by the shift parameters. To simplify notations assume that $m=n$. The case $m\ne n$ is similar.
+Now the criterion  (4)  assumes the form
+\begin{equation}
+T_n=\Phi_{nn}= \frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (X_i - Y_j)^2)-\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (X_i - X_j)^2)
+\end{equation}
+\begin{equation}
+-  \frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (Y_i - Y_j)^2).
+\end{equation}
+Denote by $C(u,v)$ the Caushy distribution with shift $u$ and scale parameter $v$.
+\end{slide}
+\begin{slide}
+The basic analytical results of the present paper consist in the following two theorems
+\begin{theorem}Consider the problem of testing hypothesis on the equality of two distributions (1)-(2) where both functions have the property (3).
+Then under the condition $n \to \infty$
+the distribution function of $nT_n$  converges under $H_0$ to that of the random value
+\begin{equation*}
+(aZ + b)^2,
+\end{equation*}
+where  $Z$ has the normal distribution with zero expectation and variance equal to 1, a and
+b are some numbers.
+\end{theorem}
+\end{slide}
+\begin{slide}
+\begin{theorem}
+Let under assumtions of the previuos theorem $F_1= C(0,1),F_2=C(\theta,1),$
+where
+$\theta=h/\sqrt{n},h$ is an arbitrary given number. Then
+
+$a^2 =(2/3)\ln 3, b=0$
+for the case of $H_0$ and
+$a^2= (2/3)\ln 3, b= h/3$
+for  $H_1$.
+In this case the power of the criterion $T_n$ with significance $\alpha$ is asymptotically equal to that is given by the formula
+$$
+Pr\{Z\geq z_{1-\alpha/2}-(1/\sqrt{6\ln 3})h\}
++ Pr\{Z\leq - z_{1-\alpha/2}-(1/\sqrt{6\
+ln 3})h\}
+$$
+
+\end{theorem}
+\end{slide}
+
+\section{Simulation results}
+
+ \begin{slide}
+ We found by a stochastic simulation that the formula present an approximation of the power of the test $T_n$ with a good accuracy.
+ \bigskip
+
+ At the next tables resuts for cases $n$ = 500, 1000 , $h$=1,2,3,5,7,9 with $\alpha=0.05$ are given.
+
+\bigskip
+
+Note that in all these cases the power of  $T_n$ and  that of the Wilcoxon-Mann-Whitney and the
+Kolmogorov - Smirnov tests were approximately equal to each other.
+
+\end {slide}
+
+\begin{slide}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  h & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
+  2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
+  3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
+  5 & 50.9  & 51       & 49.5      & 48            & 57.9      \\
+  7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9      \\
+  9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2      \\ \hline
+\end{longtable}
+\end{slide}
+
+\begin{slide}
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  h  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1  & 6.3   & 6        & 6.8       & 6.8           & 8.1       \\
+  2  & 11.4  & 11.9     & 12.2      & 12.9          & 13.4      \\
+  3  & 21    & 20.9     & 21.5      & 22.8          & 26.2      \\
+  4  & 34.9  & 34.6     & 34.4      & 36.1          & 43        \\
+  7  & 84    & 84.5     & 77.8      & 79.5          & 87.6      \\
+  10 & 99    & 98.9     & 97.4      & 96.8          & 99.2      \\ \hline
+\end{longtable}
+\end{slide}
+
+\begin{slide}
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.106 & 0.119 & 0.054 & 0.054 \\
+  4 & 0.276 & 0.298 & 0.055 & 0.087 \\
+  6 & 0.494 & 0.536 & 0.055 & 0.159 \\
+  8 & 0.688 & 0.735 & 0.055 & 0.25 \\
+  10 & 0.842 & 0.871 & 0.052 & 0.364 \\
+  \hline
+\end{longtable}
+\end{slide}
+
+\begin{slide}
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.094 & 0.1 & 0.045 & 0.063 \\
+  4 & 0.285 & 0.306 & 0.048 & 0.14 \\
+  6 & 0.545 & 0.565 & 0.05 & 0.261 \\
+  8 & 0.795 & 0.805 & 0.052 & 0.433 \\
+  10 & 0.93 & 0.94 & 0.052 & 0.622 \\
+  \hline
+\end{longtable}
+\end{slide}
+
+\begin{slide}
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.102 & 0.105 & 0.05 & 0.076 \\
+  4 & 0.324 & 0.338 & 0.052 & 0.138 \\
+  6 & 0.611 & 0.628 & 0.052 & 0.279 \\
+  8 & 0.848 & 0.856 & 0.052 & 0.474 \\
+  10 & 0.961 & 0.971 & 0.054 & 0.679 \\
+  \hline
+\end{longtable}
+\end{slide}
+
+\section{Proof of Theorems}
+\begin {slide}
+\frametitle{4.Proof of Theorems}
+
+
+\begin{lemma} For $g(x)= x^2$ the following identity holds
+$$
+\Phi_{nm}= (\bar x - \bar y)^2,
+\bar x = (\sum_{i=1}^n X_i)/n,
+\bar y = (\sum_{i=1}^m Y_i)/m.
+$$
+\end{lemma}
+
+The proof follows from the known formula (Hoeffding, 1946)
+
+
+$$
+\frac {1}{n(n-1)}\sum_{1\leq i<j\leq n
+} (X_i-X_j)^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2.
+$$
+
+\end{slide}
+
+
+
+\begin{slide}
+Assume that $H_0$ holds. Let  $C$ be an arbitrary positive number,
+$$
+\tilde{X}=(\tilde{X_{1}},\ldots,\tilde{X_{n}}),\,\,\,
+\tilde{Y}=(\tilde{Y_{1}},\ldots, \tilde{Y_{n}}),
+$$
+where $\tilde{X_{i}}=X_{i}$, if $
+|X_{i}| \leq C$ and
+ $\tilde{X_i}=C$ if $X_{i}>0$,
+  $\tilde{X_i}=-C$ if $X_{i}<0$ otherwise. And $\tilde{Y_{i}}$ are determined similarly. Note that  $0 \leq \ln (1+x^2) \leq x^2$. Therefore there exists a value $t$ that depends from $\tilde{X}$ and $\tilde{Y}$ such that (our {\bf basic equation})
+\begin{equation*}
+n\{\frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (\tilde{X_{i}} - \tilde{Y_{j}})^2)-\frac{1}{n(n-1)}\sum_{i<j} \ln(1 + (\tilde{X_{i}} - X_j)^2) -
+\end{equation*}
+\begin{equation*}
+ \frac{1}{n(n-1)}\sum_{i<j}  \ln(1 + (\tilde{Y_{i}} - \tilde{Y_{j}})^2)]^2\}\}=
+t
+(\sum_{i=1}^n \tilde{X_{i}}/\sqrt{n}-\sum_{i=1}^n \tilde{Y_{i}}/\sqrt{n})^2.
+\end{equation*}
+
+ \end{slide}
+
+ \begin{slide}
+ \bigskip
+\bigskip
+
+
+ Note  that for distributions of random values $ \xi^2$  with finite expectation of $\ln (1+ \xi^2)$ {\bf it can be shown by standard but tedious calculations that the variance of the left hand side of the basic equation is finite}.
+
+\bigskip
+\bigskip
+
+ Therefore the variance of the right hand side of the basic equation is also finite for arbitrary $C$.
+\end{slide}
+\begin{slide}
+\bigskip
+\bigskip
+
+Passing to the limit with $n\to \infty$ we obtain due to the central limit theorem that the right hand side has the limit distribution of the form $(aZ+b)^2$ where  $Z$ has the normal distribution with zero expectation and variance equal to 1.
+
+\bigskip
+\bigskip
+
+And its variance  is equal to the variance of the left hand side  of the basic equation. Since $C$ is arbitrary we obtain that the limiting distribution has the required form for $H_0$.
+ \end{slide}
+\begin{slide}
+
+\begin{lemma}If $X$ and $Y$ are independent random values with the distribution
+$C(0,1)$, then
+\begin{equation*}
+ E \ln(1+ (X- Y)^2)= \ln 9,\,\,\,\,
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9
+ =
+ln(1+ \theta^2/9).
+\end{equation*}
+\end{lemma}
+In order to prove this Lemma we need the following integrals
+\begin{equation*}
+\int_{R}
+\frac {\ln(1+(x-y)^2)}{\pi(1+y^2)} dy = \ln(4+x^2),
+\end{equation*}
+\begin{equation*}
+\quad \int_{R} \frac {\ln(4+x^2)}{\pi(1+x^2)} dx = \ln 9,
+\end{equation*}
+
+\end{slide}
+\begin{slide}
+\begin{equation*}
+\int_{R} \frac{\ln(4 +(x +\theta)^2 )}{\pi(x^2 +1)} dx = \ln(9+\theta^2).
+\end{equation*}
+%[see  \cite{PrudBrychMarich1981}, %formula (2.6.14.19)].
+
+\bigskip
+
+Using these integrals we obtain
+\begin{equation*}
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9  = 2\int_{R} \int_{R} \frac{\ln(1+(x-y-\theta)^2)}{\pi^2(1+x^2)(1+y^2)} dx dy -\ln 9
+\end{equation*}
+\begin{equation*}
+= \int_{R}\frac{\ln(4 +(y+\theta)^2)}{\pi(1+y^2)} dy- \ln 9= \ln(9+\theta^2) -\ln 9 = \ln(1+ \theta^2/9).
+\end{equation*}
+Submitting here  $\theta=0$ we obtain both formulas of the Lemma.
+
+\end{slide}
+\begin{slide}
+Note that $\theta^2=nh^2$ and
+$$
+\lim_{n\to \infty} n \ln(1+ \theta^2/9)= (1/9)h^2.
+$$
+Therefore we obtain for the right hand side of the basic equation with some algebra
+\begin{equation*}
+3a^4 + \frac{(2\ln 9 )h^2}{9} + \frac{h^4}{81}.
+ \end{equation*}
+ And we obtain
+
+$$
+b=\frac{1}{3} h,\,\,a^2=\frac{2}{3}\ln 3.
+$$
+The formula for the power follows from the form of the limiting distribution.
+\end{slide}
+\section{References}
+\begin{slide}
+\frametitle{References}
+ Lehmann E. (1986).  Testing  Statistical  Hypotheses,  Probability  and  Statistics  Series,  Wiley.
+
+Zech,  G. and Aslan, B.(2005).   New test for the multivariate two-sample problem based on the concept of minimum energy.Journal of Statistical Computation and Simulation 75(2), 109–119.
+
+ Wassily Hoeffding, A class of statistics with asymptotically normal distribution.
+Ann. Math. Statistics 19 (1948), 293–325.
+
+Buening, H. (2001). Kolmogorov-Smirnov- and Cram`er-von Mises type two-sample tests with various weight functions. Communications in Statistics-
+Simulation and Computation, 30, 847-865.
+\end{slide}
+\begin{slide}
+I.S. Gradshteyn and I.M. Ryzhik. Table of Integrals, series and products.Seventh edition AMSTERDAM,BOSTON,HEIDELBERG, LONDON
+
+
+
+A. P. Prudnikov, Yu. A. Brychkov, and O. I. Marichev, Integrals and Series. Elementary Functions (Nauka, Moscow, 1981) [in Russian].
+\end{slide}
+\section{Conclusion}
+\begin{slide}
+\frametitle{Conclusion}
+In this paper we suggested a new test for equality of two distributions. Its asymptotic power was analytically established for the case of Caushy distributions that differ only by shift.
+
+\bigskip
+By stochastic simulation we found that in this case its power is approximately equal to that of the Wilcoxon-Mann-Whitney and the
+Kolmogorov - Smirnov tests. But if the distributions differ also by the scale parameter simulations show that the new test is considerably better than the alternative tests.
+\end{slide}
+\section{Acknowledgments}
+\begin{slide}
+\frametitle{Acknowledgments}
+\bigskip
+\bigskip
+The authors are indebted to professor
+ Yakov Nikitin for the help in calculating the  integrals. Work of Viatcheslav Melas was supported by RFBR (grant N 20-01-00096).
+ \bigskip
+
+ Also we would like to thank organizers and participants who visited this presentation.
+\end{slide}
+\end{document}
+
+\begin{slide}
+Define
+\begin{align*}
+\mathbf{J}_{i,j}(y) &= \mathbf{J}_{i,j}(\widehat{\theta}_{i,j},y) = \left( \frac{\sqrt{f_i(y,x_k,\overline{\theta}_i)}}{f_j(y,x_k,\widehat{\theta}_{i,j})}
+\frac{\partial f_j(y,x_k,\theta_{i,j})}{\partial \theta_{i,j}}\Big|_{{\theta}_{i,j} = \widehat{\theta}_{i,j}}   \right)_{k=1}^n \in \mathbb{R}^{n \times d_j}, \\
+\mathbf{R}_{i,j} &= \mathbf{R}_{i,j}(\widehat{\theta}_{i,j}) = \left( \int \frac{\partial f_j(y,x_k,\theta_{i,j})}{\partial
+\theta_{i,j}}\Big|_{{\theta}_{i,j} = \widehat{\theta}_{i,j}}   \frac{f_i(y,x_k,\overline{\theta}_i)}{f_j(y,x_k,\widehat{\theta}_{i,j})} d\mu (y) \right)_{k=1}^n \in \mathbb{R}^{n \times d_j},
+\end{align*}
+and consider a linearized version of the function $g$, that is
+\begin{align} \label{gbar}
+\overline{g}(\omega) =
+ \sum_{i,j=1}^{\nu} p_{i,j}
+  \min_{\alpha_{i,j}} \sum_{k=1}^n \omega_k
+   \left\{
+    \int \log
+     \left\{
+      \frac{f_i(y,x_k,\overline{\theta}_i)}{f_j(y,x_k,{{\widehat{\theta}_{i,j}})}}
+     \right\}
+     f_i(y,x_k,\overline{\theta}_i) d \mu (y)
+   \right. \\ \notag
++
+   \left. \alpha_{i,j}^T (\mathbf{R}_{i,j}^T)_k - \frac{1}{2} \int \alpha_{i,j}^T (\mathbf{J}^T_{i,j}(y))_k (\mathbf{J}_{i,j}(y))_k  \alpha_{i,j} d \mu (y) \right\}.
+\end{align}
+
+\end{slide}
+\begin{slide}
+Note that the minimum with respect to the parameters $\alpha_{i,j} \in \R^{d_j}$ is achieved for
+\begin{align*}
+ \widehat{\alpha}_{i,j} = \left( \int \mathbf{J}_{i,j}^T(y) \mathbf{\Omega} \mathbf{J}_{i,j}(y) d \mu (dy)
+\right)^{-1} \mathbf{R}_{i,j}^T  \omega,
+ \end{align*}
+where the matrix $\mathbf{\Omega}$ is defined by $\mathbf{\Omega}=\mbox{diag}(\omega_1,\dots,\omega_n)$
+ and $\omega= (\omega_1,\dots,\omega_n)^T$.
+ For the following discussion we define  by $\Delta = \{ \omega \in \mathbb{R}^n ~|~\omega_i  \geq 0 ~(i=1,\ldots ,n) \; \sum_{i=1}^n \omega_i = 1
+\}$ the simplex in $\R^n$.
+\begin{lemma} \label{lem1}
+If Assumptions \ref{assum1} and  \ref{assum2} are satisfied, then
+each maximizer of the function $g(\cdot )$  in $\Delta$ is a maximizer of $\overline{g}(\cdot )$  in $\Delta$ and vice versa. Moreover,
+\begin{align*}
+\max_{\omega \in \Delta } g(\omega) = \max_{\omega \in \Delta} \overline{g}(\omega).
+\end{align*}
+\end{lemma}
+\end{slide}
+
+\begin{slide}
+\bigskip
+
+ With the notations
+\begin{align*}
+\mathbf{b}_{i,j} = \mathbf{b}_{i,j}({\widehat{\theta}_{i,j}}) = \left( \int \log \left\{\frac{f_i({y,x_k},\overline{\theta}_i)}{f_j({y,x_k},{\widehat{\theta}_{i,j}})} \right\} f_i({y,x_k},\overline{\theta}_i)
+{\mu(dy)} \right)_{k=1}^n
+\end{align*}
+we have
+\begin{align*}
+\overline{g}(\omega) = \mathbf{b}^T \omega -\omega^T \mathbf{Q}(\omega)\omega
+\end{align*}
+where the vector $\mathbf{b} \in \mathbb{R}^n$ and the $n \times n$ matrix $\mathbf{Q}$ are  defined by
+\begin{align*}
+\mathbf{Q}(\omega) = \mathbf{R}_{i,j}\left(\int \mathbf{J}_{i,j}^T(y)\mathbf{\Omega}(\omega)\mathbf{J}_{i,j}(y){\mu(dy)}\right)^{-1} \mathbf{R}_{i,j}^T,
+\end{align*}
+ and $\mathbf{b} = \Sigma^\nu_{i,j=1} p_{i,j} \mathbf{b}_{i,j}$,
+respectively.
+\end{slide}
+\begin{slide}
+If we ignore the dependence of the matrix $\mathbf{Q}  (\omega ) $   and consider this matrix  as fixed
+for a given matrix $\mathbf{\Omega} =
+\mathrm{diag}(\overline{\omega}_1,\dots,\overline{\omega}_{n})$,
+we obtain  a quadratic programming problem, that is
+\begin{align}
+&\phi(\omega,\overline{\omega}) = -\omega^{\mathrm{T}} \mathbf{Q(\overline{\omega})} \; \omega + \mathbf{b}^{\mathrm{T}} \omega \rightarrow \max_{\omega \in \Delta}.  \label{iteration}
+\end{align}
+This problem    can now be solved iteratively substituting each time the solution obtained in the previous iteration instead of $\overline{\omega}$.
+
+\end{slide}
+\begin{slide}
+
+\bigskip
+
+ Lopez-Fidalgo et.al (2007) considered the regression model with log-normal distribution
+with parameters  $ \mu (x,\theta)$ and $\sigma^2(x,\theta)$. This means that the  mean and the variance
+are given by
+ \begin{eqnarray*}
+ \mathbb{E}[Y] &=& \eta(x,\theta) = \exp \Bigl \{ \frac {\sigma^2(x,\theta)}{2} + \mu (x,\theta) \Bigr \}, \\
+  \mbox{Var}(Y) &=& v^2(x,\theta) =  \eta^2 (x,\theta) \{ \exp \{ \sigma^2(x,\theta) \} - 1  \}~,
+ \end{eqnarray*}
+ respectively,
+and the density  of the response $Y$ is given by
+ \begin{align*}
+ f(y,x, \theta) = \frac{1}{x \sqrt{2 \pi} \sigma(x,\theta)} \exp\Big \{-\frac{\left\{ \log(y) - \mu(x,\theta) \right\}^2}{2 \sigma^2(x,\theta)}\Big\}
+ \end{align*}
+ \end{slide}
+ \begin{slide}
+ In the paper~Lopez-Fidalgo et.al (2007)  it was shown that the Kullback-Leibler distance between
+ two  log-normal densities with parameters $\mu_\ell  (x,\theta_\ell) $ and $\sigma_\ell^2(x,\theta_\ell)$
+ ($\ell=i,j$) is given by
+\begin{align} \label{fin flop}
+I_{ij} (x,{\theta}_i, {\theta}_{i,j})  =  \frac{1}{2}\Bigl\{s_{i,j}(x,\theta_{i,j}) + \frac{\left[\mu_i(x,\theta_i)-\mu_j(x,\theta_{i,j})\right]^2}{\sigma_i^2(x,\theta_i)}-1\Bigr\},
+\end{align}
+where
+\begin{align*}
+ s_{i,j}(x,\theta_{i,j}) = \log\Bigl[\frac{\sigma_i^2(x,\theta_i)}{\sigma_j^2(x,\theta_{i,j})}\Bigr] + \frac{\sigma_j^2(x,\theta_{i,j})}{\sigma_i^2(x,\theta_i)},
+\end{align*}
+and
+\begin{align*}
+\sigma_i^2(x,\theta_i) &= \log\left[1+v^2_i(x,\theta_i)/\eta_i^2(x,\theta_i)\right],\\
+\mu_i(x,\theta_i) &= \log\left[\eta_i(x,\theta_i)\right] - \sigma^2_i(x,\theta_i)/2.
+\end{align*}
+\end{slide}
+\begin{slide}
+Now a straightforward calculation gives for the function $\bar g$ in \eqref{gbar}
+ the representation
+\begin{align*}
+\overline{g}(\omega) &= \frac{1}{2} \sum_{i,j=1}^{\nu} \min_{\alpha_{i,j}} \left[ \alpha_{i,j}^T \mathbf{J}_{i,j}^T \mathbf{\Omega}_i \mathbf{J}_{i,j} \alpha_{i,j} - 2 \omega^T \mathbf{R}_{i,j} \alpha_{i,j} + \mathbf{b}_{i,j}^T \omega \right],
+\end{align*}
+where $\mathbf{\Omega}_i = \mbox{diag} \left( \omega_1, \dots, \omega_n \right)$,
+\begin{align*}
+\mathbf{J}_{i,j} &= \left( \frac{\frac{\partial \mu_j(x_k,\theta_{i,j})}{\partial \theta_{i,j}}\Big|_{\theta_{i,j} = \widehat{\theta}_{i,j}}}{\sigma_i(x_1,\overline{\theta}_i)} \right)_{k = 1,\dots,n}; \\
+\mathbf{R}_{i,j} &= \left( \frac{\big[\mu_i(x_k,\overline{\theta}_i)-\mu_j(x_k,\widehat{\theta}_{i,j})\big] \frac{\partial \mu_i(x_k,\theta_{i,j})}{\partial \theta_{i,j}}\big|_{\theta_{i,j}=\widehat{\theta}_{i,j}}}{\sigma^2_i(x_k,\overline{\theta}_i)} - \frac{1}{2} \frac{\partial s_{i,j}(x_k,\theta_{i,j})}{\partial \theta_{i,j}}\Big|_{\theta_{i,j} = \widehat{\theta}_{i,j}}  \right)_{k = 1,\dots,n}; \\
+\mathbf{b}_{i,j} & = \left( I_{i,j}(x_k,\overline{\theta}_i,\widehat{\theta}_{i,j}) \right)_{k = 1,\dots,n}
+\end{align*}
+
+\end{slide}
+
+
+\section{Numerical example }\label{sec4}
+
+\begin{slide}
+
+\frametitle{4.Numerical example}
+
+  Our example refers to the construction of Bayesian KL-optimal discriminating designs
+for several dose response curves, which have been recently proposed by Pinheiro et al. (2006)
+for modeling  the dose response relationship of a Phase II clinical trial, that is
+\begin{align}
+&\eta_1(x, \theta_1) = \theta_{1,1} + \theta_{1,2} x ;  \nonumber \\
+&\eta_2(x, \theta_2) = \theta_{2,1} + \theta_{2,2} x (\theta_{2,3} - x) ; \label{example2}  \\
+&\eta_3(x, \theta_3) = \theta_{3,1} + \theta_{3,2} x / (\theta_{3,3} + x) ; \nonumber\\
+&\eta_4(x, \theta_4) = \theta_{4,1} + \theta_{4,2} / (1 + \exp(\theta_{4,3} - x) / \theta_{4,4}) ; \nonumber
+\end{align}
+where the designs space (dose range) is given by the interval
+$\mathcal{X}=[0,500]$.
+
+\end{slide}
+\begin{slide}
+In this reference  some prior information  regarding the parameters for the
+models is also provided., that is
+\begin{align*}
+\overline{\theta}_1= (60, 0.56), \; \overline{\theta}_2= (60, 2250, 600), \; \overline{\theta}_3 = (60, 294, 25), \\ \ \overline{\theta}_4=
+(49.62, 290.51, 150, 45.51).
+\end{align*}.
+\end{slide}
+\begin{slide}
+Dette,Melas and Guchenko (2015) determined Bayesian KL-optimal discriminating designs for these
+models under the assumption of normal distributed responses,
+where they used   $p_{i,j}=1/6$, $(1\leq j<i \leq 4 )$ and they assumed that there exist only uncertainty
+for the parameter $\theta_4$. We will now consider similar problems for log-normal distributed responses,
+where the  prior distribution is a uniform distribution at $81$ points in $\R^4$, that is
+\begin{align} \label{uni1}
+(49.62+c_1, 290.51+c_2, 150+c_3, 45.51+c_4)
+\end{align}
+with   $c_1,c_2,c_3,c_4 \in \{  -20,0,45\} $.
+
+\end{slide}
+\begin{slide}
+
+\bigskip
+\bigskip
+
+  The resulting Bayesian optimality criterion \eqref{2.6}  consist of $246$ model comparisons.
+
+  \bigskip
+  \bigskip
+
+  Bayesain KL--optimal discriminating designs were calculated by three algorithms (Algorithm 3.1 AF, new Algorithm 3.2 with gradient method at the step 2 and new Algorithm 3.2 with quadratic method) for the cases
+\begin{equation} \label{modtab2}
+\begin{array}{ll}
+(1) &   v^2_1(x,\theta_1)=1~,~ i = 1,2,3,4 ;\\
+(2) &\sigma^2_i(x,\theta_i)=1 ~,~ i = 1,2,3,4 .\\
+
+\end{array}
+\end{equation}
+\end{slide}
+\begin{slide}
+\begin{table}[t]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\eqref{modtab2} & design & AF & grad & quad \\
+\hline
+(1) & $\begin{matrix} 0.759 & 67.32 & 248.6 & 500 \\  0.419 & 0.156 &  0.233 & 0.192\end{matrix}$ & 1674.14 & 679.52 & 48.91 \\
+\hline
+(2) & $\begin{matrix} 0 & 58.9 & 220.6 & 500 \\  0.200 & 0.354 &  0.247 & 0.199\end{matrix}$ & - &  255.03 & 33.42 \\
+
+\hline
+\end{tabular}
+\end{center}
+ \caption{\large \label{tab4}  Bayesian  KL-optimal discriminating designs for the
+ competing dose response models in  \eqref{example2}. The responses are  log-normal
+ distributed  with
+ different  specifications of  the mean and variance - see \eqref{modtab2}. The prior distribution is
+ a uniform distribution on $81$ points.}
+\end{table}
+\end{slide}
+\begin{slide}
+
+\bigskip
+
+All calculated designs have at least efficiency $99.9\%$.  In the models specified by \eqref{example2} all new algorithms were able to find the
+Bayesian KL-optimal discriminating design, where the exchange type algorithm failed in the case \eqref{modtab2}(2).
+
+\bigskip
+
+Moreover, in the first case  the new methods are substantially faster than the exchange type method. For example, the gradient method
+yields only $25\%-30\%$ of the computational time, while the quadratic programming approach is about $30-35$ times faster.
+\bigskip
+
+{\bf {\red We received similar results for a number of nonlinear regression models that are popular in various applications}}
+
+\end{slide}
+
+
+\section{References}\label{sec5}
+\begin{slide}
+\frametitle{References}
+\begin{itemize}
+ Lehmann E. (1986).  Testing  Statistical  Hypotheses,  Probability  and  Statistics  Series,  Wiley.
+
+Zech,  G. and Aslan, B.(2005).   New test for the multivariate two-sample problem based on the concept of minimum energy.Journal of Statistical Computation and Simulation 75(2), 109–119.
+
+ Wassily Hoeffding, A class of statistics with asymptotically normal distribution.
+Ann. Math. Statistics 19 (1948), 293–325.
+
+Buening, H. (2001). Kolmogorov-Smirnov- and Cram`er-von Mises type two-sample tests with various weight functions. Communications in Statistics-
+Simulation and Computation, 30, 847-865.
+
+I.S. Gradshteyn and I.M. Ryzhik. Table of Integrals, series and products.Seventh edition AMSTERDAM,BOSTON,HEIDELBERG, LONDON
+
+
+
+\end{slide}
+
+\begin{slide}
+\begin{itemize}
+I.S. Gradshteyn and I.M. Ryzhik. Table of Integrals, series and products.Seventh edition AMSTERDAM,BOSTON,HEIDELBERG, LONDON
+
+
+
+A. P. Prudnikov, Yu. A. Brychkov, and O. I. Marichev, Integrals and Series. Elementary Functions (Nauka, Moscow, 1981) [in Russian].
+\end{slide}
+\end{document}
+

@@ -1,7 +1,7 @@
 \documentclass{report}
 \usepackage[utf8x]{inputenc}
 \usepackage[T2A]{fontenc}
-\usepackage[russian]{babel}
+% \usepackage[russian]{babel}
 \usepackage{indentfirst}
 \usepackage{longtable}
 \usepackage{caption}
@@ -12,18 +12,18 @@
 \begin{document}
 
 \begin{eqnarray*}
-  L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
-  n.pL_2 &=& -\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2),\\
-  && \text{critical value of a non-permutation criterion calculated by 1'000'000 iterations}, \\
+  % L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
+  T_n(Z) &=& -\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2),\\
+  && \text{critical value of Tn simulation criterion calculated by 1'000'000 iterations}, \\
   formula &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),\quad z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389
 \end{eqnarray*}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
-  \caption{Мощность тестов для распределения Коши, \\
+  \caption{Power of tests for the Cauchy distribution, \\
            $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
-           размер выборок 500, 1000 итераций, 800 перестановок в $L_2$} \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
   \hline
-  h & $L_2$ & $n.pL_2$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  h & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
   1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
   2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
   3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
@@ -33,17 +33,67 @@
 \end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
-  \caption{Мощность тестов для распределения Коши, \\
+  \caption{Power of tests for the Cauchy distribution, \\
            $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
-           размер выборок 1000, 1000 итераций, 800 перестановок в $L_2$} \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
   \hline
-  h  & $L_2$ & $n.pL_2$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  h  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
   1  & 6.3   & 6        & 6.8       & 6.8           & 8.1       \\
   2  & 11.4  & 11.9     & 12.2      & 12.9          & 13.4      \\
   3  & 21    & 20.9     & 21.5      & 22.8          & 26.2      \\
   4  & 34.9  & 34.6     & 34.4      & 36.1          & 43        \\
   7  & 84    & 84.5     & 77.8      & 79.5          & 87.6      \\
   10 & 99    & 98.9     & 97.4      & 96.8          & 99.2      \\ \hline
+\end{longtable}
+
+\newpage
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.106 & 0.119 & 0.054 & 0.054 \\
+  4 & 0.276 & 0.298 & 0.055 & 0.087 \\
+  6 & 0.494 & 0.536 & 0.055 & 0.159 \\
+  8 & 0.688 & 0.735 & 0.055 & 0.25 \\
+  10 & 0.842 & 0.871 & 0.052 & 0.364 \\
+  \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.094 & 0.1 & 0.045 & 0.063 \\
+  4 & 0.285 & 0.306 & 0.048 & 0.14 \\
+  6 & 0.545 & 0.565 & 0.05 & 0.261 \\
+  8 & 0.795 & 0.805 & 0.052 & 0.433 \\
+  10 & 0.93 & 0.94 & 0.052 & 0.622 \\
+  \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.102 & 0.105 & 0.05 & 0.076 \\
+  4 & 0.324 & 0.338 & 0.052 & 0.138 \\
+  6 & 0.611 & 0.628 & 0.052 & 0.279 \\
+  8 & 0.848 & 0.856 & 0.052 & 0.474 \\
+  10 & 0.961 & 0.971 & 0.054 & 0.679 \\
+  \hline
 \end{longtable}
 
 \end{document}
