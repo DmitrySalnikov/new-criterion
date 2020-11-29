@@ -14,16 +14,35 @@
 \begin{eqnarray*}
   % L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
   T_n(Z) &=& -\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2),\\
-  && \text{critical value of Tn simulation criterion calculated by 1'000'000 iterations}, \\
-  formula &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),\quad z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389
+  && \text{critical value of Tn simulation criterion calculated by 1'000'000 iterations}
 \end{eqnarray*}
+
+\section*{Cauchy Mean}
+
+\begin{eqnarray*}
+  formulae &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),\quad z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389
+\end{eqnarray*}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & formulae & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 6.4 & 6.3 & 6.8 & 6.6 & 6.3 \\
+  2 & 10.1 & 10.6 & 12.2 & 11.9 & 11.1 \\
+  3 & 19.6 & 20.3 & 21.5 & 20.5 & 20.2 \\
+  5 & 50.9 & 50.5 & 49.5 & 48.5 & 53.1 \\
+  7 & 82 & 82.3 & 77.8 & 77.2 & 83.6 \\
+  9 & 96.7 & 96.8 & 93.9 & 91.5 & 96.5 \\ \hline
+\end{longtable}
 
 \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
   \caption{Power of tests for the Cauchy distribution, \\
            $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
            samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
   \hline
-  h & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
   1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
   2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
   3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
@@ -37,16 +56,19 @@
            $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
            samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
   \hline
-  h  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
-  1  & 6.3   & 6        & 6.8       & 6.8           & 8.1       \\
-  2  & 11.4  & 11.9     & 12.2      & 12.9          & 13.4      \\
-  3  & 21    & 20.9     & 21.5      & 22.8          & 26.2      \\
-  4  & 34.9  & 34.6     & 34.4      & 36.1          & 43        \\
-  7  & 84    & 84.5     & 77.8      & 79.5          & 87.6      \\
-  10 & 99    & 98.9     & 97.4      & 96.8          & 99.2      \\ \hline
+  $h$  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 6.3 & 6 & 6.8 & 6.8 & 8.1 \\
+  2 & 11.4 & 11.9 & 12.2 & 12.9 & 13.4 \\
+  3 & 21 & 20.9 & 21.5 & 22.8 & 26.2 \\
+  5 & 53.6 & 53.6 & 49.5 & 50.8 & 59.6 \\
+  7 & 84 & 84.5 & 77.8 & 79.5 & 87.6 \\
+  9 & 96.6 & 96.6 & 93.9 & 93.2 & 98.3 \\
+  \hline
 \end{longtable}
 
 \newpage
+
+\section*{Cauchy Var}
 
 \begin{longtable}{|c|c|c|c|c|}
   \caption{Power of tests for the Cauchy distribution, \\
@@ -56,11 +78,11 @@
   $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
   \hline
   % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
-  2 & 0.106 & 0.119 & 0.054 & 0.054 \\
-  4 & 0.276 & 0.298 & 0.055 & 0.087 \\
-  6 & 0.494 & 0.536 & 0.055 & 0.159 \\
-  8 & 0.688 & 0.735 & 0.055 & 0.25 \\
-  10 & 0.842 & 0.871 & 0.052 & 0.364 \\
+  2 & 10.6 & 11.9 & 5.4 & 5.4 \\
+  4 & 27.6 & 29.8 & 5.5 & 8.7 \\
+  6 & 49.4 & 53.6 & 5.5 & 15.9 \\
+  8 & 68.8 & 73.5 & 5.5 & 25 \\
+  10 & 84.2 & 87.1 & 5.2 & 36.4 \\
   \hline
 \end{longtable}
 
@@ -72,11 +94,11 @@
   $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
   \hline
   % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
-  2 & 0.094 & 0.1 & 0.045 & 0.063 \\
-  4 & 0.285 & 0.306 & 0.048 & 0.14 \\
-  6 & 0.545 & 0.565 & 0.05 & 0.261 \\
-  8 & 0.795 & 0.805 & 0.052 & 0.433 \\
-  10 & 0.93 & 0.94 & 0.052 & 0.622 \\
+  2 & 9.4 & 10 & 4.5 & 6.3 \\
+  4 & 28.5 & 30.6 & 4.8 & 14 \\
+  6 & 54.5 & 56.5 & 5 & 26.1 \\
+  8 & 79.5 & 80.5 & 5.2 & 43.3 \\
+  10 & 93 & 94 & 5.2 & 62.2 \\
   \hline
 \end{longtable}
 
@@ -88,12 +110,108 @@
   $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
   \hline
   % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
-  2 & 0.102 & 0.105 & 0.05 & 0.076 \\
-  4 & 0.324 & 0.338 & 0.052 & 0.138 \\
-  6 & 0.611 & 0.628 & 0.052 & 0.279 \\
-  8 & 0.848 & 0.856 & 0.052 & 0.474 \\
-  10 & 0.961 & 0.971 & 0.054 & 0.679 \\
+  2 & 10.2 & 10.5 & 5 & 7.6 \\
+  4 & 32.4 & 33.8 & 5.2 & 13.8 \\
+  6 & 61.1 & 62.8 & 5.2 & 27.9 \\
+  8 & 84.8 & 85.6 & 5.2 & 47.4 \\
+  10 & 96.1 & 97.1 & 5.4 & 67.9 \\
   \hline
 \end{longtable}
+
+\section*{Norm Mean}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Normal distribution, \\
+           $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 11.1 & 11.3 & 12.5 & 9.5 \\
+  2 & 29.3 & 29 & 31.1 & 20.5 \\
+  3 & 52.4 & 53.4 & 55.8 & 42 \\
+  4 & 77.5 & 77.5 & 80.6 & 64.9 \\
+  5 & 91.9 & 92.5 & 93.1 & 84.7 \\
+  \hline
+\end{longtable}
+
+% \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+%   \caption{Power of tests for the Normal distribution, \\
+%            $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, \\
+%            samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+%   \hline
+%   $h$ & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+%   1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
+%   2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
+%   3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
+%   5 & 50.9  & 51       & 49.5      & 48            & 57.9      \\
+%   7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9      \\
+%   9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2      \\ \hline
+% \end{longtable}
+
+% \begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+%   \caption{Power of tests for the Normal distribution, \\
+%            $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, \\
+%            samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+%   \hline
+%   $h$  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+%   1 & 6.3 & 6 & 6.8 & 6.8 & 8.1 \\
+%   2 & 11.4 & 11.9 & 12.2 & 12.9 & 13.4 \\
+%   3 & 21 & 20.9 & 21.5 & 22.8 & 26.2 \\
+%   5 & 53.6 & 53.6 & 49.5 & 50.8 & 59.6 \\
+%   7 & 84 & 84.5 & 77.8 & 79.5 & 87.6 \\
+%   9 & 96.6 & 96.6 & 93.9 & 93.2 & 98.3 \\
+%   \hline
+% \end{longtable}
+
+\newpage
+
+\section*{Norm Var}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Normal distribution, \\
+           $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  1 & 8.1 & 8.7 & 6.4 & 5.3 \\
+  2 & 15 & 17.4 & 6.3 & 7.2 \\
+  3 & 30.5 & 34.2 & 6.6 & 10.7 \\
+  4 & 50.6 & 57.1 & 6.7 & 16.7 \\
+  5 & 70.8 & 76.7 & 6.5 & 24.8 \\
+  \hline
+\end{longtable}
+
+% \begin{longtable}{|c|c|c|c|c|}
+%   \caption{Power of tests for the Normal distribution, \\
+%            $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, \\
+%            samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+%   \hline
+%   $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+%   \hline
+%   % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+%   2 & 0.094 & 0.1 & 0.045 & 0.063 \\
+%   4 & 0.285 & 0.306 & 0.048 & 0.14 \\
+%   6 & 0.545 & 0.565 & 0.05 & 0.261 \\
+%   8 & 0.795 & 0.805 & 0.052 & 0.433 \\
+%   10 & 0.93 & 0.94 & 0.052 & 0.622 \\
+%   \hline
+% \end{longtable}
+
+% \begin{longtable}{|c|c|c|c|c|}
+%   \caption{Power of tests for the Normal distribution, \\
+%            $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, \\
+%            samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+%   \hline
+%   $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+%   \hline
+%   % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+%   2 & 0.102 & 0.105 & 0.05 & 0.076 \\
+%   4 & 0.324 & 0.338 & 0.052 & 0.138 \\
+%   6 & 0.611 & 0.628 & 0.052 & 0.279 \\
+%   8 & 0.848 & 0.856 & 0.052 & 0.474 \\
+%   10 & 0.961 & 0.971 & 0.054 & 0.679 \\
+%   \hline
+% \end{longtable}
 
 \end{document}
