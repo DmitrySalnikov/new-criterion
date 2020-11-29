@@ -1,31 +1,40 @@
 path = '/home/d/1/new_criteria'
 source(paste(path, 'funcs', 'static.R', sep = '/'))
 
-Power.cauchy.not.perm <- function(type, par2, par1 = c(0, 1), n = 50, M = 1000, alpha = 0.05, prefix = 'not_perm,', K = 1000000) {
+Power.not.perm <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, alpha = 0.05, prefix = 'not_perm,', K = 1000000) {
   start.time <- Sys.time()
 
   details <- paste0(prefix, 'par2=(', par2[1], ',', par2[2], '),n=', n, ',M=', M, ',K=', log(K,10))
 
-  res.path <- create.folder(c(path, 'res', 'cauchy', type))
+  res.path <- create.folder(c(path, 'res', distribution, type))
   res.name <- paste0(res.path, '/', details, '.RDS')
 
   if (file.exists(res.name)) {
     return()
   }
 
-  print(paste0('cauchy, ', details, ', ', Sys.time() - start.time))
+  print(paste0(distribution, ', ', details, ', ', Sys.time() - start.time))
 
   set.seed(500)
-  X.set <- rcauchy(n * M, par1[1], par1[2])
-  Y.set <- rcauchy(n * M, par2[1], par2[2])
+  X.set <- get(paste0('r', distribution))(n * M, par1[1], par1[2])
+  Y.set <- get(paste0('r', distribution))(n * M, par2[1], par2[2])
   dim(X.set) <- c(M, n)
   dim(Y.set) <- c(M, n)
 
   L2.thresholds <- if (par1 == c(0, 1) && K == 1000000 && alpha == 0.05) {
-    switch(toString(n), "100" = c(2.540890150489627194474e+04, 2.215180636276176465160e-02), 
-                        "500" = c(5.871542962609820533544e+05, 4.411051083924476777509e-03), 
-                        "1000" = c(2.303866020282780285925e+06, 2.206212548360962470706e-03))
-  } 
+    switch(distribution,
+      'cauchy' = switch(toString(n),
+        "100" = c(2.540890150489627194474e+04, 2.215180636276176465160e-02),
+        "500" = c(5.871542962609820533544e+05, 4.411051083924476777509e-03),
+        "1000" = c(2.303866020282780285925e+06, 2.206212548360962470706e-03)
+      ),
+      'norm' = switch(toString(n),
+        '100' = c(8871.2500050367325457045808, 0.0148332398326425120294),
+        '500' = c(),
+        '1000' = c()
+      )
+    )
+  }
   # if (is.null(L2.thresholds)) {
   #   L2.thresholds <- apply(
   #     sapply(1:K, function(i) {
@@ -50,7 +59,7 @@ Power.cauchy.not.perm <- function(type, par2, par1 = c(0, 1), n = 50, M = 1000, 
   # }), 0.95)
 
   res <- rowMeans(sapply(1:M, function(i) {
-    if (i %% 1000 == 0) {
+    if (i %% 100 == 0) {
       print(paste0(i, ', ', Sys.time() - start.time))
     }
     X <- X.set[i, ]
