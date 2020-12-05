@@ -7,7 +7,7 @@ make.table <- function(n) {
   if (type == 'var') {
     par2 <- paste0('0,', as.character(1 + par / sqrt(n)))
   } else if (type == 'mean') {
-    par2 <- paste0(as.character(par / sqrt(n)), ',1')
+    par2 <- paste0(as.character(par * 0.1 / sqrt(n)), ',0.1')
   }
   for (i in par2) {
     n.p.res <- rbind(n.p.res, round(readRDS(paste0('res/', distr, '/', type, '/not_perm,par2=(', i, '),n=', n, ',M=1000,K=6.RDS'))[[2]][-1] * 100, 1))
@@ -18,7 +18,9 @@ make.table <- function(n) {
     n.p.res <- cbind(n.p.res[,1], round(new.analytic.power(par) * 100, 1), n.p.res[,-1])
   }
   table <- cbind(as.character(par), res, n.p.res)
-  table.name <- paste0('tables/L2p.n.p,', distr, ',', type, ',n=', n, ',M=1000,D=800,K=6.tex')
+  print(table)
+  table.name <- paste0('tables/L2p.n.p,var=0.1,', distr, ',', type, ',n=', n, ',M=1000,D=800,K=6.tex')
+  print(table.name)
   cat('% ', file = table.name)
   write.table(table, table.name,
               quote = F, sep = ' & ', eol = ' \\\\\n',
@@ -85,18 +87,20 @@ par <- c(1,2,3,5,7,9)
 distr <- 'cauchy'
 type <- 'mean'
 
+# for (n in c(100)) {
+#   v <- par * 10 / sqrt(n)
+#   for (i in v) {
+#     Power.not.perm(distr, type, par2=c(i, 10), par1=c(0,10), n=n)
+#     Power(distr, type, par2=c(i, 10), par1=c(0,10), n = n, prefix = "L2", randomization = FALSE)
+#   }
+# }
+
 for (n in c(100)) {
-  v <- par * sqrt(10) / sqrt(n)
+  v <- par * 0.1 / sqrt(n)
   for (i in v) {
-    # Power.not.perm(distr, type, c(i, 1), n=n)
-    Power(distr, type, c(i, 10), n = n, prefix = "L2", randomization = FALSE)
+    Power.not.perm(distr, type, par2=c(i, 0.1), par1=c(0,0.1), n=n)
+    # Power(distr, type, par2=c(i, 0.1), par1=c(0,0.1), n = n, prefix = "L2", randomization = FALSE)
   }
 }
 
-for (n in c(100)) {
-  v <- par * sqrt(0.1) / sqrt(n)
-  for (i in v) {
-    # Power.not.perm(distr, type, c(i, 1), n=n)
-    Power(distr, type, c(i, 0.1), n = n, prefix = "L2", randomization = FALSE)
-  }
-}
+make.table(100)

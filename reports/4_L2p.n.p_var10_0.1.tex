@@ -1,0 +1,59 @@
+\documentclass{svproc}
+
+\begin{document}
+
+\begin{eqnarray*}
+  % L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
+  T_n(Z) = &-&\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+ \\
+           &+&\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2).
+\end{eqnarray*}
+Critical value of Tn simulation criterion calculated by 1'000'000 iterations.
+\noindent
+1000 iterations was performed in each case, 800 permutations used for $T_n, perm$.
+
+\begin{eqnarray*}
+  formulae &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),
+\end{eqnarray*}
+where $z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389$.
+
+\section*{Cauchy Mean}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,10)$, $Y\sim C(10*h/\sqrt{n},10)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formulae$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & formulae & $wilcox.test$ & $ks.test$ \\
+  1 & 7 & 6.8 & 6.8 & 6.6 & 6.3 \\
+  2 & 12.6 & 12.7 & 12.2 & 11.9 & 11.1 \\
+  3 & 21.8 & 21.3 & 21.5 & 20.5 & 20.2 \\
+  5 & 53.8 & 54 & 49.5 & 48.5 & 53.1 \\
+  7 & 86.4 & 86.4 & 77.8 & 77.2 & 83.6 \\
+  9 & 97.6 & 97.8 & 93.9 & 91.5 & 96.5 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,0.1)$, $Y\sim C(h/(10\sqrt{n}),0.1)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & formulae & $wilcox.test$ & $ks.test$ \\
+  1 & 5.8 & 6.8 & 6.8 & 6.6 & 6.3 \\
+  2 & 6.8 & 35.2 & 12.2 & 11.9 & 11.1 \\
+  3 & 9.6 & 40.2 & 21.5 & 20.5 & 20.2 \\
+  5 & 20 & 56.5 & 49.5 & 48.5 & 53.1 \\
+  7 & 35.4 & 74.4 & 77.8 & 77.2 & 83.6 \\
+  9 & 54.9 & 87.7 & 93.9 & 91.5 & 96.5 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\end{document}
