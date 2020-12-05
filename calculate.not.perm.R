@@ -29,12 +29,9 @@ make.table <- function(n) {
 
 col.names <- c('$h$', '$T_n, perm$', "$T_n, sim$", "$wilcox.test$", '$ks.test$')
 
-par <- c(2,4,6,8,10)
-distr <- 'cauchy'
-type <- 'var'
-for (n in c(1000, 500)) {
-  make.table(n)
-}
+# par <- c(2,4,6,8,10)
+# distr <- 'cauchy'
+# type <- 'var'
 # for (n in c(1000, 500, 100)) {
   # v <- par / sqrt(n)
   # for (i in v) {
@@ -60,26 +57,46 @@ for (n in c(1000, 500)) {
 # par <- c(1,2,3,5,7,9)
 # make.table(1000)
 
-par <- c(1,2,3,4,5)
-distr <- 'norm'
+# par <- c(1,2,3,4,5)
+# distr <- 'norm'
+# type <- 'mean'
+# for (n in c(1000)) {
+#   v <- par / sqrt(n)
+#   for (i in v) {
+#     Power.not.perm(distr, type, c(i, 1), n = n)
+#     Power(distr, type, c(i, 1), n = n, prefix = "L2", randomization = FALSE)
+#   }
+#   make.table(n)
+# }
+
+# par <- c(1,2,3,4,5)
+# distr <- 'norm'
+# type <- 'var'
+# for (n in c(1000)) {
+#   v <- par / sqrt(n)
+#   for (i in v) {
+#     Power.not.perm(distr, type, c(0, 1 + i), n = n)
+#     Power(distr, type, c(0, 1 + i), n = n, prefix = "L2", randomization = FALSE)
+#   }
+#   make.table(n)
+# }
+
+par <- c(1,2,3,5,7,9)
+distr <- 'cauchy'
 type <- 'mean'
-for (n in c(500)) {
-  v <- par / sqrt(n)
+
+for (n in c(100)) {
+  v <- par * sqrt(10) / sqrt(n)
   for (i in v) {
-    # Power.not.perm(distr, type, c(i, 1), n = n)
-    Power(distr, type, c(i, 1), n = n, prefix = "L2", randomization = FALSE)
+    # Power.not.perm(distr, type, c(i, 1), n=n)
+    Power(distr, type, c(i, 10), n = n, prefix = "L2", randomization = FALSE)
   }
-  # make.table(n)
 }
 
-par <- c(1,2,3,4,5)
-distr <- 'norm'
-type <- 'var'
-for (n in c(500)) {
-  v <- par / sqrt(n)
+for (n in c(100)) {
+  v <- par * sqrt(0.1) / sqrt(n)
   for (i in v) {
-    # Power.not.perm(distr, type, c(0, 1 + i), n = n)
-    Power(distr, type, c(0, 1 + i), n = n, prefix = "L2", randomization = FALSE)
+    # Power.not.perm(distr, type, c(i, 1), n=n)
+    Power(distr, type, c(i, 0.1), n = n, prefix = "L2", randomization = FALSE)
   }
-  # make.table(n)
 }

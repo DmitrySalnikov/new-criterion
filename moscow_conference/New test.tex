@@ -1,0 +1,653 @@
+%% This is file `elsarticle-template-1-num.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1-num.tex 149 2009-10-08 05:01:15Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
+%%
+\documentclass[final,11pt,3p]{elsarticle}
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% The graphicx package provides the includegraphics command.
+\usepackage{graphicx}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+\usepackage{lineno}
+
+\usepackage{longtable}
+\usepackage{caption}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+%\makeatletter
+%\def\ps@pprintTitle{%
+%   \let\@oddhead\@empty
+%   \let\@evenhead\@empty
+%   \def\@oddfoot{\reset@font\hfil\thepage\hfil}
+%   \let\@evenfoot\@oddfoot
+%}
+%\makeatother
+
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{}%
+ \let\@evenfoot\@oddfoot}
+\makeatother
+
+
+\journal{ICSM-5}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+\title{New test for equality of two disributions}
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+
+%\address[label2]{Organization name 2, St. %Petersburg State University \\
+%\small Department of Mathematics \\
+%\small St. Petersburg ,  Russia \\}
+%\address[label3]{Organization name 3, %Volgograd, Russian Federation}
+\author[label1]{Viatcheslav Melas\corref{cor1}}
+\cortext[cor1]{Corresponding author}
+\ead{vbmelas@yandex.ru}
+\author[label1]{Dmitrii Salnikov}
+\ead{mejibkop.ru@mail.ru}
+\address[label1]{St. Petersburg State University \\
+\small Department of Mathematics \\
+\small St. Petersburg ,  Russia \\}
+%\address[label2]{Organization name 2, St. %Petersburg State University \\
+\begin{abstract}
+%% Text of abstract
+The paper introduces a new test for equality of two distributions in a class of models.  We proved analytically and by stochastic simulation that the test possesses high efficiency .
+\end{abstract}
+
+\begin{keyword}
+Test for equality of two distributions \sep Asymptotic efficiency \sep Caushy distribution
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+\end{frontmatter}
+\pagestyle{empty}
+%%
+%% Start line numbering here if you want
+%%
+%\linenumbers
+
+%% main text
+\section{Formulation of the problem}
+\label{S:1}
+Let us consider the classical problem of testing hypothesis on the equality of two distributions
+\begin{equation}
+  \label{H0}
+  H_0\,:\,F_1 = F_2
+\end{equation}
+against the alternative
+\begin{equation}
+  \label{H1}
+  H_1\,:\,F_1 \not= F_2
+\end{equation}
+In the case of two independent samples $X=(X_{1},\ldots, X_{n})$ and $Y=(Y_{1},\ldots, Y_{m})$ with the distributions functions $F_1$ and $F_2$ respectively.
+
+
+It is well known [see e.g. (Lehman,1986)] that in the case when both distributions differ only by the means and are normal the classical Student test has a few optimal properties. If the distributions are not normal but still differs only by means a widely popular Wilcoxon-Mann-Whitney (WMW) U-statistic is often used instead. However, it can be shown that if two normal populations differ only in variances, the power of WMW test is very low.
+If distributions are arbitrary there are some universal techniques such as tests by Kolmogorov - Smirnov and Cramer-von Mises  (see \cite{Buening2001}) that can be applied but in many cases these tests can be not powerful.
+
+ Recently \cite{AslanZech2005} suggested the test basing on U-statistics with the
+logarithmic kernel and provided its numerical justification for one and many dimensional cases in comparison with a few alternative techniques.  However,to the best authors knowledge there are no analytical results about its asymptotic power. Here we introduce a similar but different test and provide a few analytical results on its power.
+
+
+
+\section{The new test and its statistical motivation}
+
+Assume that the distribution functions
+$F_1$ and $F_2$ belongs to the class of distribution functions of random values  $\xi$, such that
+\begin {equation}\label{Class}
+E [\ln (1+ \xi^2)     ] < \infty.
+\end{equation}
+Many distributions and, in particular, the Caushy distribution have this property.
+ \bigskip
+
+Among all distributions with given parameters of shift and scale having this property the Caushy's one have the maximum entropy.\\
+
+
+Consider the following test
+\begin{equation}
+ \Phi_{A}=\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n} g(|X_i-X_j|),
+\Phi_{B}=\frac{1}{m(m-1)}\sum_{1\leq i<j\leq m} g(|Y_i-Y_j|),
+\end{equation}
+\begin{equation}\label{K1}
+\Phi_{AB}=-\frac{1}{nm}\sum_{i=1}^n\sum_{j=1}^m g(|X_i-Y_j|),
+\Phi_{nm}=\Phi_{A}+ \Phi_{B}+ \Phi_{AB},
+\end{equation}
+where
+$$
+g(|u|)= -\ln (1+|u|^2),
+$$
+is under a constant term precision the logarithm of the density of the standard Caushy distribution.
+(Note that Zech and Aslan (2005) took $g(u)=\ln(|u|)$).
+
+
+
+We would like to have a test that is appropriate for two distributions that differ only by shift and scale parameters and belong to a rather general class of distributions.
+
+
+In particular, we consider the class of distributions satisfying (3), but the approach can be generalized for other classes of distributions.\\
+\bigskip
+Consider the class of distributions given by the property (\ref{Class}).  Note that would be parameters are know the test basing on likelihood ratio is the most powerful among tests with a given parameters.
+
+
+The test suggested above can be considered as an approximation of logarithm of this ratio for the Caushy distribution.
+
+
+
+
+
+\section{The study of asymptotic power}
+\label{S:2}
+
+Let us consider the case of two distributions having the property (\ref{Class}) and, in particular, the two that differ only by the shift parameters. To simplify notations assume that $m=n$. The case $m\ne n$ is similar.
+Now the criterion  (4)  assumes the form
+\begin{equation}
+T_n=\Phi_{nn}= \frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (X_i - Y_j)^2)-\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (X_i - X_j)^2)
+\end{equation}
+\begin{equation}
+-  \frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (Y_i - Y_j)^2).
+\end{equation}
+Denote by $C(u,v)$ the Caushy distribution with the density function
+$$
+v/(\pi(v^2 + (x-u)^2)).
+$$Let $f_1(x)$ denotes the density of $F_1$ and $f_2(x)$ denotes the density of $F_1$.
+Denote
+
+\begin{eqnarray*}
+J_h =\int_R g(x-y-|h|/\sqrt{n})f_1(x)f_2(y)dxdy,
+\end{eqnarray*}
+If there exists the limit
+\begin{eqnarray}
+lim_{n\to \infty} n(J_h - J_0)
+\end{eqnarray}
+denote it by $J^*(h)$.
+
+The basic result of the present paper is the following
+\begin{theorem} Consider the problem of testing hypothesis on the equality of two distributions (1)-(2) where both functions have the property (3).Then\\
+(i) under the condition $n \to \infty$
+the distribution function of $nT_n$  converges under $H_0$ to that of the random value
+\begin{equation}\label{Distr}
+(aZ + b)^2,
+\end{equation}
+where  $Z$ has the normal distribution with zero expectation and variance equal to 1, $a^2= J_0/3, b=0$.
+
+(ii)
+Let $F_1= F(\nu,\mu),F_2=F(\nu+\theta,\mu),$
+where $\nu$  and $\mu$ be the shift and scale parameters of the distribution F, F is arbitrary distribution with property   (3) and 
+$\theta=h/\sqrt{n},h$ is an arbitrary given number. Then
+the distribution function of $nT_n$  converges under $H_1$ to that of the random value
+$$
+(aZ + b)^2,
+$$
+where $a^2 =(2/3)\ln 3, b=0$
+for the case of $H_0$ and
+$a^2= J_0/3, b= h/3$
+for  $H_1$.
+In this case the power of the criterion $T_n$ with significance $\alpha$ is asymptotically equal to that is given by the formula
+$$
+Pr\{Z\geq z_{1-\alpha/2}-\sqrt{\frac {J^*(h)}{J_0}}\}
++ Pr\{Z\leq - z_{1-\alpha/2}-\sqrt{\frac {J^*(h)}{J_0}}\}.
+$$
+(III) If $F_1=C(\nu,1), F_2=C(\nu + \theta)$ then in the part (ii)
+$a^2= J_0/3, b= h/3$ and
+
+$$
+Pr\{Z\geq z_{1-\alpha/2}-(1/\sqrt{6\ln 3})h\}
++ Pr\{Z\leq - z_{1-\alpha/2}-(1/\sqrt{6\
+ln 3})h\}.
+$$
+\end{theorem}
+
+
+The proof of the theorem is given in the Appendix.
+
+
+\section{Simulation results}
+
+
+ We found by a stochastic simulation that the formula present an approximation of the power of the test $T_n$ with a good accuracy.
+
+ At the next tables resuts for cases $n$ = 500, 1000 , $h$=1,2,3,5,7,9 with $\alpha=0.05$ are given.
+
+
+Note that in all these cases the power of  $T_n$ and  that of the Wilcoxon-Mann-Whitney and the
+Kolmogorov - Smirnov tests were approximately equal to each other.
+
+
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  h & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4       \\
+  2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9      \\
+  3 & 21    & 21.8     & 21.5      & 22.2          & 24.3      \\
+  5 & 50.9  & 51       & 49.5      & 48            & 57.9      \\
+  7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9      \\
+  9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2      \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  h  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ \\ \hline
+  1  & 6.3   & 6        & 6.8       & 6.8           & 8.1       \\
+  2  & 11.4  & 11.9     & 12.2      & 12.9          & 13.4      \\
+  3  & 21    & 20.9     & 21.5      & 22.8          & 26.2      \\
+  4  & 34.9  & 34.6     & 34.4      & 36.1          & 43        \\
+  7  & 84    & 84.5     & 77.8      & 79.5          & 87.6      \\
+  10 & 99    & 98.9     & 97.4      & 96.8          & 99.2      \\ \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 100, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.106 & 0.119 & 0.054 & 0.054 \\
+  4 & 0.276 & 0.298 & 0.055 & 0.087 \\
+  6 & 0.494 & 0.536 & 0.055 & 0.159 \\
+  8 & 0.688 & 0.735 & 0.055 & 0.25 \\
+  10 & 0.842 & 0.871 & 0.052 & 0.364 \\
+  \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 500, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.094 & 0.1 & 0.045 & 0.063 \\
+  4 & 0.285 & 0.306 & 0.048 & 0.14 \\
+  6 & 0.545 & 0.565 & 0.05 & 0.261 \\
+  8 & 0.795 & 0.805 & 0.052 & 0.433 \\
+  10 & 0.93 & 0.94 & 0.052 & 0.622 \\
+  \hline
+\end{longtable}
+
+\begin{longtable}{|c|c|c|c|c|}
+  \caption{Power of tests for the Cauchy distribution, \\
+           $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, \\
+           samples size 1000, 1000 iterations, 800 permutations in $T_n, perm$} \\
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 0.102 & 0.105 & 0.05 & 0.076 \\
+  4 & 0.324 & 0.338 & 0.052 & 0.138 \\
+  6 & 0.611 & 0.628 & 0.052 & 0.279 \\
+  8 & 0.848 & 0.856 & 0.052 & 0.474 \\
+  10 & 0.961 & 0.971 & 0.054 & 0.679 \\
+  \hline
+\end{longtable}
+
+\section{Conclusion}
+In this paper we suggested a new test for equality of two distributions. Its asymptotic power was analytically established for the case of Caushy distributions that differ only by shift. By stochastic simulation we found that in this case its power is approximately equal to that of the Wilcoxon-Mann-Whitney and the
+Kolmogorov - Smirnov tests. But if the distributions differ also by the scale parameter simulations show that the new test is considerably better than the alternative tests.
+
+\section*{Acknowledgments}
+The authors are indebted to professor
+ Yakov Nikitin for the help in calculating the  integrals. Work of Viatcheslav Melas was supported by RFBR (grant N 20-01-00096).
+
+\section{Appendix}
+Proof of Theorem 1.
+
+Let us begin with studying the asymptonic behaviour of the magnitude $E(nT_n)^2$.
+
+\begin{lemma}
+(1) If hypothesis $H_0$ is satisfied and $F_1$ posesses property (3) then there exists a finite  limit of $d=\lim E(nT_n)^2$ with $n \to \infty.$ 
+
+(2)If hypothesis $H_1$ is satisfied for $F_2(x)= F_1(x-\theta,\theta= h/\sqrt{n}$ and $F_1$ and $F_2$ possess property (3)  then there exists a finite  limit of $E(nT_n)^2$ for $n \to \infty$ and it is given by the formula
+$$
+d + 2J^*(h)J_0 + J^*(h)^2.
+$$
+\end{lemma}
+Proof of the lemma.\\
+Note that $(nT_n)^2$ is equal to
+\begin{eqnarray*}
+n^2 [\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]-\frac{1}{ n(n-1)}\sum_{i<j,i,j=1}^n  [g(X_i - X_j)-J_0] - \\ \frac{1}{n(n-1)}[\sum_{i<j,i,j=1}^n  [g(Y_i - Y_j)-J_0]]^2,
+\end{eqnarray*}
+where $g(z)= \ln(1+z^2).$\\
+The idea of the proof consists in the splitting the three squares of three sums/ including in this sum and three 
+pairwise products into peculiar sums of the identical structure.
+Then to each peculiar sum either law of large numbers or central limit theorem is applied.\\
+
+The square of the first sum, 
+\begin{eqnarray*}
+n^2 \{\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]\}^2,
+\end{eqnarray*}
+can be represented by sum of the following peculiar sums.
+\begin{eqnarray*}
+1)\,\,n^2 (\frac{1}{n^2})^2 \sum_{i,j=1}^n [(g(X_i - Y_j) -J_1]^2, 
+\end{eqnarray*}
+\begin{eqnarray*}
+2a)\,\,n^2(\frac{1}{n^2})^2 \sum_{i,j=1,i \ne j}^n\sum_{k=1}^n [(g(X_i - Y_j)-J_0][(g(X_k - Y_j)-J_0], 
+\end{eqnarray*}
+\begin{eqnarray*}
+2b)\,\,n^2(\frac{1}{n^2})^2 \sum_{i,j=1,i \ne j}^n\sum_{k=1}^n [g(Y_k - X_i)-J_0][g (Y_k - X_j)-J_0], 
+\end{eqnarray*}
+\begin{eqnarray*}
+3)\,\, n^2 (\frac{1}{n^2})^2 \sum_{i,j=1}^n\sum_{{l,k=1}, (l \ne  k)or(i\ne j)}^n  [g (X_i - Y_j)-J_0][g(X_l - Y_k)^2)-J_0]. 
+\end{eqnarray*}
+
+Similar expression can be obtained for each of the two other squares and three  pairwise
+products. 
+Note the limit with $n \to \infty$ for the peculiar sums of the tipe 1) is finite due to the law of large numbers.
+
+The peculiar sums of type 3) consist of multiplications of indepent terms with zero expectation. Therefore for any n the expectation of these peculiar sums is zero and the limit is also equal to 0.
+
+Consider the peculiar sum $ES^2_{xy,2a}.$  It can be written as $I_1 - I_2$, 
+$$
+I_1=\frac{1}{n}\sum_{k=1}^n \{[\sum_{i=1}^n 
+(g(x_k-y_i)-J_0)]/\sqrt{n}[(\sum_{j=1}^n 
+g(x_k-y_j)-J_0)/\sqrt{n},
+$$
+$$
+I_2= \frac {1}{n^2}\sum_{i,j=1}^n(g(|x_i-y_j)^2.
+$$
+
+Note that $I_2$ tends with $n \to \infty$ to a finite limit due to the law of large numers. And
+due to the central limit theorem
+under fixed  $X_k$ the random value
+$$
+\sum_{i=1}^n 
+g(|[x_k-y_i|)-J_1)/\sqrt{n}
+$$
+tends to normal random value with zero expectation and a finite variance.
+
+Others sum of type 3) have a similar behaviour.Thus under $H_0$  there exists a final limit
+$$
+\lim_{n \to \infty}E(nT_n)^2.
+$$
+Denote this limit by $d$.
+
+Thus the first part of the lemma is proved.
+
+Let now $H_1$ holds with 
+$|h|>0$. In this case only the behavior of the following sums
+\begin{eqnarray*}
+n^2 \{\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]\}^2,
+\end{eqnarray*}
+$$
+S_{xy,xx,2}=n^2 (\frac{1}{2n(n-1)n^2})\sum_{k=1}^n \sum_{i,j=1, i\ne j,k, j\ne k}^n[(\ln(1 + (X_k - Y_i)^2)-J_1][(\ln(1 + (X_k - X_j)^2)-J_1], 
+$$
+$$
+S_{xy,xx,3}=n^2 (\frac{1}{2n(n-1)n^2})\sum_{i,j=1}^n\sum_{k=1,l=1,l \ne k}^n [(\ln(1 + (X_k - Y_i)^2)-J_1][(\ln(1 + (X_l - X_j)^2)-J_1].
+$$
+and $S_{xy,yy,2},S_{xy,xy,3}$ that are determined in a similar way that  $S_{xy,xx,2},S_{xy,xx,3}$.
+By a direct calculation we will obtain that
+$$
+\lim_{n \to \infty}E(nT_n)^2=
+d + 2J^*(h)J_0 + J^*(h)^2.
+$$
+
+Lemma is proved.
+
+\begin{lemma} For $g(x)= x^2$ the following identity holds
+$$
+\Phi_{nm}= (\bar x - \bar y)^2,
+$$
+where
+$$
+\bar x = (\sum_{i=1}^n X_i)/n,
+\bar y = (\sum_{i=1}^m Y_i)/m.
+$$
+\end{lemma}
+
+The proof follows from the known formula [see f.e.\cite{Hoeffding}, p.296]
+$$
+\frac {1}{n(n-1)}\sum_{1\leq i<j\leq n
+} (X_i-X_j)^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2.
+$$
+by  direct calculations.
+
+Assume that $H_0$ holds. Let  $C$ be an arbitrary positive number,
+$$
+\tilde{X}=(\tilde{X_{1}},\ldots,\tilde{X_{n}}),\,\,\,
+\tilde{Y}=(\tilde{Y_{1}},\ldots, \tilde{Y_{n}}),
+$$
+where $\tilde{X_{i}}=X_{i}$, if $
+|X_{i}| \leq C$ and
+ $\tilde{X_i}=C$ if $X_{i}>0$,
+  $\tilde{X_i}=-C$ if $X_{i}<0$ otherwise. And $\tilde{Y_{i}}$ are determined similarly. Note that  $0 \leq \ln (1+x^2) \leq x^2$. Therefore there exists a value $t$ that depends from $\tilde{X}$ and $\tilde{Y}$ such that
+\begin{equation}
+n\{\frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (\tilde{X_{i}} - \tilde{Y_j})^2 -\frac{1}{n(n-1)}\sum_{i<j} \ln(1 + (\tilde{X_i} - \tilde{X_j})^2) -
+\end{equation}
+\begin{equation}\label{T_n}
+ \frac{1}{n(n-1)}\sum_{i<j}  \ln(1 + (\tilde{Y_i} - \tilde{Y_j})^2)\}=
+t
+(\sum_{i=1}^n \tilde{X_{i}}/\sqrt{n}-\sum_{i=1}^n \tilde{Y_{i}}/\sqrt{n})^2.
+\end{equation}
+For constructing the right hand side we applied Lemma 2.
+Note  that for distributions $F_1$ and $F_2$  satisfying (\ref{Class}) it follows from Lemma 1 that the variance of the left hand side is finite. Therefore the variance of the right hand side is also finite for arbitrary $C$.
+Passing to the limit with $n\to \infty$ we obtain due to the central limit theorem that the right hand side has the limit distribution of the form (8) where  $Z$ has the normal distribution with zero expectation and variance equal to 1. And its variance  is equal to the variance of the left hand side  of $(\ref{T_n})$. Since $C$ is arbitrary we obtain that the limiting distribution has the required form for $H_0$. \\
+ For determining $a$ and $b$ in the part (ii) of the theorem  we now can use the equality
+ \begin{equation}\label{identity}
+ E((aZ+b)^2)^2 =\lim_{n \to \infty}
+ E(nT_n)^2,
+ \end{equation}
+ that follows from  $(\ref{T_n})$.
+
+Since $E Z^2=1, EZ^4=3$,  we have for the left hand side (\ref{identity})
+\begin{equation}\label{left}
+3a^4 + 6a^2b^2 + b^4.
+ \end{equation}
+ The formula for the left hand side follows from Lemma 1.
+ And the asymptotic behaviour of the efficiency follows from the asymptotic normality of $\sqrt nT_n$. 
+In order to calculate the right hand side of  (\ref{identity})in (iii)
+ the following result is crucial.
+\begin{lemma}If $X$ and $Y$ are independent random values with the distribution
+$C(0,1)$, then
+\begin{equation}
+ E \ln(1+ (X- Y)^2)= \ln 9,\,\,\,\,
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9
+ =
+ln(1+ \theta^2/9).
+\end{equation}
+\end{lemma}
+In order to prove this Lemma we need the following integrals
+\begin{equation}
+\label{i1}
+\int_{R}
+\frac {\ln(1+(x-y)^2)}{\pi(1+y^2)} dy = \ln(4+x^2),
+\end{equation}
+\begin{equation}
+\label{i2}
+\quad \int_{R} \frac {\ln(4+x^2)}{\pi(1+x^2)} dx = \ln 9,
+\end{equation}
+(\cite{GradRyzh2007}  4.296.2 and 4.295.7.)
+
+\begin{equation}
+\label{i3}
+\int_{R} \frac{\ln(4 +(x +\theta)^2 )}{\pi(x^2 +1)} dx = \ln(9+\theta^2),
+\end{equation}
+[see  \cite{PrudBrychMarich1981}, formula (2.6.14.19)].
+Using these integrals we obtain
+\begin{equation}
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9  = 2\int_{R} \int_{R} \frac{\ln(1+(x-y-\theta)^2)}{\pi^2(1+x^2)(1+y^2)} dx dy -\ln 9
+\end{equation}
+\begin{equation}
+= \int_{R}\frac{\ln(4 +(y+\theta)^2)}{\pi(1+y^2)} dy- \ln 9= \ln(9+\theta^2) -\ln 9 = \ln(1+ \theta^2/9).
+\end{equation}
+Submitting here  $\theta=0$ we obtain both formulas of the Lemma.
+Note that $\theta^2=nh^2$ and
+$$
+\lim_{n\to \infty} n \ln(1+ \theta^2/9)= (1/9)h^2.
+$$
+Therefore we obtain for the right hand side (8) with some algebra
+\begin{equation}\label{right}
+3a^4 + \frac{(2\ln 9 )h^2}{9} + \frac{h^4}{81}.
+ \end{equation}
+ From (\ref{left}) and  (\ref{right}) we obtain
+
+$$
+b=\frac{1}{3} h,\,\,a^2=\frac{2}{3}\ln 3.
+$$
+The formula for the power follows from the form of the limiting distribution  (\ref{Distr}).
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+\bibliographystyle{elsarticle-num-names}
+\bibliography{Moscow_testReferences}
+
+
+
+\section{References}
+ Lehmann E. (1986).  Testing  Statistical  Hypotheses,  Probability  and  Statistics  Series,  Wiley.
+
+Zech,  G. and Aslan, B.(2005).   New test for the multivariate two-sample problem based on the concept of minimum energy.Journal of Statistical Computation and Simulation 75(2), 109–119.
+
+ Wassily Hoeffding, A class of statistics with asymptotically normal distribution.
+Ann. Math. Statistics 19 (1948), 293–325.
+
+Buening, H. (2001). Kolmogorov-Smirnov- and Cram`er-von Mises type two-sample tests with various weight functions. Communications in Statistics-
+Simulation and Computation, 30, 847-865.
+
+I.S. Gradshteyn and I.M. Ryzhik. Table of Integrals, series and products.Seventh edition AMSTERDAM,BOSTON,HEIDELBERG, LONDON
+
+
+
+A. P. Prudnikov, Yu. A. Brychkov, and O. I. Marichev, Integrals and Series. Elementary Functions (Nauka, Moscow, 1981) [in Russian].
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+% \bibliographystyle{model1-num-names}
+
+%% New version of the num-names style
+\bibliographystyle{elsarticle-num-names}
+\bibliography{sample}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-1-num.tex'.
