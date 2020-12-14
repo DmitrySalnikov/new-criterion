@@ -1,5 +1,6 @@
 path = '/home/d/1/new_criteria'
 
+library(kSamples)
 library(foreach)
 library(doParallel)
 
@@ -59,7 +60,7 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
     return()
   }
 
-  print(paste0(distribution, ', ', details, ', ', Sys.time() - start.time))
+  print(paste0(distribution, ', ', details, ', ', round(as.numeric(Sys.time() - start.time, units="mins"), 1)))
 
   set.seed(500)
   X.set <- get(paste0('r', distribution))(n * M, par1[1], par1[2])
@@ -82,7 +83,7 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
   registerDoParallel(cluster)
   res <- rowMeans(sapply(1:M, function(i) {
     if (i %% 10 == 0) {
-      print(paste0(i, ', ', Sys.time() - start.time))
+      print(paste0(i, ', ', round(as.numeric(Sys.time() - start.time, units="mins"), 1)))
     }
 
     X <- X.set[i, ]
@@ -116,6 +117,7 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
       c(
         wilcox.test = wilcox.test(X, Y)$p.value,
         ks.test     = ks.test(X, Y)$p.value,
+        ad.test     = ad.test(X, Y, method = "asymptotic")$ad[1,3],
         t.test      = t.test(X, Y)$p.value,
         var.test    = var.test(X, Y)$p.value
       ) < alpha

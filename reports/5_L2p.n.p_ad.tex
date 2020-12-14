@@ -1,0 +1,250 @@
+\documentclass{svproc}
+
+\begin{document}
+
+\begin{eqnarray*}
+  % L_2(Z)&=&\sum_{i,j=1}^{n}{\ln(1+|X_{i}-Y_{j}|^2)},\\
+  T_n(Z) = &-&\frac{1}{n^2}\sum_{i,j=1}^n\ln(1+(X_i-Y_j)^2)+ \\
+           &+&\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(X_i-X_j)^2)+\frac{1}{n(n-1)}\sum_{i<j}^n\ln(1+(Y_i-Y_j)^2).
+\end{eqnarray*}
+Critical value of Tn simulation criterion calculated by 1'000'000 iterations.
+\noindent
+1000 iterations was performed in each case, 800 permutations used for $T_n, perm$.
+
+\begin{eqnarray*}
+  formulae &=& P(z > z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}) + P(z < -z_{1-\alpha/2} - \frac{h}{\sqrt{6\ln 3}}),
+\end{eqnarray*}
+where $z\sim N(0,1),\quad 1/\sqrt{6\ln 3}\approx 0.389$.
+
+$ad.test$ comes from kSamples package with using only an asymptotic P-value approximation (see Pettitt, A.N. (1976), A two-sample Anderson\_Darling rank statistic, Biometrika, 63, 161-168.).
+
+\newpage
+
+\section*{Cauchy Mean}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formulae$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 6.4 & 6.3 & 6.8 & 6.6 & 6.3 & 7.1 \\
+  2 & 10.1 & 10.6 & 12.2 & 11.9 & 11.1 & 11.6 \\
+  3 & 19.6 & 20.3 & 21.5 & 20.5 & 20.2 & 20.7 \\
+  5 & 50.9 & 50.5 & 49.5 & 48.5 & 53.1 & 52.2 \\
+  7 & 82 & 82.3 & 77.8 & 77.2 & 83.6 & 80.7 \\
+  9 & 96.7 & 96.8 & 93.9 & 91.5 & 96.5 & 95.2 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4     & 7.1 \\
+  2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9    & 12.2 \\
+  3 & 21    & 21.8     & 21.5      & 22.2          & 24.3    & 22.8 \\
+  5 & 50.9  & 51       & 49.5      & 48            & 57.9    & 50.3 \\
+  7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9    & 81.1 \\
+  9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2    & 96.0 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 6.3 & 6 & 6.8 & 6.8 & 8.1 & 6.8 \\
+  2 & 11.4 & 11.9 & 12.2 & 12.9 & 13.4 & 12.9 \\
+  3 & 21 & 20.9 & 21.5 & 22.8 & 26.2 & 22.2 \\
+  5 & 53.6 & 53.6 & 49.5 & 50.8 & 59.6 & 54.2 \\
+  7 & 84 & 84.5 & 77.8 & 79.5 & 87.6 & 84.4 \\
+  9 & 96.6 & 96.6 & 93.9 & 93.2 & 98.3 & 96.3 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\newpage
+
+\section*{Cauchy Var}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 10.6 & 11.9 & 5.4 & 5.4 & 6.9 \\
+  4 & 27.6 & 29.8 & 5.5 & 8.7 & 11.3 \\
+  6 & 49.4 & 53.6 & 5.5 & 15.9 & 22.2 \\
+  8 & 68.8 & 73.5 & 5.5 & 25 & 37.7 \\
+  10 & 84.2 & 87.1 & 5.2 & 36.4 & 55.4 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 9.4 & 10 & 4.5 & 6.3 & 6.2 \\
+  4 & 28.5 & 30.6 & 4.8 & 14 & 12.3 \\
+  6 & 54.5 & 56.5 & 5 & 26.1 & 29.7 \\
+  8 & 79.5 & 80.5 & 5.2 & 43.3 & 51.0 \\
+  10 & 93 & 94 & 5.2 & 62.2 & 74.2 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 10.2 & 10.5 & 5 & 7.6 & 7.3 \\
+  4 & 32.4 & 33.8 & 5.2 & 13.8 & 14.9 \\
+  6 & 61.1 & 62.8 & 5.2 & 27.9 & 32.8 \\
+  8 & 84.8 & 85.6 & 5.2 & 47.4 & 59.7 \\
+  10 & 96.1 & 97.1 & 5.4 & 67.9 & 82.8 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\newpage
+
+\section*{Norm Mean}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 11.1 & 11.3 & 12.5 & 9.5 & 12.2 \\
+  2 & 29.3 & 29 & 31.1 & 20.5 & 29.6 \\
+  3 & 52.4 & 53.4 & 55.8 & 42 & 55 \\
+  4 & 77.5 & 77.5 & 80.6 & 64.9 & 78.9 \\
+  5 & 91.9 & 92.5 & 93.1 & 84.7 & 93.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 9.2 & 8.9 & 9.6 & 8.3 & 9.0 \\
+  2 & 23.9 & 23.9 & 26.3 & 20.6 & 25.4 \\
+  3 & 47.3 & 48.9 & 51.7 & 41.4 & 49.7 \\
+  4 & 75.3 & 75.1 & 77.8 & 66.9 & 76.9 \\
+  5 & 91.1 & 91 & 92.8 & 86.1 & 92.6 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$  & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 11 & 11.3 & 11.5 & 10 & 11.6 \\
+  2 & 26.4 & 27.4 & 28.5 & 22 & 27.7 \\
+  3 & 51.3 & 51.6 & 54.2 & 44.6 & 52.9 \\
+  4 & 76.7 & 77 & 79.3 & 68.9 & 77.9 \\
+  5 & 91.6 & 91.2 & 92.7 & 86.6 & 92.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\newpage
+
+\section*{Norm Var}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 8.1 & 8.7 & 6.4 & 5.3 & 7.3 \\
+  2 & 15 & 17.4 & 6.3 & 7.2 & 12.7 \\
+  3 & 30.5 & 34.2 & 6.6 & 10.7 & 24.0 \\
+  4 & 50.6 & 57.1 & 6.7 & 16.7 & 39.9 \\
+  5 & 70.8 & 76.7 & 6.5 & 24.8 & 59.9 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 8.3 & 8.4 & 5 & 7.4 & 7.7 \\
+  2 & 15.4 & 16.7 & 5.1 & 10.3 & 12.8 \\
+  3 & 33.2 & 34.7 & 5.4 & 16.4 & 28.3 \\
+  4 & 60 & 63.3 & 5.6 & 25.3 & 52.6 \\
+  5 & 83.1 & 86.3 & 5.5 & 40.4 & 78.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Power of tests for the Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 6.7 & 6.9 & 5.4 & 6 & 6.7 \\
+  2 & 15.1 & 16.4 & 5.5 & 9.9 & 13.1 \\
+  3 & 33.2 & 36 & 5.4 & 16.1 & 30.6 \\
+  4 & 62.2 & 64 & 5.6 & 27.5 & 56.8 \\
+  5 & 84.6 & 86.6 & 5.4 & 43.6 & 81.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\end{document}
