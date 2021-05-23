@@ -1,0 +1,636 @@
+\documentclass{svproc}
+
+\begin{document}
+
+%% Title, authors and addresses
+
+\mainmatter              % start of a contribution
+
+\title{On asymptotic power of the new test for equality of two distributions}
+
+\author{Viatcheslav Melas\inst{1} \and Dmitrii Salnikov\inst{2} \\
+    St. Petersburg State University, Department of Mathematics, Russia}
+
+\authorrunning{Viatcheslav Melas \and Dmitrii Salnikov} % abbreviated author list (for running head)
+
+\institute{Corresponding author, \email{vbmelas@yandex.ru}
+    \and
+    \email{mejibkop.ru@mail.ru}}
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+The paper introduces a new test for equality of two distributions in a class of models.  We proved analytically and by stochastic simulation that the test possesses high efficiency. For the case of normal and Cauchy distributions that differ only by shift the asymptotic power of the test appears to be approximately the same as for the Wilcoxon-Mann-Whitney, the Kolmogorov-Smirnov and the Anderson-Darling tests. But if the distributions differ by scale parameters the power of the new test is considerably better.
+
+\keywords{Test for equality of two distributions, Asymptotic power, Cauchy distribution, Normal distribution}
+\end{abstract}
+
+
+
+
+
+
+\section{Formulation of the problem}
+\label{S:1}
+Let us consider the classical problem of testing hypothesis on the equality of two distributions
+\begin{equation}
+  \label{H0}
+  H_0\,:\,F_1 = F_2
+\end{equation}
+against the alternative
+\begin{equation}
+  \label{H1}
+  H_1\,:\,F_1 \not= F_2
+\end{equation}
+in the case of two independent samples $X=(X_{1},\ldots, X_{n})$ and $Y=(Y_{1},\ldots, Y_{m})$ with the distributions functions $F_1$ and $F_2$ respectively.
+
+It is well known (see e.g. \cite{Lehman1986}) that in the case when both distributions differ only by the means and are normal the classical Student test has a few optimal properties. If the distributions are not normal but still differs only by means a widely popular Wilcoxon-Mann-Whitney (WMW) U-statistic is often used instead. However, it can be shown that if two normal populations differ only in variances, the power of WMW test is very low.
+If distributions are arbitrary there are some universal techniques such as tests by Kolmogorov-Smirnov and Cramer-von Mises  (see \cite{Buening2001}) and the Anderson-Darling test (see \cite{Anderson2011}) that can be applied but in many cases these tests can be not powerful.
+
+Recently, Zech and Aslan  \cite{AslanZech2005} suggested the test based on U-statistics with the logarithmic kernel and provided its numerical justification for one and many dimensional cases in comparison with a few alternative techniques.  However, to the best authors knowledge there are no analytical results about its asymptotic power. Here we introduce a similar but different test and provide a few analytical results on its power.
+
+
+
+
+
+\section{The new test and its statistical motivation}
+
+Assume that the distribution functions
+$F_1$ and $F_2$ belongs to the class of distribution functions of random variables  $\xi$, such that
+\begin {equation}\label{Class}
+E [\ln (1+ \xi^2)     ] < \infty.
+\end{equation}
+Many distributions and, in particular, the Cauchy distribution have this property.
+ \bigskip
+
+Among all distributions with given left hand side of (\ref{Class}) the Cauchy's one has the maximum entropy.\\
+
+
+Consider the following test
+\begin{equation}\label{K}
+ \Phi_{A}=-\frac{1}{n^2}\sum_{1\leq i<j\leq n} g(X_i-X_j),
+\Phi_{B}=-\frac{1}{m^2}\sum_{1\leq i<j\leq m} g(Y_i-Y_j),
+\end{equation}
+\begin{equation}\label{K1}
+\Phi_{AB}=-\frac{1}{nm}\sum_{i=1}^n\sum_{j=1}^m g(X_i-Y_j),
+\Phi_{nm}=\Phi_{AB}-\Phi_{A}- \Phi_{B},
+\end{equation}
+where
+$$
+g(u)= -\ln (1+|u|^2),
+$$
+$g(x)$ is under a constant term precision the logarithm of the density of the standard Cauchy distribution.
+(Note that Zech and Aslan (2005) took $g(u)= -\ln(|u|)$).
+
+
+
+We would like to have a test that is appropriate for the case where the  basic distribution belongs to a rather general class of distributions and the alternative distribution  differs only by shift and scale transformations.
+
+
+In particular, we consider the class of distributions satisfying (3), but the approach can be generalized for other classes of distributions.
+
+Consider the class of distributions given by the property (\ref{Class}). Note that if the parameters are known the test based on likelihood ratio is the most powerful among tests with given parameters.
+
+
+The test suggested above can be considered as an approximation of logarithm of this ratio for the Cauchy distribution. We suppose that it will be very efficient for all distributions with property (3).
+
+
+
+
+
+\section{The analytical study of asymptotic power}
+\label{S:2}
+
+Let us consider the case of two distributions having the property (\ref{Class}) and, in particular, the two that differ only by a shift. To simplify notations assume that $m=n$. The case $m\ne n$ is similar.
+Now the criterion  (4) - (5)  assumes the form
+\begin{equation}
+T_n=\Phi_{nn}= \frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (X_i - Y_j)^2)-\frac{1}{n^2}\sum_{1\leq i<j\leq n}  \ln(1 + (X_i - X_j)^2)
+\end{equation}
+\begin{equation}
+-  \frac{1}{n^2}\sum_{1\leq i<j\leq n}  \ln(1 + (Y_i - Y_j)^2).
+\end{equation}
+
+Denote by $C(u,v)$ the Cauchy distribution with the density function
+$$
+v/(\pi(v^2 + (x-u)^2)).
+$$
+
+Let $f(x)$ denotes the density of $F_1$.
+Denote
+\begin{eqnarray*}
+J_h =\int_R -g(x-y-|h|/\sqrt{n})f(x)f(y)dxdy,
+\end{eqnarray*}
+where $g(u)= - \ln (1+|u|^2)$.
+
+ By expending the function $g(u)= \ln (1+|u|^2)$ into the Taylor series we obtain that for arbitrary density function $f(x)$ there exists the finite limit 
+
+\begin{eqnarray}
+J^*(h)= lim_{n\to \infty} n(J_h - J_0)
+\end{eqnarray}
+and it is equal to
+$$
+(1/2)h^2 \int_R g''_\theta(x-y-\theta)f(x)f(y)dxdy|_{\theta=0}.
+$$
+(Note that the differentiation under integral is justified since the derivative $g ''_\theta(x-y-\theta)|_{\theta=0}$ is less than 2.)
+That is
+$$
+J^*(h)=h^2 \int_R \frac {1-(x-y)^2}{(1+(x-y)^2)^2} f(x)f(y)dxdy.
+$$
+Denote
+$$
+\bar b =\sqrt{J^*(h)/h^2}.
+$$
+
+The basic analytical result of the present paper is the following
+\begin{theorem} Consider the problem of testing hypothesis on the equality of two distributions (1)-(2) where both functions have the property (3).Then\\
+(i) under the condition $n \to \infty$
+the distribution function of $nT_n$  converges under $H_0$ to that of the random variable
+\begin{equation}\label{Distr}
+(aZ)^2,
+\end{equation}
+where  $Z$ has the normal distribution with zero expectation and variance equal to 1, $a>0$ is some number.
+
+(ii)
+Let $F_1(x)= F(x),F_2=F(x+\theta),$
+where  F is an arbitrary distribution function that is symmetric around a point and possess property   (3),
+$\theta=h/\sqrt{n},h$ is an arbitrary given number. Then
+the distribution function of $nT_n$  converges under $H_1$ to that of the random variable
+$$
+(aZ + b)^2,
+$$
+where $ b=0$
+for the case of $H_0$ and $b=\bar b h$
+for  $H_1$.
+In this case the power of the criterion $T_n$ with significance $\alpha$ is asymptotically equal to that is given by the formula
+In this case the power of the criterion $T_n$ with significance $\alpha$ is asymptotically equal to that is given by the formula
+$$
+Pr\{L\geq z_{1-\alpha/2}-\bar bh/a\}
++ Pr\{L\leq - z_{1-\alpha/2}-\bar bh/a\}.
+$$
+
+If $F_1=C(\nu,1), F_2=C(\nu + \theta,1)$ then $ b= h/3$. 
+\end{theorem}
+It is worth to mark that if the critical value for criteria $T_n$ and $U_n$ are determined by the permutation technique they give exactly the same results.
+Note that the analytical presentation for the coefficient $a$ is a difficult problem that is not solved up to now. However this coefficient can be easily found by stochastic simulation. In the case of Cauchy distribution we found a heuristic formula $3a^2= J_0$, that means $a =\sqrt{(2/3)\ln3}$. This formula provide a very exact approximation for empirical power (see tables 1-3 in the next section). 
+Thus in the case of Cauchy distributions with scale parameter equal to 1  the power of the criterion $T_n$ with significance $\alpha$ is approximately equal to
+$$
+Pr\{Z\geq z_{1-\alpha/2}-(1/\sqrt{6\ln 3})h\}
++ Pr\{Z\leq - z_{1-\alpha/2}-(1/\sqrt{6\
+ln 3})h\}.
+$$
+
+
+
+The proof of the theorem is given in the Appendix.
+
+
+
+
+
+
+
+
+\section{Simulation results}
+
+
+ We found by a stochastic simulation that the formula presents an approximation of the power of the test $T_n$ with a good accuracy (see tables 1-3 below).
+
+ At the tables 1-12 results for cases $n$ = 100, 500, 1000 and different values of h with $\alpha=0.05$ are given for normal and Cauchy distributions that differ either by shift or by scale parameters. The critical values were calculated in two ways: by simulation of the initial distribution and by random permutations (we used 800 random permutation in all cases). It worth to be noted that the results are very similar. Since the permutation technique is more universal, it can be recommended for practical applications.
+
+
+Note that in all these cases when the distributions differ only in the scale parameters the power of  $T_n$ and  that of the Wilcoxon-Mann-Whitney, the
+Kol\-mogorov-Smirnov and the Anderson-Darling tests were approximately equal to each other.
+It can be pointed out also that if the variances are not standard  but are known we should simply make the corresponding normalisation.
+But for the cases where the distributions differ in scale parameters the Wilcoxon-Mann-Whitney is not appropriate at all and the power of  the Kolmogorov-Smirnov and the Anderson-Darling tests is considerably lower.
+
+% \subsection{Cauchy distribution}
+
+%\vspace{2cm}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formulae$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 6.4 & 6.3 & 6.8 & 6.6 & 6.3 & 7.1\\
+  2 & 10.1 & 10.6 & 12.2 & 11.9 & 11.1 & 11.6 \\
+  3 & 19.6 & 20.3 & 21.5 & 20.5 & 20.2 & 20.7 \\
+  5 & 50.9 & 50.5 & 49.5 & 48.5 & 53.1 & 52.2 \\
+  7 & 82 & 82.3 & 77.8 & 77.2 & 83.6 & 80.7 \\
+  9 & 96.7 & 96.8 & 93.9 & 91.5 & 96.5 & 95.2 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 5.8   & 6.1      & 6.8       & 6.4           & 6.4      & 7.1 \\
+  2 & 11.6  & 11.6     & 12.2      & 12.6          & 13.9     & 12.2 \\
+  3 & 21    & 21.8     & 21.5      & 22.2          & 24.3     & 22.8 \\
+  5 & 50.9  & 51       & 49.5      & 48            & 57.9     & 50.3 \\
+  7 & 82.2  & 82.4     & 77.8      & 75.6          & 85.9     & 81.1 \\
+  9 & 96.2  & 96.5     & 93.9      & 93.2          & 97.2     & 96.0 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(h/\sqrt{n},1)$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$  & $T_n, perm$ & $T_n, sim$ & $formula$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 6.3 & 6 & 6.8 & 6.8 & 8.1 & 6.8\\
+  2 & 11.4 & 11.9 & 12.2 & 12.9 & 13.4 & 12.9 \\
+  3 & 21 & 20.9 & 21.5 & 22.8 & 26.2 & 22.2 \\
+  5 & 53.6 & 53.6 & 49.5 & 50.8 & 59.6 & 54.2 \\
+  7 & 84 & 84.5 & 77.8 & 79.5 & 87.6 & 84.4 \\
+  9 & 96.6 & 96.6 & 93.9 & 93.2 & 98.3 & 96.3 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 10.6 & 11.9 & 5.4 & 5.4 & 6.9 \\
+  4 & 27.6 & 29.8 & 5.5 & 8.7 & 11.3 \\
+  6 & 49.4 & 53.6 & 5.5 & 15.9 & 22.2 \\
+  8 & 68.8 & 73.5 & 5.5 & 25 & 37.7 \\
+  10 & 84.2 & 87.1 & 5.2 & 36.4 & 55.4 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 9.4 & 10 & 4.5 & 6.3 & 6.2 \\
+  4 & 28.5 & 30.6 & 4.8 & 14 & 12.3 \\
+  6 & 54.5 & 56.5 & 5 & 26.1 & 29.7 \\
+  8 & 79.5 & 80.5 & 5.2 & 43.3 & 51.0 \\
+  10 & 93 & 94 & 5.2 & 62.2 & 74.2 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Cauchy distribution, $X\sim C(0,1)$, $Y\sim C(0, 1 + h/\sqrt{n})$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  2 & 10.2 & 10.5 & 5 & 7.6 & 7.3 \\
+  4 & 32.4 & 33.8 & 5.2 & 13.8 & 14.9 \\
+  6 & 61.1 & 62.8 & 5.2 & 27.9 & 32.8 \\
+  8 & 84.8 & 85.6 & 5.2 & 47.4 & 59.7 \\
+  10 & 96.1 & 97.1 & 5.4 & 67.9 & 82.8 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+% \subsection{Normal distribution}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 11.1 & 11.3 & 12.5 & 9.5 & 12.2 \\
+  2 & 29.3 & 29 & 31.1 & 20.5 & 29.6 \\
+  3 & 52.4 & 53.4 & 55.8 & 42 & 55 \\
+  4 & 77.5 & 77.5 & 80.6 & 64.9 & 78.9 \\
+  5 & 91.9 & 92.5 & 93.1 & 84.7 & 93.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 9.2 & 8.9 & 9.6 & 8.3 & 9.0 \\
+  2 & 23.9 & 23.9 & 26.3 & 20.6 & 25.4 \\
+  3 & 47.3 & 48.9 & 51.7 & 41.4 & 49.7 \\
+  4 & 75.3 & 75.1 & 77.8 & 66.9 & 76.9 \\
+  5 & 91.1 & 91 & 92.8 & 86.1 & 92.6 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(h/\sqrt{n},1)$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$  & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 11 & 11.3 & 11.5 & 10 & 11.6 \\
+  2 & 26.4 & 27.4 & 28.5 & 22 & 27.7 \\
+  3 & 51.3 & 51.6 & 54.2 & 44.6 & 52.9 \\
+  4 & 76.7 & 77 & 79.3 & 68.9 & 77.9 \\
+  5 & 91.6 & 91.2 & 92.7 & 86.6 & 92.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=100$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  1 & 8.1 & 8.7 & 6.4 & 5.3 & 7.3 \\
+  2 & 15 & 17.4 & 6.3 & 7.2 & 12.7 \\
+  3 & 30.5 & 34.2 & 6.6 & 10.7 & 24.0 \\
+  4 & 50.6 & 57.1 & 6.7 & 16.7 & 39.9 \\
+  5 & 70.8 & 76.7 & 6.5 & 24.8 & 59.9 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=500$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 8.3 & 8.4 & 5 & 7.4 & 7.7\\
+  2 & 15.4 & 16.7 & 5.1 & 10.3 & 12.8 \\
+  3 & 33.2 & 34.7 & 5.4 & 16.4 & 28.3 \\
+  4 & 60 & 63.3 & 5.6 & 25.3 & 52.6 \\
+  5 & 83.1 & 86.3 & 5.5 & 40.4 & 78.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \caption{Normal distribution, $X\sim N(0,1)$, $Y\sim N(0, 1 + h/\sqrt{n})$, $n=1000$}
+  \begin{center}
+  \begin{tabular}{c@{\quad}c@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+  \hline
+  $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ & $ad.test$ \\
+  \hline
+  % $h$ & $T_n, perm$ & $T_n, sim$ & $wilcox.test$ & $ks.test$ \\
+  1 & 6.7 & 6.9 & 5.4 & 6 & 6.7 \\
+  2 & 15.1 & 16.4 & 5.5 & 9.9 & 13.1 \\
+  3 & 33.2 & 36 & 5.4 & 16.1 & 30.6 \\
+  4 & 62.2 & 64 & 5.6 & 27.5 & 56.8 \\
+  5 & 84.6 & 86.6 & 5.4 & 43.6 & 81.1 \\
+  \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
+
+
+
+
+\section{Conclusion}
+In this paper we suggested a new test for equality of two distributions. Its asymptotic power was analytically established for the case of distributions that differ only by shift. For the case of Cauchy distribution this formula was presented in a closed form  since it proved to be possible to calculate the corresponding integrals analytically. Also the integrals in the formula can be evaluated though the sample data in a general case.
+
+By stochastic simulation we found that for the normal and Cauchy distributions that differ only by shift the power of the new test is approximately equal to that of the Wilcoxon-Mann-Whitney, the Kolmogorov-Smirnov and the Anderson-Darling tests. However if the distributions differ by the scale parameter our simulations show that the new test is considerably better than the Kolmogorov-Smirnov and the Anderson-Darling tests. And in this case the Wilcoxon-Mann-Whitney test is not appropriate at all.
+
+\section*{Acknowledgments}
+The authors are indebted to professor Yakov Nikitin for the help in calculating the  integrals. Work of Viatcheslav Melas was supported by RFBR (grant N 20-01-00096).
+
+\section{Appendix}
+Proof of Theorem 1.
+Let us consider the test $(\ref{K})-(\ref{K1})$ with the function $g(u)=-u^2$ that is the logarithm of the density of the standard Normal distribution.
+
+
+\begin{lemma} For $g(x)= x^2$ the following identity holds
+$$
+\Phi_{nn}= (\bar x - \bar y)^2
+$$
+where
+$$
+\bar x = (\sum_{i=1}^n X_i)/n,
+\bar y = (\sum_{i=1}^n Y_i)/m.
+$$
+\end{lemma}
+Denote
+$$ 
+ Z=(X,Y)= (X_1,\dots, X_n,Y_1,\dots, Y_n),
+V(Z)=\frac{1}{2}\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2.
+$$
+The proof follows from the known formula [see e.g. \cite{Hoeffding}, p.296]
+\begin{equation}\label{step1} 
+\frac {1}{n(n-1)}\sum_{1\leq i<j\leq n
+} (X_i-X_j)^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+\end{equation}
+and the obvious identity
+\begin{equation}\label{step2}
+\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2=\sum_{i,j=1}^n(X_i-X_j)^2+
+\sum_{i,j=1}^n (Y_i-Y_j)^2+2\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2,
+\end{equation}
+by  direct but non trivial  calculations. 
+
+Really, let us use the standard notation
+$$
+S_x^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+$$
+And  $S_y^2$ and $S_z^2$ will be understood in the similar way.
+Denote 
+$$
+S_{xy}=\frac{1}{n^2}\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2.
+$$
+Note that due to formula $(\ref{step1})$ for X replaced by Z
+\begin{equation}\label{step3a}
+V(Z)=2n[\sum_{i=1}^n(X_i- (\bar x + \bar y)/2)^2 +\sum_{j=1}^n(Y_i- (\bar x + \bar y)/2)^2] = 2n(n-1) (S_x^2 + S_y^2) +n^2(\bar x- \bar y)^2.
+\end{equation}
+From ($\ref{step1}$) and  ($\ref{step2}$) we obtain
+\begin{equation}\label{step3}
+n^2S_{xy}=V(Z)-n(n-1)(S_x^2+S_y^2).
+\end{equation}
+Therefore
+$$
+S_{xy} =\frac{1}{n}(n-1)(S_x^2+S_y^2)+ (\bar x-\bar y)^2,
+$$
+and we obtain
+
+$$
+\Phi_{nn}= S_{xy} - \frac{1}{n}(n-1)(S_x^2+S_y^2)=(\bar x - \bar y)^2.  
+$$
+Thus Lemma 1 is proved.
+It follows from this lemma, that the criterion $\Phi_{nn}$ in this case is equivalent to that of the criterion $(\bar x - \bar y)^2.$
+
+Let us turn to the proof of the theorem.
+
+Assume that either $H_0$ or $H_1$ holds. Then due to the law of large numbers for $U-$statistics (\cite{Hoeffding}) each of the sums 
+$$
+\Phi_{AB}=\frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (X_i - Y_j)^2),
+$$
+$$
+\Phi_{A}+ \Phi_{B}=\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (X_i - X_j)^2)+
+\frac{1}{n(n-1)}\sum_{1\leq i<j\leq n}  \ln(1 + (Y_i - Y_j)^2)
+$$
+tends to $J_0$. 
+
+Moreover,
+$$
+\Phi_{AB}= J_0 +  O(\frac{1}{n^2}),
+$$
+$$
+\Phi_{A}+ \Phi_{B}=J_0 +  O(\frac{1}{n^2}).
+$$
+It means that
+\begin{equation}\label{inequality}
+lim_{n \to \infty} nT_n <D,
+\end{equation}
+where D is a constant.
+
+ Note that  $0 \leq \ln (1+x^2) \leq x^2$.  By this reason
+$\Phi_{AB}$ is between 0 and $S_{xy}$. Due to theorem about the mean it is equal to $c_nS_{xy}$, $0<c_n<1$ and $c_n$ tends to a constant c with $n \to \infty$. In a similar way, 
+$\Phi_{A}+ \Phi_{B}= c1_n(\frac{n}{n-1}(S_x^2+S_y)^2)$
+and $c1_n$ tends to $c1$ while $c1=c$.
+
+Let  $C$ be an arbitrary positive number,
+$$
+\tilde{X}=(\tilde{X_{1}},\ldots,\tilde{X_{n}}),\,\,\,
+\tilde{Y}=(\tilde{Y_{1}},\ldots, \tilde{Y_{n}}),
+$$
+where $\tilde{X_{i}}=X_{i}$, if $
+|X_{i}| \leq C$ and
+ $\tilde{X_i}=C$ if $X_{i}>0$,
+  $\tilde{X_i}=-C$ if $X_{i}<0$ otherwise. And $\tilde{Y_{i}}$ are determined similarly. 
+  
+
+ 
+ Consider the function
+\begin{equation}\label{T_n1}
+n\{\frac{1}{n^2}\sum_{i,j=1}^n \ln(1 + (\tilde{X_{i}} - \tilde{Y_j})^2 -\frac{1}{n(n-1)}\sum_{i<j} \ln(1 + (\tilde{X_i} - \tilde{X_j})^2) -
+\end{equation}
+\begin{equation}\label{T_n2}
+ \frac{1}{n(n-1)}\sum_{i<j}  \ln(1 + (\tilde{Y_i} - \tilde{Y_j})^2)\}.
+\end{equation} 
+Denote
+$$
+(1/n)[V(\tilde Z)+n^2(\tilde x-\tilde y)^2],\tilde x =\sum_{i=1}^n \tilde X/n,\tilde y =\sum_{i=1}^n \tilde Y/n.
+$$
+Using the arguments presented above for proving $(ref{inequality})$ it can be checked there exists a value $t_n$ that depends on $\tilde{X}$ and $\tilde{Y}$ and numbers  $B_n$  such that it is equal to
+\begin{equation}\label{T_n3} 
+  t(\sum_{i=1}^n \tilde{X_{i}}/\sqrt{n}-\sum_{i=1}^n \tilde{Y_{i}}/\sqrt{n})^2 + B_n,
+\end{equation}
+and $B_n$ is $O(\frac{1}{n})$.
+
+Consider expression $(\ref{T_n1})$-$(\ref{T_n2})$. Note  that for distributions $F_1$ and $F_2$  satisfying (\ref{Class}) it follows from Lemma 1 that  with $\tilde X_i$ and $\tilde Y_i$ replaced by $X_i$ and $Y_i$, respectively, it is bounded from above due to  $(\ref{inequality})$. Therefore  the expression $(\ref{T_n2})$ tends with $n\to \infty$ to a random variable with a finite variance for arbitrary $C$.
+Passing to the limit with $n\to \infty$ we obtain due to the central limit theorem that the right hand side has the limit distribution of the form (9), where  $Z$ has the standard normal distribution.  Since $C$ is arbitrary we obtain that the limiting distribution has the required form. \\
+For determining $b$ in the part (ii) of the theorem  we now can use the equality
+ \begin{equation}\label{identity}
+ (aZ+b)^2=\lim_{n \to \infty}
+ nT_n,
+ \end{equation}
+ that follows from  the equality between $(\ref{T_n1})$-$(\ref{T_n2})$ and $(\ref{T_n3})$. If $H_0$ take place we obviously have $b=0$. In the case when $H_1$ take place $EnT_n$ is asymptotically equivalent to  
+$$
+(n(J_h - J_0))^2+En\hat{T_n}
+$$
+where $\hat{T_n}$ received from $T_n$ by replacing  $Y_i$ by $Y_i - b/\sqrt{n},$ $i=1,\dots,n$
+and we obtain by passing to the limit with $n\to\infty$ that 
+$$
+b= \bar bh, 
+\bar b =\sqrt{J^*(h)/h^2}.
+$$ 
+ And the asymptotic behaviour of the power announced in (ii) follows from the asymptotic normality of $\sqrt{nT_n}$.
+In order to calculate $\bar b$ in the case when $F_1$ is the standard Cachy distribution
+ the following result is crucial.
+\begin{lemma}If $X$ and $Y$ are independent random variables with the distribution
+$C(0,1)$, then
+$$
+ E \ln(1+ (X- Y)^2)= \ln 9,\,\,\,\,
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9
+ =
+ln(1+ \theta^2/9).
+$$
+\end{lemma}
+In order to prove this Lemma we need the following integrals
+$$
+\int_{R}
+\frac {\ln(1+(x-y)^2)}{\pi(1+y^2)} dy = \ln(4+x^2),
+$$
+$$
+\quad \int_{R} \frac {\ln(4+x^2)}{\pi(1+x^2)} dx = \ln 9,
+$$
+(\cite{GradRyzh2007}  4.296.2 and 4.295.7.)
+$$
+\int_{R} \frac{\ln(4 +(x +\theta)^2 )}{\pi(x^2 +1)} dx = \ln(9+\theta^2),
+$$
+[see  \cite{PrudBrychMarich1981}, formula (2.6.14.19)].
+Using these integrals we obtain
+$$
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9  = 2\int_{R} \int_{R} \frac{\ln(1+(x-y-\theta)^2)}{\pi^2(1+x^2)(1+y^2)} dx dy -\ln 9
+$$
+$$
+= \int_{R}\frac{\ln(4 +(y+\theta)^2)}{\pi(1+y^2)} dy- \ln 9= \ln(9+\theta^2) -\ln 9 = \ln(1+ \theta^2/9).
+$$
+Submitting here  $\theta=0$ we obtain both formulas of the Lemma.
+Note that $\theta^2=nh^2$ and
+$$
+\lim_{n\to \infty} n \ln(1+ \theta^2/9)= (1/9)h^2.
+$$
+Therefore we obtain $\bar b = 1/3$ that completes the proof of the theorem.
+\begin{thebibliography}{6}
+
+\bibitem{Lehman1986}
+Lehmann E.: Testing  Statistical  Hypotheses,  Probability  and  Statistics  Series,  Wiley (1986).
+
+\bibitem{Buening2001}
+Buening, H.: Kolmogorov-Smirnov and Cram`er-von Mises type two-sample tests with various weight functions. Communications in Statistics-Simulation and Computation, 30, pp. 847-865 (2001).
+
+\bibitem{Anderson2011}
+Anderson T.W.:  Anderson–Darling Tests of Goodness-of-Fit. In: Lovric M. (eds) International Encyclopedia of Statistical Science. Springer, Berlin, Heidelberg.(2011) https://doi.org/10.1007/978-3-642-04898-2\_118
+
+\bibitem{AslanZech2005}
+Zech, G., Aslan, B.: New test for the multivariate two-sample problem based on the concept of minimum energy. Journal of Statistical Computation and Simulation 75(2), pp. 109-119 (2005).
+
+\bibitem{Hoeffding}
+Wassily Hoeffding: A class of statistics with asymptotically normal distribution. Ann. Math. Statistics 19, pp. 293-325 (1948).
+
+\bibitem{GradRyzh2007}
+Gradshteyn, I.S., Ryzhik, I.M.: Table of Integrals, series and products. Seventh edition AMSTERDAM,BOSTON,HEIDELBERG, LONDON
+
+\bibitem{PrudBrychMarich1981}
+Prudnikov, A.P., Brychkov, Yu.A., and Marichev, O.I.: Integrals and Series. Elementary Functions (Nauka, Moscow, 1981) [in Russian].
+
+\end{thebibliography}
+
+\end{document}
