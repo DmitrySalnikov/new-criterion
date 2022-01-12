@@ -1,0 +1,755 @@
+%% This is file `elsarticle-template-1-num.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1-num.tex 149 2009-10-08 05:01:15Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1-num.tex $
+%%
+\documentclass[final,11pt,3p]{elsarticle}
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% The graphicx package provides the includegraphics command.
+\usepackage{graphicx}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+
+\begin{document}
+
+\section*{{\Large On asymptotic power of some  tests for equality of  distributions}}
+
+
+\section{Formulation of the problem}
+\label{S:1}
+Let us consider the classical problem of testing hypothesis on the equality of two distributions
+\begin{equation}
+  \label{H0}
+  H_0\,:\,F_1 = F_2
+\end{equation}
+against the alternative
+\begin{equation}
+  \label{H1}
+  H_1\,:\,F_1 \not= F_2
+\end{equation}
+in the case of two independent samples $X=(X_{1},\ldots, X_{n})$ and $Y=(Y_{1},\ldots, Y_{m})$ with the distributions functions $F_1$ and $F_2$ respectively.
+
+It is well known (see e.g. \cite{Lehman1986}) that in the case when both distributions differ only by the means and are normal the classical Student test has a few optimal properties. If the distributions are not normal but still differs only by means a widely popular Wilcoxon-Mann-Whitney (WMW) U-statistic is often used instead. However, it can be shown that if two normal populations differ only in variances, the power of WMW test is very low.
+If distributions are arbitrary there are some universal techniques such as tests by Kolmogorov-Smirnov and Cramer-von Mises  (see \cite{Buening2001}) and the Anderson-Darling test (see \cite{Anderson2011}) that can be applied but in many cases these tests can be not powerful.
+
+Zech and Aslan  \cite{AslanZech2005} suggested the test based on U-statistics with the logarithmic kernel and provided its numerical justification for one and many dimensional cases in comparison with a few alternative techniques.  However, to the best authors knowledge there are no analytical results about its asymptotic power. Recently Melas and Salnikov [5] introduced a similar but different test and provide a few analytical results on its power. In particular, it was proved that the test statistic  is asymptotically distributed as the square of a Normal distribution. 
+Here we derive an explicit formula for parameters of that distribution and establish a minimax property of the test.
+
+
+
+
+
+\section{The new test and its statistical motivation}
+
+Assume that the distribution functions
+$F_1$ and $F_2$ belongs to the class of distribution functions of random variables  $\xi$, such that
+\begin {equation}\label{Class}
+E [g^2(\xi)    ] < \infty,
+\end{equation} 
+where $g(x)$ is a given function, in particular, $g(x)= \ln(1+x^2)$.
+
+Many distributions and, in particular, the Cauchy distribution have this property for $g(x)= \ln(1+x^2)$.
+ \bigskip
+
+Consider the following test
+\begin{equation}\label{K}
+ \Phi_{A}=\frac{1}{n^2}\sum_{1\leq i<j\leq n} g(X_i-X_j),
+\Phi_{B}=\frac{1}{m^2}\sum_{1\leq i<j\leq m} g(Y_i-Y_j),
+\end{equation}
+\begin{equation}\label{K1}
+\Phi_{AB}=\frac{1}{nm}\sum_{i=1}^n\sum_{j=1}^m g(X_i-Y_j),
+\Phi_{nm}=\Phi_{AB}-\Phi_{A}- \Phi_{B},
+\end{equation}
+where $g(x)$ is a given function. We will assume that it is non negative, symmetric around the origin and twice continuously differentiable.
+In [5] it was considered the case
+$$
+g(u)=\ln (1+|u|^2),
+$$
+this function is under a constant term precision the logarithm of the density of the standard Cauchy distribution.
+(Note that Zech and Aslan (2005) took $g(u)= \ln(|u|)$).
+
+
+
+We would like to have a test that is appropriate for the case where the  basic distribution belongs to a rather general class of distributions and the alternative distribution  differs only by shift and scale transformations.
+
+
+Consider the class of distributions given by the property (\ref{Class}). Note that if the parameters are known the test based on likelihood ratio is the most powerful among tests with given parameters.
+
+
+The test suggested above can be considered as an approximation of logarithm of this ratio for the a special distribution. We will prove that it is very efficient for all distributions with property (3) and possesses a remarkable minimax property. 
+
+
+
+
+
+\section{The analytical study of asymptotic power}
+\label{S:2}
+
+Let us consider the case of two distributions having the property (\ref{Class}) 
+and, in particular, the two that differ only by a shift. To simplify notations assume that $m=n$. The case $m\ne n$ is similar.
+Now the criterion  (4) - (5)  assumes the form
+\begin{equation}\label{def}
+T_n=\Phi_{nn}= \frac{1}{n^2}\sum_{i,j=1}^n g(X_i - Y_j)-\frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(X_i - X_j)
+\end{equation}
+\begin{equation}
+-  \frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(Y_i - Y_j).
+\end{equation}
+
+
+
+Let $f(x)$ denotes the density of $F_1$. We will interest in the two distribution that are differ by a normalized  shift bThe natural normalizing coefficient that characterize the "width" under $H_0$ is  square root of the entropy of the difference of two independent random variables with density $f(x)$. 
+Denote
+\begin{eqnarray}\label{basic}
+J_h= J_h (f,g)=\int_R g(x-y-|h|/\sqrt{2H(f)n})   f(x)f(y)dxdy.
+\end{eqnarray}
+where $g(u)$ is a function such that the integral exists,
+$H(f)$ is the entropy of $f$. Assume also that $g(0)=0$.
+
+Since $g(x)$ is twice differentiable we obtain that for arbitrary density function $f(x)$ there exists the finite limit 
+
+\begin{eqnarray}
+J^*(h)= lim_{n\to \infty} n(J_h - J_0)
+\end{eqnarray}
+and it is equal to
+\begin{equation}\label{int}
+(1/2)\frac {h^2}{2H(f)} \int_R g''_\theta(x-y-\theta)f(x)f(y)dxdy|_{\theta=0}
+\end{equation}
+under the supposition that $g(x)$ is such that the differentiation under the integral is possible.
+Denote
+$$
+\bar b =\sqrt{J^*(h)/h^2}.
+$$
+
+The first analytical result of the present paper is the following
+\begin{theorem} Consider the problem of testing hypothesis on the equality of two distributions (1)-(2) where both functions have the property (3). Let $g(x)$ be an arbitrary non negative, symmetric around the origin and twice continuously differentiable function and $g(0)=0$. Then\\
+(i) under the condition $n \to \infty$
+the distribution function of $nT_n$  converges under $H_0$ to that of the random variable
+\begin{equation}\label{Distr}
+2a^2(L)^2,
+\end{equation}
+where  $L$ has the normal distribution with zero expectation and variance equal to 2  , $a^2=J_0/2$.
+
+(ii)
+Let $F_1(x)= F(x),F_2=F(x+\theta),$
+where  F is an arbitrary distribution function that is symmetric around a point and possess property   (3),
+$\theta=h/\sqrt{2H(f)n},h$ is an arbitrary given number.
+Assume that $g(x)$ is such that the integral (\ref{int})
+is existed and finite.  Then
+the distribution function of $nT_n$  converges under $H_1$ to that of the random variable
+$$
+2a^2(L + b)^2,
+$$
+where  $b=\bar b h$.
+
+In this case the power of the criterion $T_n$ with significance $\alpha$ is asymptotically equal to that is given by the formula
+$$
+Pr\{L\geq z_{1-\alpha/2}-\bar bh/a\}
++ Pr\{L\leq - z_{1-\alpha/2}-\bar bh/a\},
+$$
+where $z_{1-\alpha/2}$ is such that
+$$
+Pr \{L\geq z_{1-\alpha/2}\}= \alpha/2.
+$$
+
+
+\end{theorem}
+
+
+
+
+
+The proof of this theorem and the next results are given in the Appendix.
+
+
+
+The result of Theorem 1 allows to establish some interesting properties properties of the criterion (6)-(7).
+Denote
+\begin{equation}\label{gamma}
+p(u) = \exp(-g(u))/\int_R \exp(-g(x)) dx. 
+\end{equation}
+
+
+
+   
+
+Let f(x) be a density function that is symmetric around zero and  such that 
+\begin{equation}\label{basic inequality}
+J_0(f,g)/ (2H(f)) \leq K,
+\end{equation} 
+where $K$ is a given constant. 
+Denote
+$$
+K^*=\int_R g(x)p(x)dx/(H(p)),
+$$
+where p is determined by formula (\ref{gamma}).
+Set $v=1$ if $K=K^*$, otherwise
+\begin{equation}\label{coefficient}
+v= arg \min_v \max_f \int_R g(v(x-y))/\sqrt{2H(f)n}f(x)f(y)dxdy,
+\end{equation}
+where maximum is taken over all density functions that are symmetric around the origin and satisfy $(\ref{basic inequality})$.
+Set 
+$\tilde K = K^*$ if $K=K^*$ and
+$$
+\tilde K=\min_v \max_f \int_R g(v(x-y))/\sqrt{2H(f)n}f(x)f(y)dxdy,
+$$
+otherwise.
+
+Note that the asymptotic power of the criterion $T_n$ is increasing function of the magnitude
+\begin{equation}\label{efficiency}
+\bar b/a,,
+\end{equation}
+where $a=\sqrt{J_0(f,g)},\bar b= \sqrt{J''_h(f,g)|_h=0}.$
+
+\begin{definition}Let us call the magnitude (\ref{efficiency}) the {\it asymptotic efficiency} (for the case when the distribution can differ only by a shift) and denote it as 
+$$
+Eff(T_n(f,g)).
+$$
+\end{definition}
+
+
+\begin{theorem}.Assume that $F_1$ has a one dimensional distribution with density $f_1 = f$  that is symmetric in respect to zero  and such that inequality (3)in power.
+Let we have
+\begin{equation}\label{Bound}
+J_0 \leq \tilde K.
+\end{equation}
+
+Assume also that under $H_1$ the distributions are differ only by a shift and
+$$
+F_1(x)= F(x),F_2=F(x+\theta),\theta=h/\sqrt{2H(f)n},$$
+where h is an arbitrary given number.
+Then the lower bound of the asymptotic power of the test $\Phi_{nn}$ 
+ among all distributions satisfying the properties above is achieved for $f$ such that
+$$
+f^*f(x)= p(vx),
+$$
+where $p$ is given by formula (\ref{gamma}), $v$ is determined by (\ref{coefficient}).
+\end{theorem}
+One more result concerns with the optimal choice of $g(x)$ for a fixed density function f.
+Denote by $G(f)$ the class of all twice differentiable functions $\tilde g$ such that $g(x)=0$ and for a fixed symmetric around origin density functions f(x) the inequality 
+$$
+E\tilde g^2(x)< \infty
+$$
+is in power.
+Note that $g(x) \in G(f)$ for any function f satisfying (\ref{Class}). Thus $G(f)$ is not empty for such functions.
+
+\begin{theorem} For any function f satisfying (\ref{Class})
+\begin{equation}\label{max property}
+\max _{\tilde g \in G(f)} Eff(T_n(f,\tilde g))=Eff(T_n(f,g^*(f))),
+\end{equation}
+where
+$$
+g^*(f))=\ln p(x)/p(0), p=f*f.
+$$
+\end{theorem}
+
+Let now $\Phi(K,g)$  be the class of all densities that are symmetric around the origin, satisfy inequality (\ref{Class}) and the inequality
+$$
+Eg(\xi) \leq K,
+$$
+where $\xi$ is the sum of two independent random variables with density f(x). 
+Denote by $G$ the class of all twice differentiable functions $\tilde g$ such that $\tilde g(0)=0$ and for any $f \in \Phi$ we have 
+$$ 
+J_0(f,\tilde g) \leq K.
+$$.
+\begin{theorem}
+The asymptotic efficiency possess the following property
+\begin{equation}\label{minmax}
+\max_{\tilde g \in G} \min_{f \in \Phi} Eff(f,\tilde g)=\min_{f \in \Phi}
+\max_{\tilde g \in G}Eff(f,\tilde g)
+\end{equation}
+and the unique saddle point is $(f_{*},g_{*}),$ where 
+$g_{*}(x)= g(vx),$, v is defined in Thorem 2, and $f_{*}$ is such that $f_{*}^*f_{*}= p_{*}, p_{*}$ is determined by formula (\ref{gamma})with $g=g_{*}.$
+\end{theorem}
+\section{Concluding remarks}.
+Note that the optimal choice of the function g up to a scale parameter coincides with the function used in constructing the class of density functions . Numerical stochastic simulations show that optimality does not great influenced by misspecification of this parameter. Also note that the parameter can be easily evaluated by sampling data.
+We should simply take
+$$
+v_{opt}= \arg \min_v \frac{1}{n^2}\sum_{1\leq i<j\leq n} g(v(X_i-X_j))/v^2
+$$
+and use  $g(v_{opt} x)$ instead of $g(x)$ in the definition of the criterion.
+Thus the approach has a good perspectives for practical applications.
+
+
+      \section{Appendix}
+Proof of Theorem 1.
+Let us consider the test $(\ref{K})-(\ref{K1})$ with the function $g(u)=u^2$. 
+
+\begin{lemma} For $g(x)= x^2$ the following identity holds
+$$
+\Phi_{nn}= (\bar x - \bar y)^2
+$$
+where
+$$
+\bar x = (\sum_{i=1}^n X_i)/n,
+\bar y = (\sum_{i=1}^n Y_i)/n.
+$$
+\end{lemma}
+Denote
+$$ 
+ Z=(X,Y)= (X_1,\dots, X_n,Y_1,\dots, Y_n),
+V(Z)=\frac{1}{2}\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2.
+$$
+The proof follows from the known formula [see e.g. \cite{Hoeffding}, p.296]
+\begin{equation}\label{step1} 
+\frac {1}{n(n-1)}\sum_{1\leq i<j\leq n
+} (X_i-X_j)^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+\end{equation}
+and the obvious identity
+\begin{equation}\label{step2}
+\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2=\sum_{i,j=1}^n(X_i-X_j)^2+
+\sum_{i,j=1}^n (Y_i-Y_j)^2+2\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2,
+\end{equation}
+by  direct but non trivial  calculations. 
+
+Really, let us use the standard notation
+$$
+S_x^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+$$
+And  $S_y^2$ and $S_z^2$ will be understood in the similar way.
+Denote 
+$$
+S_{xy}=\frac{1}{n^2}\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2.
+$$
+Note that due to formula $(\ref{step1})$ for X replaced by Z
+\begin{equation}\label{step3a}
+V(Z)=2n[\sum_{i=1}^n(X_i- (\bar x + \bar y)/2)^2 +\sum_{j=1}^n(Y_i- (\bar x + \bar y)/2)^2] = 2n(n-1) (S_x^2 + S_y^2) +n^2(\bar x- \bar y)^2.
+\end{equation}
+From ($\ref{step1}$) and  ($\ref{step2}$) we obtain
+\begin{equation}\label{step3}
+n^2S_{xy}=V(Z)-n(n-1)(S_x^2+S_y^2).
+\end{equation}
+Therefore
+$$
+S_{xy} =\frac{1}{n}(n-1)(S_x^2+S_y^2)+ (\bar x-\bar y)^2,
+$$
+and we obtain
+
+$$
+\Phi_{nn}= S_{xy} - \frac{1}{n}(n-1)(S_x^2+S_y^2)=(\bar x - \bar y)^2.  
+$$
+Thus Lemma 1 is proved.
+It follows from this lemma, that the criterion $\Phi_{nn}$ in this case is equivalent to the criterion $(\bar x - \bar y)^2.$
+
+Let us turn to the proof of the theorem.
+
+Assume that either $H_0$ or $H_1$ holds. Then due to the law of large numbers for $U-$statistics (\cite{Hoeffding}) each of the sums 
+$$
+\Phi_{AB}=\frac{1}{n^2}\sum_{i,j=1}^n g(X_i - Y_j),
+$$
+$$
+\Phi_{A}+ \Phi_{B}=\frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(X_i - X_j)+
+\frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(Y_i - Y_j)
+$$
+tends to $J_0$. \\
+Note that
+$$
+nT_n=n[\Phi_{AB}-J_0] -n[\Phi_{A}-\frac{1}{2}J_0]-n[\Phi_{B}- \frac{1}{2}J_0].
+$$
+Let us apply the limit theorem for $U$-statistics (see Theorem 7.1 \cite{Hoeffding}) to each of the three terms in brackets. We obtain that $nT_n$ tends to a random variable with a finite variance. Note that the conditions of the limit theorem are fulfilled for distributions $F_1$ with the property (3). 
+
+Denote by
+$$
+T_{n,g}(X,Y), X=(X_1,\dots,X_n), Y=(Y_1,\dots, Y_n) 
+$$
+the left hand side of (\ref{def}).
+Let  $C$ be an arbitrary positive number,
+$$
+\tilde{X}=(\tilde{X_{1}},\ldots,\tilde{X_{n}}),\,\,\,
+\tilde{Y}=(\tilde{Y_{1}},\ldots, \tilde{Y_{n}}),
+$$
+where $\tilde{X_{i}}=X_{i}$, if $
+|X_{i}| \leq C$ and
+ $\tilde{X_i}=C$ if $X_{i}>0$,
+  $\tilde{X_i}=-C$ if $X_{i}<0$ otherwise. And $\tilde{Y_{i}}$ are determined similarly. 
+Let 
+$$
+g^*(x)=x^2, \phi_n =T_{n,g}(X,Y),
+$$
+$$ 
+\tilde \phi_n =T_{n,g}(\tilde X,\tilde Y),\tilde \psi_n =T_{n,g^*}(\frac {\tilde X}{\sqrt{var \tilde X_1}} ,\frac {\tilde Y}{\sqrt{var \tilde Y_1}}),
+$$
+$$
+\tilde r_n=\frac {\tilde \phi_n/\tilde \psi_n}{var \tilde{ X_1}}  
+$$
+and note that under the assumption of the theorem $var \tilde X_1 =var \tilde Y_1$.
+
+Then we have
+$$
+n\phi_n\geq n\tilde{\phi_n} = var \tilde{X_1}n\tilde{\psi_n}\tilde r_n
+$$
+Let the hypothesis $H_0$ is true.
+Passing to the limit with $n\to \infty$ we obtain due to the  large number law for U-statistics that $\tilde r_n$ tends to a constant with probability 1.\\
+Denote 
+$$
+\hat X_i= \frac{\tilde X_i}{\sqrt{var \tilde X_i}}, \hat Y_i= \frac{\tilde Y_i}{\sqrt{var \tilde Y_i}}, i=1,\dots,n.
+$$ 
+Note that due to Lemma 1 
+\begin{equation}\label{T_n3} 
+  n\tilde\psi_n=(\sum_{i=1}^n \hat{X_{i}}/\sqrt{n}-\sum_{i=1}^n \hat{Y_{i}}/\sqrt{n})^2 
+  \end{equation}
+and $n\tilde \psi_n$ tends to a random variable with Normal distribution with zero mean and variance 2  due to the central limit theorem for U-statistics. And  we obtain that $\tilde{\phi_n}$ tends to a random variable with Normal distribution with zero mean and some variance $\tilde a^2$.Since $C$ is arbitrary we obtain that the limiting distribution of  $n\phi_n$ has the required form. 
+
+ To calculate a, note that due to the above arguments we have
+\begin{equation}\label{determinig a}
+ \lim_{n \to \infty} nT_n =  a^2(V_1 -V_2)^2,
+\end{equation}
+where $V_1$ and $V_2$ are independent random variables with the standard normal distribution. 
+
+ Taking expectation  in the left hand side we obtain $J_0$. 
+Really, since $T_n$ is determined by equations (6)-(7) we have
+$nT_n= I_1 +I_2,$ where
+$$
+I_1= \frac{1}{n}\sum_{1\leq i<j\leq n} [2 g(X_i - Y_j)-  g(X_i - X_j)-g(Y_i - Y_j)],
+$$
+$$
+I_2 = \frac{1}{n}\sum_{i=1}^n g(X_i - Y_i).
+$$
+Note that  $E I_1=0$ and $E I_2 = J_0$.\\
+
+
+
+And the expectation of  the right hand side is obviously $2a^2$. Thus  $a^2=J_0/2$. 
+
+Assume now that $H_1$ holds.
+
+ 
+For determining $b$ in the part (ii) of the theorem  we now can use the equality
+ \begin{equation}\label{identity}
+ (aV    +b)^2=\lim_{n \to \infty}
+ nT_n,
+ \end{equation}
+ where $ V=V_1-V_2$ that follows from $(\ref{T_n3})$. If $H_0$ take place we obviously have $b=0$. \\
+ 
+ In the case when $H_1$ take place $EnT_n$ is asymptotically equivalent to  
+$$
+(n(J_h - J_0))^2+En\hat{T_n}
+$$
+where $\hat{T_n}$ received from $T_n$ by replacing  $Y_i$ by $Y_i - b/\sqrt{n},$ $i=1,\dots,n$
+and we obtain by passing to the limit with $n\to\infty$ that the right hand side 0f (\ref{identity}) is equal to 
+$$
+J_0 + (\bar bh)^2, 
+\bar b =\sqrt{J^*(h)/h^2}.
+$$ 
+ And the asymptotic behaviour of the power announced in (ii) follows from the asymptotic normality of $\sqrt{nT_n}$ that completes the proof of the theorem.
+
+Proof of Theorem 2.
+Let us begin with the case $K=K^*.$ In this case as it was mentioned above v=1.
+Let us study the asymptotic efficiency
+$$
+Eff(T_n(f,g))=\bar b/a,
+a=\sqrt{J_0(f,g)},\bar b =\sqrt{J{''}_h(f,g)|_h=0}.
+$$
+
+Note that
+$$
+J_0(f,g)= E g(\xi),
+$$
+where $\xi$ is the sum of two independent random variables with density f(x) (since f assumed to be symmetric around a point).
+Therefore  the upper bound of $a$ is achieved for arbitrary f such that
+$$
+J_0(f,g)=K^*.
+$$
+   
+The proposition of the theorem in the case $K=K^*$ follows now from the next lemma.
+\begin{lemma} Under the conditions described in Theorem 2 with $K=K^*$ the value $\bar b$ achieves its lower bound if and only if
+\begin{equation}\label{opt}
+f(x)= p(x).
+\end{equation}
+\end{lemma}
+ 
+The proof is based on the  property to be well known under the title of maximal entropy: among all random variables with density $\psi$ satisfying the inequality
+\begin {equation}\label{Class1}
+\int_R g(x) \phi(x)dx =K^*
+\end{equation}
+the variable  possess the maximum entropy if and only it is equal to p(x) determined by equality (\ref{gamma}).
+
+Denote 
+$$
+\tilde J(h)=\int_R \varphi (z) g(z+h) dz,
+$$
+where $\varphi(z)$ is the density of the difference between  two independent random variables with the density f. 
+
+
+Note that $\bar b$ can be written as
+\begin{equation}
+\frac{[\tilde J(h)]''|_{h=0}}{H(\varphi)}.
+\end{equation}
+Thus in the new notations
+\begin{equation}\label{pres}
+\bar b= \lim_{n \to \infty} \frac{\tilde J(h)-\tilde J(0)}{\frac{1}{n} h^2 H(\varphi)}.
+\end{equation}
+Note that $\tilde J(0)=J_0$ and it is assumed to be K. Denote by $\varphi_n$  the function $\varphi$ for which the lower bound of 
+$$
+\frac{\tilde J(h)-\tilde J(0)}{\frac{1}{n} h^2 H(\varphi)}
+$$
+is achieved. Then obviously  
+$\varphi_n$ with $n \to \infty$ tends to a function (denote it 
+$\varphi^*$) such that 
+$$
+H(\varphi^*)= sup H(\varphi),
+$$
+where the upper bound is taken over densities such that
+$$
+\int^\infty_{-\infty}\varphi(x) g(x)) dx=K^*.
+$$
+Due to the property mentioned above we have 
+$$
+\varphi^*(z) = p(z).
+$$
+Therefore the lower bound of 
+$\bar b$ is achieved if and only if $\xi$ has the density function p(x). 
+Thus the lemma is proved.
+ The case of arbitrary K can be considered in the same way.
+ Theorem 2 is proved.\\
+ Proof of theorem 3. The proposition of the theorem follows from the known inequality
+ $$
+\int_{-\infty}^\infty f(x)\ln q(x)dx \geq 
+\int_{-\infty}^\infty q(x)\ln q(x)dx 
+$$
+ with equality if and only if q=f that is valid for arbitrary densities and the arguments similar to that was used in proof of Theorem 2.\\
+Proof of Theorem 4. The proposition follows from that Theorems 2 and 3. Really we obtain due to Theorem 3
+\begin{equation}
+Eff(f_{*}, g_{*})= \max_{\tilde g \in G}Eff(f_{*},\tilde g)  \geq  \max_{\tilde g \in G} \min_{f \in \Phi} Eff(f,\tilde g) \geq \min_{f \in \Phi}|\max_{\tilde g \in G}Eff(f,\tilde g) \geq \min_{f \in \Phi}Eff(f, g_{*}).
+\end{equation}*
+And by Theorem 2
+$$
+\min_{f \in \Phi}Eff(f, g_{*})=Eff(f_{*}, g_{*}).
+$$
+The uniqueness of the saddle point follows from the corresponding statements in Theorems 2 and 3.
+ 
+\section*{Acknowledgments}
+The work of V.Melas at the paper was partly supported by RFBR (grant N 20-01-00096). 
+\begin{thebibliography}{6}
+
+\bibitem{Lehman1986}
+Lehmann E.: Testing  Statistical  Hypotheses,  Probability  and  Statistics  Series,  Wiley (1986).
+
+\bibitem{Buening2001}
+Buening, H.: Kolmogorov-Smirnov and Cram`er-von Mises type two-sample tests with various weight functions. Communications in Statistics-Simulation and Computation, 30, pp. 847-865 (2001).
+
+\bibitem{Anderson2011}
+Anderson T.W.:  Anderson–Darling Tests of Goodness-of-Fit. In: Lovric M. (eds) International Encyclopedia of Statistical Science. Springer, Berlin, Heidelberg.(2011) https://doi.org/10.1007/978-3-642-04898-2\_118
+
+\bibitem{AslanZech2005}
+Zech, G., Aslan, B.: New test for the multivariate two-sample problem based on the concept of minimum energy. Journal of Statistical Computation and Simulation 75(2), pp. 109-119 (2005).
+
+\bibitem{MelasSalnikov2021}
+Melas V. and Salnikov D.On Asymptotic Power of the New Test for Equality
+of Two Distributions
+A. N. Shiryaev et al. (eds.), Recent Developments in Stochastic Methods and Applications, Springer Proceedings in
+Mathematics and Statistics 371 (2021)
+\bibitem{Hoeffding}
+Wassily Hoeffding: A class of statistics with asymptotically normal distribution. Ann. Math. Statistics 19, pp. 293-325 (1948).
+
+
+
+\end{thebibliography}
+
+\end{document}
+
+Denote by $C(u,v)$ the Cauchy distribution with the density function
+$$
+v/(\pi(v^2 + (x-u)^2)).
+$$
+=========================
+In order to calculate $\bar b$ in the case when $F_1$ is the standard Cachy distribution
+ the following result is crucial.
+\begin{lemma}If $X$ and $Y$ are independent random variables with the distribution
+$C(0,1)$, then
+$$
+ E \ln(1+ (X- Y)^2)= \ln 9,\,\,\,\,
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9
+ =
+ln(1+ \theta^2/9).
+$$
+\end{lemma}
+In order to prove this Lemma we need the following integrals
+$$
+\int_{R}
+\frac {\ln(1+(x-y)^2)}{\pi(1+y^2)} dy = \ln(4+x^2),
+$$
+$$
+\quad \int_{R} \frac {\ln(4+x^2)}{\pi(1+x^2)} dx = \ln 9,
+$$
+(\cite{GradRyzh2007}  4.296.2 and 4.295.7.)
+$$
+\int_{R} \frac{\ln(4 +(x +\theta)^2 )}{\pi(x^2 +1)} dx = \ln(9+\theta^2),
+$$
+[see  \cite{PrudBrychMarich1981}, formula (2.6.14.19)].
+Using these integrals we obtain
+$$
+ E \ln(1+ (X- Y - \theta)^2)-\ln 9  = 2\int_{R} \int_{R} \frac{\ln(1+(x-y-\theta)^2)}{\pi^2(1+x^2)(1+y^2)} dx dy -\ln 9
+$$
+$$
+= \int_{R}\frac{\ln(4 +(y+\theta)^2)}{\pi(1+y^2)} dy- \ln 9= \ln(9+\theta^2) -\ln 9 = \ln(1+ \theta^2/9).
+$$
+Submitting here  $\theta=0$ we obtain both formulas of the Lemma.
+Note that $\theta^2=nh^2$ and
+$$
+\lim_{n\to \infty} n \ln(1+ \theta^2/9)= (1/9)h^2.
+$$
+Therefore
+============================
+ For determining $b$ in the part (ii) of the theorem  we now can use the equality
+ \begin{equation}\label{identity}
+ (aZ+b)^2 =\lim_{n \to \infty}
+ (nT_n)^2,
+ \end{equation}
+ that follows from  $(\ref{T_n})$. If $H_0$ take place we obviously have $b=0$. In the case when $H_1$ take place $nT_n$ is asymptotically equivalent to  
+$$
+(aZ)^2 + n(J_h - J_0)
+$$
+and we obtain by passing to the limit with $n\to\infty$ that 
+$$
+b= \bar bh,
+$$
+Since $E Z^2=1, EZ^4=3$,  we have for the left hand side of (\ref{identity})
+\begin{equation}\label{left}
+3a^4 + 6a^2b^2 + b^4.
+ \end{equation}
+ 
+Denote by d the finite variance of the right hand side (\ref{identity}). Since b is obviously equal to 0 in this case we obtain that $d= 3a^4$. 
+For the case when $H1$ holds we note that in this case we need only to study additionally the behaviour of the following sum
+\begin{eqnarray*}
+n^2 \{\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)]\}^2,
+\end{eqnarray*}
+$$
+S_{xy,xx}=n^2 (\frac{1}{2n(n-1)n^2})\sum_{k=1}^n \sum_{i,j=1, i\ne j,k, j\ne k}^n[(\ln(1 + (X_k - Y_i)^2)][(\ln(1 + (X_k - X_j)^2)],
+$$
+
+and $S_{xy,yy}$ that are determined in a similar way that  $S_{xy,xx}$.
+By a direct calculation it can be verified that
+$$
+E\lim_{n \to \infty}(nT_n)^2=
+d + 2J^*(h)J_0 + J^*(h)^2.
+$$
+
+Thus the right hand side of
+(\ref{identity}) equals
+$$
+d+ 2J^*(h)J_0 + (J^*(h))^2.
+$$
+And it should be equal to (\ref{left}). Therefore we obtain that 
+$$
+b=\sqrt{J^*(h)}, a= \sqrt{J_0/3}.
+$$
+
+there exists a finite  limit of $E(nT_n)^2$ for $n \to \infty$ and it is given by the formula
+$$
+d + 2J^*(h)J_0 + J^*(h)^2.
+$$
+\end{lemma}
+Proof of the lemma.\\
+Note that $(nT_n)^2$ is equal to
+\begin{eqnarray*}
+n^2 [\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]-\frac{1}{ n(n-1)}\sum_{i<j,i,j=1}^n  [g(X_i - X_j)-J_0] - \\ \frac{1}{n(n-1)}[\sum_{i<j,i,j=1}^n  [g(Y_i - Y_j)-J_0]]^2,
+\end{eqnarray*}
+where $g(z)= \ln(1+z^2).$\\
+The idea of the proof consists in the splitting the three squares of three sums including in this sum and three
+pairwise products into peculiar sums of the identical structure.
+Then to each peculiar sum either law of large numbers or central limit theorem is applied.\\
+
+The square of the first sum,
+\begin{eqnarray*}
+n^2 \{\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]\}^2,
+\end{eqnarray*}
+can be represented by sum of the following peculiar sums.
+\begin{eqnarray*}
+1)\,\,n^2 (\frac{1}{n^2})^2 \sum_{i,j=1}^n [(g(X_i - Y_j) -J_0]^2,
+\end{eqnarray*}
+\begin{eqnarray*}
+2a)\,\,n^2(\frac{1}{n^2})^2 \sum_{i,j=1,i \ne j}^n\sum_{k=1}^n [(g(X_i - Y_j)-J_0][(g(X_k - Y_j)-J_0],
+\end{eqnarray*}
+\begin{eqnarray*}
+2b)\,\,n^2(\frac{1}{n^2})^2 \sum_{i,j=1,i \ne j}^n\sum_{k=1}^n [g(Y_k - X_i)-J_0][g (Y_k - X_j)-J_0],
+\end{eqnarray*}
+\begin{eqnarray*}
+3)\,\, n^2 (\frac{1}{n^2})^2 \sum_{i,j=1}^n\sum_{{l,k=1}, (l \ne  k)or(i\ne j)}^n  [g (X_i - Y_j)-J_0][g(X_l - Y_k)^2)-J_0].
+\end{eqnarray*}
+
+Similar expression can be obtained for each of the two other squares and three  pairwise
+products.
+Note that the limit with $n \to \infty$ for the peculiar sums of the type 1) is finite due to the law of large numbers.
+
+The peculiar sums of type 3) consist of multiplications of indepent terms with zero expectation. Therefore for any n the expectation of these peculiar sums is zero and the limit is also equal to 0.
+
+Consider the peculiar sum $ES^2_{xy,2a}.$  It can be written as $I_1 - I_2$,
+$$
+I_1=\frac{1}{n}\sum_{k=1}^n \{[\sum_{i=1}^n
+(g(X_k-Y_i)-J_0)]/\sqrt{n}][\sum_{j=1}^n
+g(X_k-Y_j)-J_0)]/\sqrt{n}]\},
+$$
+$$
+I_2= \frac {1}{n^2}\sum_{i,j=1}^n(g(X_i-Y_j)-J_0)^2.
+$$
+
+Note that $I_2$ tends with $n \to \infty$ to a finite limit due to the law of large numbers. And
+due to the central limit theorem
+under fixed  $X_k$ the random variable
+$$
+\sum_{i=1}^n
+[g(X_k-Y_i)-J_0]/\sqrt{n}
+$$
+tends to a normal random variable with zero expectation and a finite variance.
+
+Other sums of type 2) have a similar behaviour. Thus under $H_0$  there exists a finite limit
+$$
+\lim_{n \to \infty}E(nT_n)^2.
+$$
+Denote this limit by $d$.
+
+Thus the first part of the lemma is proved.
+
+Let now $H_1$ holds with
+$|h|>0$. In this case we need only to study additionally the behaviour of the following sums
+\begin{eqnarray*}
+n^2 \{\frac{1}{n^2}\sum_{i,j=1}^n [g(X_i - Y_j)-J_0]\}^2,
+\end{eqnarray*}
+$$
+S_{xy,xx,2}=n^2 (\frac{1}{2n(n-1)n^2})\sum_{k=1}^n \sum_{i,j=1, i\ne j,k, j\ne k}^n[(\ln(1 + (X_k - Y_i)^2)-J_0][(\ln(1 + (X_k - X_j)^2)-J_0],
+$$
+$$
+S_{xy,xx,3}=n^2 (\frac{1}{2n(n-1)n^2})\sum_{i,j=1}^n\sum_{k=1,l=1,l \ne k}^n [(\ln(1 + (X_k - Y_i)^2)-J_0][(\ln(1 + (X_l - X_j)^2)-J_0].
+$$
+and $S_{xy,yy,2},S_{xy,xy,3}$ that are determined in a similar way that  $S_{xy,xx,2},S_{xy,xx,3}$.
+By a direct calculation it can be verified that
+$$
+\lim_{n \to \infty}E(nT_n)^2=
+d + 2J^*(h)J_0 + J^*(h)^2.
+$$
+
+Lemma is proved.
