@@ -1,4 +1,4 @@
-path = '/home/d/1/new_criteria'
+path = 'C:/Users/Professional/Desktop/new_criteria'
 
 library(kSamples)
 library(foreach)
@@ -18,6 +18,7 @@ L.test.stat <- function(x, y, A) {
   dim(diff) <- NULL
   # diff.A <- diff / A
   L2 <- sum(log(1 + diff**2))
+  #U2 <- sum(diff**2)
   # B1 <- sum(log(1 + sapply(x, function(x.i) { abs(x.i - x) })**2)) / n / (n-1)
   # B2 <- sum(log(1 + sapply(y, function(y.i) { abs(y.i - y) })**2)) / n / (n-1)
   c(
@@ -25,14 +26,15 @@ L.test.stat <- function(x, y, A) {
     # L05C = sum(log(1 + diff.A**.5)),
     # L1 = sum(log(1 + diff)),
     # L1C = sum(log(1 + diff.A)),
-    L2 = L2#,
+    L2 = L2 # ,
+    # U2 = U2,
     # L2C = sum(log(1 + diff.A**2)),
     # L2s = L2 / n**2 - sqrt(B1 * B2),
     # Linf = sum(log(diff))
   )
 }
 
-Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D = 800, alpha = 0.05, prefix = NULL, randomization = TRUE) {
+Power <- function(distribution, type, par2, par1 = c(0, 1), n = 100, M = 1000, D = 800, alpha = 0.05, prefix = NULL, randomization = FALSE) {
   start.time <- Sys.time()
 
   exact <- n == 5
@@ -52,10 +54,11 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
   if (randomization) {
     details <- paste0(details, ',rand')
   }
+  
   data.path <- create.folder(c(path, 'data', distribution, type, details))
   res.path <- create.folder(c(path, 'res', distribution, type))
   res.name <- paste0(res.path, '/', details, '.RDS')
-
+  
   if (file.exists(res.name)) {
     return()
   }
@@ -78,17 +81,18 @@ Power <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M = 1000, D 
     }
   }
   # A.set <- apply(Z.set, 1, get.A)
-
+  
   cluster <- makeCluster(cores - 1)
   registerDoParallel(cluster)
   res <- rowMeans(sapply(1:M, function(i) {
-    if (i %% 10 == 0) {
+    if (i %% 100 == 0) {
       print(paste0(i, ', ', round(as.numeric(Sys.time() - start.time, units="mins"), 1)))
     }
 
     X <- X.set[i, ]
     Y <- Y.set[i, ]
     Z <- Z.set[i, ]
+    
     permutations <- readRDS(paste0(data.path, '/', i, '.RDS'))
     A <- NULL# A <- A.set[i]
 

@@ -1,4 +1,4 @@
-path = '/home/d/1/new_criteria'
+path = '.'
 source(paste(path, 'funcs', 'static.R', sep = '/'))
 #library(kSamples)
 
@@ -90,10 +90,10 @@ Power.not.perm <- function(distribution, type, par2, par1 = c(0, 1), n = 50, M =
       # LL.cauchy.not.perm   = LL.cauchy.stat > LL.threshold,
       c(
         wilcox.test = wilcox.test(X, Y)$p.value,
-        ks.test     = ks.test(X, Y)$p.value#,
-        #ad.test     = ad.test(X, Y, method = "asymptotic")$ad[1,3],
-        #t.test      = t.test(X, Y)$p.value,
-        #var.test    = var.test(X, Y)$p.value
+        ks.test     = ks.test(X, Y)$p.value,
+        ad.test     = ad.test(X, Y, method = "asymptotic")$ad[1,3],
+        t.test      = t.test(X, Y)$p.value,
+        var.test    = var.test(X, Y)$p.value
       ) < alpha
     )
   }))

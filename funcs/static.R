@@ -123,8 +123,8 @@ L.test <- function(x, y, A, permutations) {
   stat0 <- L.test.stat(x, y, A)
   
   # combine = 1 L ? c else cbind
-  stat <- t(foreach(i = 1:nrow(permutations), .combine = c, .export = c('n')) %dopar% { 
-    source('/home/d/1/new_criteria/funcs/funcs.R')
+  stat <- t(foreach(i = 1:nrow(permutations), .combine = cbind, .export = c('n')) %dopar% { 
+    source('C:/Users/Professional/Desktop/new_criteria/funcs/funcs.R')
     z <- permutations[i, ]
     x <- z[1:n]
     y <- z[(n+1):(2*n)]
@@ -134,10 +134,10 @@ L.test <- function(x, y, A, permutations) {
   if (randomization) {
     sapply(1:length(stat0), function(i) { phi(stat0[i], stat[, i]) } ) 
   } else {
-    if (dim(stat)[1] > 1) {
+    if (length(stat0) > 1) {
       rowMeans(apply(stat, 1, function(s) { s > stat0 } ))
     } else {
-      rowMeans(stat > stat0)
+      mean(stat > stat0)
     }
   }
 }

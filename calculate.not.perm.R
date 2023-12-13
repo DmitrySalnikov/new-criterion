@@ -1,5 +1,5 @@
-source('/home/d/1/new_criteria/funcs/Power.not.perm.R')
-source('/home/d/1/new_criteria/funcs/funcs.R')
+source('./funcs/Power.not.perm.R')
+source('./funcs/funcs.R')
 
 make.table <- function(n) {
   n.p.res <- c()
@@ -31,76 +31,142 @@ make.table <- function(n) {
 
 col.names <- c('$h$', '$T_n, perm$', "$T_n, sim$", "$wilcox.test$", '$ks.test$')
 
-# par <- c(2,4,6,8,10)
-# distr <- 'cauchy'
-# type <- 'var'
-# for (n in c(1000, 500, 100)) {
-  # v <- par / sqrt(n)
-  # for (i in v) {
-  #   Power.cauchy.not.perm('var', c(0, 1 + i), n=n)
-  #   Power('cauchy', 'var', c(0, 1 + i), n = n, prefix = "L2", randomization = FALSE)
-  # }
-#   make.table(n)
-# }
+###########################################################################################################################
 
-# par <- c(1,2,3,5,7,9)
-# distr <- 'cauchy'
-# type <- 'mean'
-
-# par <- c(9)
+par <- c(0, 0.5)
+distr <- 'norm'
+type <- 'mean'
+n <- 1000
 # for (n in c(1000)) {
-#   v <- par / sqrt(n)
-#   for (i in v) {
-#     Power.not.perm(distr, type, c(i, 1), n=n)
-#     Power(distr, type, c(i, 1), n = n, prefix = "L2", randomization = FALSE)
-#   }
+  v <- par / sqrt(n)
+  for (i in v) {
+    Power.not.perm(distr, type, c(i, 1), n = n)
+    # Power(distr, type, c(i, 1), n = n, prefix = "tempL2")
+  }
+  # make.table(n)
 # }
+par <- sort(c(0:6 + 0.5, 0:6))
+res <- c()
+for(p in par) {
+  res <- rbind(res, readRDS(paste0('res/norm/mean/not_perm,par2=(',p / sqrt(n),',1),n=1000,M=1000,K=6.RDS'))[[2]][1:4])
+}
 
-# par <- c(1,2,3,5,7,9)
-# make.table(1000)
+Q <- function(h, b) {
+  1 - pnorm(qnorm(0.975) - b*h) + pnorm(-qnorm(0.975) - b*h)
+}
 
-# par <- c(1,2,3,4,5)
-# distr <- 'norm'
-# type <- 'mean'
+fn <- function(b) {
+  sum((Q(par, b) - res[, 2])**2)
+}
+round(Q(par, optim(1, fn, method = 'L-BFGS-B', lower = 0)$par), 3)*100
+r <- res[,2]
+names(r) <- par
+r*100
+
+###########################################################################################################################
+
+par <- sort(c(0:8, 1:9 - 0.5))
+distr <- 'norm'
+type <- 'var'
+n <- 1000
 # for (n in c(1000)) {
-#   v <- par / sqrt(n)
-#   for (i in v) {
-#     Power.not.perm(distr, type, c(i, 1), n = n)
-#     Power(distr, type, c(i, 1), n = n, prefix = "L2", randomization = FALSE)
-#   }
-#   make.table(n)
+v <- par / sqrt(n)
+for (i in v) {
+  Power.not.perm(distr, type, c(0, 1 + i), n = n)
+  # Power(distr, type, c(i, 1), n = n, prefix = "tempL2")
+}
+# make.table(n)
 # }
+res <- c()
+for(p in par) {
+  res <- rbind(res, readRDS(paste0('res/norm/var/not_perm,par2=(0,', 1 + p / sqrt(n), '),n=1000,M=1000,K=6.RDS'))[[2]][1:4])
+}
+row.names(res) <- par
 
-# par <- c(1,2,3,4,5)
-# distr <- 'norm'
-# type <- 'var'
-# for (n in c(1000)) {
-#   v <- par / sqrt(n)
-#   for (i in v) {
-#     Power.not.perm(distr, type, c(0, 1 + i), n = n)
-#     Power(distr, type, c(0, 1 + i), n = n, prefix = "L2", randomization = FALSE)
-#   }
-#   make.table(n)
-# }
+Q <- function(q, k) {
+  1 - pnorm(qnorm(0.975) * (1 + k * q)) + pnorm(-qnorm(0.975) * (1 + k * q))
+}
 
-par <- c(1,2,3,5,7,9)
+fn <- function(k) {
+  sum((Q(par, k) - res[, 2])**2)
+}
+round(Q(par, optim(1, fn, method = 'L-BFGS-B', lower = 0)$par), 3)*100
+r <- res[,2]
+names(r) <- par
+r*100
+
+###########################################################################################################################
+
+par <- c(0, 0.5, 1.5, 2.5, 3.5, 4, 4.5, 5.5, 6, 6.5, 7.5, 8, 8.5, 9.5, 10, 10.5)
 distr <- 'cauchy'
 type <- 'mean'
 
+n <- 1000
 # for (n in c(100)) {
-#   v <- par * 10 / sqrt(n)
-#   for (i in v) {
-#     Power.not.perm(distr, type, par2=c(i, 10), par1=c(0,10), n=n)
-#     Power(distr, type, par2=c(i, 10), par1=c(0,10), n = n, prefix = "L2", randomization = FALSE)
-#   }
-# }
-
-for (n in c(100)) {
-  v <- par * 0.1 / sqrt(n)
+  v <- par / sqrt(n)
   for (i in v) {
-    Power.not.perm(distr, type, par2=c(i, 0.1), par1=c(0,0.1), n=n)
+    Power.not.perm(distr, type, par2=c(i, 1), n=n)
     # Power(distr, type, par2=c(i, 0.1), par1=c(0,0.1), n = n, prefix = "L2", randomization = FALSE)
   }
+# }
+par_old <- c(1,2,3,4,7,10)
+res <- c()
+for(p in par_old) {
+  res <- rbind(res, readRDS(paste0('res/cauchy/mean/not_perm,par2=(',p / sqrt(n),',1),n=1000,M=1000,K=6.RDS')))
+}
+# row.names(res) <- par_old
+par <- sort(c(0:10 + 0.5, 0:10))
+par <- par[!par %in% par_old]
+for(p in par) {
+  res <- rbind(res, readRDS(paste0('res/cauchy/mean/not_perm,par2=(',p / sqrt(n),',1),n=1000,M=1000,K=6.RDS'))[[2]][1:4])
+}
+row.names(res) <- c(par_old, par)
+res <- res[order(as.numeric(row.names(res))),]
+
+par <- sort(c(0:10 + 0.5, 0:10))
+Q <- function(h, b) {
+  1 - pnorm(qnorm(0.975) - b*h) + pnorm(-qnorm(0.975) - b*h)
 }
 
-make.table(100)
+fn <- function(b) {
+  sum((Q(par, b) - res[, 2])**2)
+}
+round(Q(par, optim(1, fn, method = 'L-BFGS-B', lower = 0)$par), 3)*100
+r <- res[,2]
+names(r) <- par
+r*100
+  
+###########################################################################################################################
+
+par <- sort(c(0:13, 0:12 + 0.5))
+distr <- 'cauchy'
+type <- 'var'
+
+n <- 1000
+# for (n in c(100)) {
+v <- par / sqrt(n)
+for (i in v) {
+  print(i, eol = '\n')
+  Power.not.perm(distr, type, par2=c(0, 1 + i), n=n)
+  # Power(distr, type, par2=c(i, 0.1), par1=c(0,0.1), n = n, prefix = "L2", randomization = FALSE)
+}
+# }
+res <- c()
+for(p in par) {
+  res <- rbind(res, readRDS(paste0('res/cauchy/var/not_perm,par2=(0,', 1 + p / sqrt(n), '),n=1000,M=1000,K=6.RDS'))[[2]][1:4])
+}
+row.names(res) <- par
+
+Q <- function(h, b) {
+  1 - pnorm(qnorm(0.975) - b*h) + pnorm(-qnorm(0.975) - b*h)
+}
+
+fn <- function(b) {
+  sum((Q(par, b) - res[, 2])**2)
+}
+round(Q(par, optim(1, fn, method = 'L-BFGS-B', lower = 0)$par), 3)*100
+r <- res[,2]
+names(r) <- par
+r*100
+
+# make.table(100)

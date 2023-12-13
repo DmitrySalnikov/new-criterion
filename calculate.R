@@ -1,4 +1,4 @@
-source('/home/d/1/new_criteria/funcs/funcs.R')
+source('C:/Users/Professional/Desktop/new_criteria/funcs/funcs.R')
 
 calculate <- function(distribution, par, n = 50, M = 1000, D = 800, prefix = NULL, randomization = TRUE) {
   Power(distribution, 'mean', c(0, 1), n = n, M = M, D = D, prefix = prefix, randomization = randomization)
@@ -70,3 +70,41 @@ Power('cauchy', 'mean', c(3/sqrt(500), 1), n = 500, prefix = "L2LLc", randomizat
 Power('cauchy', 'mean', c(5/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(7/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
 Power('cauchy', 'mean', c(9/sqrt(500), 1), n = 500, prefix = "L2LLc", randomization = FALSE)
+
+################################################################################
+
+Power('norm', 'mean', c(0.1, 1), n = 100, prefix = "U2", randomization = FALSE)
+Power('norm', 'mean', c(0.2, 1), n = 100, prefix = "U2", randomization = FALSE)
+Power('norm', 'mean', c(0.3, 1), n = 100, prefix = "U2", randomization = FALSE)
+Power('norm', 'mean', c(0.4, 1), n = 100, prefix = "U2", randomization = FALSE)
+Power('norm', 'mean', c(0.5, 1), n = 100, prefix = "U2", randomization = FALSE)
+
+Power('norm', 'var', c(0, sqrt(1.9)), n = 100, M = 400, D = 200, randomization = FALSE)
+
+n = 1600
+hs = seq(0, 5, 0.5)
+distr = 'norm'
+for(h2 in hs) {
+  Power(distr, 'var', c(0, 1 + h2 / sqrt(n)), n = n, M = 1000, D = 800)
+}
+
+ns = c(10, 20, 30, 40) ** 2
+table = c()
+for(n in ns) {
+  row = c()
+  for(h2 in hs) {
+    row = c(row, readRDS(paste0('../../Professional/Desktop/new_criteria/res/', distr, '/var/par2=(0,', 1 + h2 / sqrt(n), '),n=', n, ',M=1000,D=800.RDS'))[1])
+  }
+  table = rbind(table, row * 100)
+}
+row.names(table) = ns
+colnames(table) = hs
+
+teor = c(5, 6.6, 11.6, 20.1, 31.9, 46.2, 60.8, 74, 84.6, 91.8, 96.1)
+row.names(table) = paste0("n=", row.names(table))
+table = rbind(table, teor)
+
+file = paste0(path, '/reports/cauchy.tex')
+res = table[, -1]
+cat('$h_2$ & ', file = file)
+write.table(res, file, quote = F, sep = ' & ', eol = ' \\\\ \\hline \n', row.names = T, col.names = T, append = TRUE)

@@ -1,0 +1,778 @@
+\documentclass[10pt]{article}
+\usepackage[russian]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage{biblatex}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts,latexsym,euscript,mathtext}
+\usepackage[cp1251]{inputenc}
+\usepackage{url}
+
+%\usepackage{natbib}
+%\usepackage[pdftex, colorlinks, linkcolor=blue, urlcolor=blue, citecolor=blue, pagecolor=blue, breaklinks=true]{hyperref}
+%\usepackage[colorlinks, linkcolor=blue, urlcolor=blue, citecolor=blue, pagecolor=blue, breaklinks=true]{hyperref}
+\textwidth 140mm
+%\textwidth 180mm
+\titlepage
+\textheight 200mm
+%\textheight 220mm
+\oddsidemargin = 5mm \topmargin = -5mm
+%\oddsidemargin = -5mm \topmargin = -5mm
+
+\hoffset =- 13mm
+\voffset =- 25mm
+
+
+\font\eufrac=eufm10
+
+\addto\captionsrussian{\def\figurename{\small {\it Рис.}}}
+\addto\captionsrussian{\def\tablename{\small Т\,а\,б\,л\,и\,ц\,а\,}}
+\addto\captionsrussian{\def\refname{Литература}}
+
+\newcommand{\nohyphens}{\hyphenpenalty=10000\exhyphenpenalty=10000\flushleft\relax}
+
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\centering {\small  #1.} {\small #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    \centering {\small  #1.} {\small #2}\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\renewcommand{\@biblabel}[1]{#1.\hfill}
+\renewcommand{\footnoterule}{\vspace*{-3pt}\hrule width 2cm \vspace*{2.6pt}}
+%\renewcommand{\@makefnmark}{\hbox{\mathsurround=0pt$^*$}}
+\renewcommand{\@makefntext}[1]{\parindent=0em\noindent\hbox to 0.5em{\hss$^{\@thefnmark}$}#1}
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\renewcommand{\section}{\@startsection
+{section}%
+{1}%
+{7mm}%
+%{\baselineskip}%
+%{0.5\baselineskip}%
+                                   {-3.2ex \@plus -1ex \@minus -.2ex}%
+                                   {1.9ex \@plus.2ex}%
+{\normalfont\large\bfseries\nohyphens}}%
+
+\renewcommand{\subsection}{\@startsection
+{subsection}%
+{2}%
+{7mm}%
+%{-0.8\baselineskip}%
+%{0.5\baselineskip}%
+                                     {-3.2ex\@plus -1ex \@minus -.2ex}%
+                                     {1.9ex \@plus .2ex}%
+{\normalfont\normalsize\bfseries\nohyphens}}%
+\renewcommand{\subsubsection}{\@startsection
+{subsubsection}%
+{3}%
+{7mm}%
+%{-0.5\baselineskip}%
+%{0.3\baselineskip}%
+                                     {-3.2ex\@plus -1ex \@minus -.2ex}%
+                                     {1.9ex \@plus .2ex}%
+{\normalfont\small\bfseries\itshape\nohyphens}}%
+\renewcommand{\@seccntformat}[1]{{\csname the#1\endcsname.}\hspace{0.5em}}
+\makeatother
+
+\DeclareMathOperator{\prob}{\bar{\pi}}
+\newtheorem{theorem}{\indent Теорема}[section]
+\newtheorem{lemma}{\indent Лемма}[section]
+\newtheorem{proposition}{Предложение}[section]
+\newtheorem{corollary}{Следствие}[section]
+\newtheorem{definition}{Определение}[section]
+\newtheorem{example}{Пример}[section]
+\newtheorem{algorithm}{\indent Алгоритм}[section]
+\newtheorem{remark}{\indent Замечание}[section]
+\newtheorem{hypothesis}{\indent Гипотеза}[section]
+\newcommand{\bt}{\begin{theorem}\hspace{-0.5em}{\bf.}\hspace{0.5em}}
+\newcommand{\et}{\end{theorem}}
+\newcommand{\bh}{\begin{hypothesis}\hspace{-0.5em}{\bf.}\hspace{0.5em}}
+\newcommand{\eh}{\end{hypothesis}}
+\newcommand{\bl}{\begin{lemma}\hspace{-0.5em}{\bf.}\hspace{0.5em}}
+\newcommand{\el}{\end{lemma}}
+\newcommand{\bp}{\begin{proposition}}
+\newcommand{\ep}{\end{proposition}}
+\newcommand{\bc}{\begin{corollary}}
+\newcommand{\ec}{\end{corollary}}
+\newcommand{\btb}{\begin{table}[!hhh]}
+\newcommand{\etb}{\end{table}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\bex}{\begin{example}}
+\newcommand{\eex}{\end{example}}
+\newcommand{\bea}{\begin{eqnarray*}}
+\newcommand{\eea}{\end{eqnarray*} }
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray} }
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation} }
+\newcommand{\bd}{\begin{definition}\rm}
+\newcommand{\ed}{\end{definition}}
+\newcommand{\ba}{\begin{algorithm}\hspace{-0.5em}{\bf.}\hspace{0.5em}\rm}
+\newcommand{\ea}{\end{algorithm}}
+\newcommand{\br}{\begin{remark}\hspace{-0.5em}{\bf.}\hspace{0.5em}\rm}
+\newcommand{\er}{\end{remark}}
+
+\newcommand{\vp}{\varphi}
+\newcommand{\ww}{\omega}
+\newcommand{\eq}{\!&\!\!=\!\!&\!}
+\newcommand{\ovl}{\overline}
+\newcommand{\bfz}{ {\bf 0} }
+\newcommand{\m}{ {\mbox{\LARGE\bf .}}\!\!* }
+\newcommand{\K}{ {\cal{K}} }
+\newcommand{\suml}{\sum\limits}
+\newcommand{\sgn}{ {\rm{sgn}} }
+\newcommand{\X}{{\mbox{\eufrac X}}}
+\def\calE{{\cal E}}
+\def\IR{{\rm I\kern-.25em R}}
+\newcommand\eproof{\hfill\rule{.05in}{.05in}}
+%\def\eproof{\hfill\rule{.05in}{.05in}}
+\newcommand{\pre}{\prec\!\!}
+\newcommand{\suc}{\!\!\succ}
+\newcommand{\pr}{\prec\!}
+\newcommand{\su}{\!\succ}
+\newcommand{\barr}{\begin{array}}
+\newcommand{\earr}{\end{array}}
+\def\eff{\mathop{\rm eff}\nolimits}
+\def\hh{\phantom{|_|^|}}
+\newcommand{\la}{\lambda}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\en}{\mathbf{N}}
+\newcommand{\vsp}{\vspace{0mm}}%-3.3
+\def\rank{\mathop{\rm rank}\nolimits}
+\def\3{\ss}
+\def\er{\mathbb{R}}
+\def\mm{\mathbb{M}}
+\def\hh{\mathbb{H}}
+%\def\gg{\mathbb{G}}
+\def\dd{\mathbb{D}}
+\def\ze{\mathbb{Z}}
+\def\zz{\mathbb{Z}}
+\def\en{\mathbb{N}}
+\def\nn{\mathbb{N}}
+\def\pe{\mathbb{P}}
+\def\pp{\mathbb{P}}
+\def\ek{\mathbb{K}}
+\def\qu{\mathbb{Q}}
+\def\te{\mathbb{T}}
+\def\ce{\mathbb{C}}
+\def\amin{\arg\min}
+\def\var{VaR}
+\def\cvar{CVaR}
+\def\dl{\mathcal{D}}
+\def\ef{\mathcal{F}}
+\def\en{\mathcal{N}}
+\def\rr{\mathcal{R}}
+\def\amin{\arg\min}
+\def\amax{\arg\max}
+\def\ainf{\arg\inf}
+\def\asup{\arg\sup}
+\def\diag{\mbox{diag}}
+\def\diam{\mbox{diam}}
+\def\l.i.m.{\mbox{l.i.m.}}
+\def\ber{\mbox{ber}}
+\def\bei{\mbox{bei}}
+\def\Re{\mbox{Re}}
+\def\arctg{\mbox{arctg}}
+\def\arcsin{\mbox{arcsin}}
+\def\sign{\mbox{sign}}
+\def\const{\mbox{const}}
+\def\Pr{\mbox{Pr}}
+\def\Ei{\mbox{Ei}}
+\def\cov{\mbox{cov}}
+\def\rg{\mbox{rg}}
+\def\det{\mbox{det}}
+\def\tr{\mbox{tr}}
+\def\const{\mbox{const}}
+\def\exp{\mbox{exp}}
+\def\col{\mbox{col}}
+\def\conv{\mbox{conv}}
+\def\sign{\mbox{sign}}
+\def\rank{\mbox{rank}}
+\def\Ar{\mbox{Ar}}
+\def\Ge{\mbox{Ge}}
+\def\Ha{\mbox{Ha}}
+\def\Sq{\mbox{Sq}}
+\def\anti lg{\mbox{anti lg}}
+\def\lg{\mbox{lg}}
+\def\alog{\mbox{log}}
+\def\ariph{\mbox{ariph}}
+\def\geom{\mbox{geom}}
+\def\harm{\mbox{harm}}
+\def\card{\mbox{card}}
+\def\Int{\mbox{Int}}
+\def\eff{\mbox{eff}}
+\def\supp{\mbox{supp}}
+
+
+
+\newcount\printfig
+\newcount\printfigeps
+%\setcounter\printfig{0}
+\printfig=0
+\printfigeps=1
+%\newlength\addaboveepsfigcaption
+%\setlength\addaboveepsfigcaption{-30pt}
+
+%№ 17-01-00161-а
+\begin{document}
+
+\begin{center}
+{\Large{ Об асимптотической мощности "энергетического"\, теста для проверки гипотез о равенстве двух распределений}
+\textbf{ В.Б.\,Мелас, Д.И.\,Сальников\footnote[2]{St.-Petersburg State University, Russia, e-mail: vbmelas@yandex.ru}}}   
+\end{center}
+\vspace{3mm}
+\pagestyle{plain}
+
+
+\section{Введение}
+Найдены асимптотическое распределение и асимптотическая мощность критерия проверки гипотез о равенстве двух распределений, предложенного в работах \cite {AslanZech2005}, \cite{MelasSalnikov2021},  для случая, когда альтернативное распределение отличается  сдвигом и(или) параметром масштаба. Эти результаты
+ являются обобщением и развитием результатов статьи \cite{
+Melas2023}. Проведено сравнение асимптотической мощности с эмпирической мощностью, найденной с помощью метода Монте-Карло для  слчаев, когда сравниваются между собой два  нормальные распределения или два распределения Коши для различных размеров выборок.Численные эксперименты подтверждают близость эмпирической мощности к асимптотической. 
+
+\section{Постановка проблемы}
+\label{S:1}
+Рассмотрим задачу проверки гипотез о равенстве двух распределений
+\begin{equation}
+  \label{H0}
+  H_0\,:\,F_1 = F_2
+\end{equation}
+против альтернативы
+\begin{equation}
+  \label{H1}
+  H_1\,:\,F_1 \not= F_2
+\end{equation}
+в случае двух независимых выборок  $X=(X_{1},\ldots, X_{n})$ и $Y=(Y_{1},\ldots, Y_{m})$ с функциями распределения $F_1$ и $F_2$ соответственно.
+
+
+Предположим, что функции распределения
+$F_1$ и $F_2$  принадлежат классу функций распределений случайных величин  $\xi$, таких, что
+\begin {equation}\label{Class}
+E [g(\xi)^2 ] < \infty,
+\end{equation}
+где $g$ - некоторая заданная функция.
+Многие распределения, в том числе нормальное распределение и распределение Коши, обладают этим свойством при
+$g(x)=\ln (1+ x^2).$ 
+  
+В случае, когда два распределения отличаются только сдвигом, во многих случаях наиболее мощным является тест Манна-Уитни- Вилкоксона. Однако хорошо известно, что этот тест не позволяет дискриминировать распределения, разлиичающиеся 
+параметром масштаба (см. \cite {AslanZech2005}, \cite{MelasSalnikov2021}).
+Мы хотели бы иметь тест, подходящий для ситуаций, когда нулевое распределение относится к  классу распределений, обладающих свойством (\ref{Class}) для функции $g$ общего вида, а альтернативное распределение отличается только сдвигом и/или
+ преобразованем масштаба. Задачи, в которых важно учитывать возможность различия в параметре масштаба возникают во многих практических областях применения, влючая
+физиологию и психологию (см. например недавнюю работу \cite{Rocha2022}).
+Рассмотрим следующий тест
+\begin{eqnarray}\label{K} 
+\Phi_{nm}=\Phi_{nm}(X,Y)=
+\Phi_{AB}-\Phi_{A}- \Phi_{B},
+\end{eqnarray}
+\begin{eqnarray*}
+\Phi_{A}=\frac{1}{n^2}\sum_{1\leq i<j\leq n} g(X_i-X_j),
+\Phi_{B}=\frac{1}{m^2}\sum_{1\leq i<j\leq m} g(Y_i-Y_j),\\
+\Phi_{AB}=\frac{1}{nm}\sum_{i=1}^n\sum_{j=1}^m g(X_i-Y_j),
+\end{eqnarray*}
+где  $g(x)$ есть некоторая заданная функция. Будем предполагать, что эта функция неотрицательна, симметрична относительно начала координат и дважды непрерывно дифференцируема.
+Этот тест был, по-видимому, впервые введен в работе \cite {AslanZech2005}, и назван "энергетическим" тестом, но его мощность исследовалась только с помощью статистического моделирования и лишь для случая $g(x)= \ln(|x|)$. 
+
+В работе  \cite{MelasSalnikov2021}  критерий (\ref{K}) изучался для  случая
+$$
+g(x)=\ln (1+x^2).
+$$
+ Было показано с помощью статистического моделирования, что критерий ($\ref{K}$) c такой функцией g имеет для многих распределений примерно такую же мощность как лучший из  критериев
+ Вилкоксона, Андесона- Дарлинга и Колмогорова-Смирнова при альтернативе, которая отличается только величиной параметра сдвига, но значительно превосходит эти критерии, если есть различие в параметре масштаба. .
+
+Рассмотрим класс распределений, задаваемых свойством ($\ref{Class}$). 
+Асимптотическая мощность
+теста для функций распределения, удовлетворяющих свойству ($\ref{Class}$),  была изучена в работе
+\cite
+{Melas2023} в случае функций g общего вида  для распределений, отличающихся только сдвигом.
+ 
+В настоящей работе мы изучаем асимптотическую мощность теста  ($\ref{K}$)  для альтернативных распределений, отличающися от нулевого величиной параметра сдвига и/или параметра масштаба.
+\section{Асимптотическая  мощность}
+\label{S:2}
+Рассмотрим случай двух распределений, обладающих свойством (\ref{Class}) и  отличающихся  сдвигом и(или) параметром масштаба.
+
+Пусть $f(x)$ обозначает плотность $F_1$,
+\begin{eqnarray*}
+J(h_1,n) =\int_R g(x-y-h_1/\sqrt{n})f(x)f(y)dxdy,\\
+J_1=J(0,n),J_2 =\int_R g^2(x-y)f(x)f(y)dxdy,\\
+J_3=\int_R g(x-y)g(x-z)
+f(x)f(y)f(z)dxdydz\\
+J1(h_2,n) =\int_R g(x-y(1+h_2
+/\sqrt{n}))f(x)f(y)dxdy,
+\end{eqnarray*}
+Заметим, что
+\begin{equation}\label{der1} 
+\int_R g'
+(x-y)f(x)f(y)dxdy =0,
+\end{equation}
+так как  функция g(x), по предположению, дифференцируема и симметрична относительно нуля.
+Обозначим
+\begin{eqnarray*}
+J^*(h_1)= h^2_1 \int_R g''(x-y)f(x)f(y)dxdy ,
+\end{eqnarray*}
+\begin{eqnarray*}
+J1^*(h_2)= (1/2) \int_R g''_\beta(x-y(1+\beta h_2))|_{\beta=0}
+f(x)f(y)dxdy 
+\end{eqnarray*}
+Обозначим 
+\begin{equation} \label{shift} 
+b_1^2 =|J^*(h_1)|,
+\end{equation}
+\begin{equation}\label{form}
+b_2^2=|J1^*(h_2)|
+\end{equation}
+Для упрощения обозначений будем рассматривать случай $n=m$. Общий случай рассматривается аналогичным образом.
+Обозначим 
+$$
+T_n = T_n(X,Y)=\Phi_{nn}(X,Y).
+$$
+Основным результатом настоящей работы является следующая теорема, которая устанавливает вид предельного распределения величины $nT_n$ и представление для асимптотической эффективности  теста. Эта теорема является обобщением Теоремы 3.1 из работы (\cite{Melas2023}).
+\begin{theorem}Рассмотрим задачу проверки гипотезы  (1)-(2), где обе функции обладают свойством  (3) и имеют плотности распределения симметричные относительно некоторой точки.
+ Тогда\\
+(i) при условии $n \to \infty$
+функция распределения $nT_n$  сходится при $H_0$ к функции распределения случайной величины
+\begin{equation}\label{Distr}
+(aL)^2+c,
+\end{equation}
+где  $L$ - случайная величина, которая
+имеет стандартное нормальное распределение, 
+\begin{equation} \label{add}
+c =J_1 - a^2, a^2=\sqrt{J_2 +J_1^2-2J_3},
+\end{equation}
+(ii)
+Пусть $F_1(x)= F(x),F_2(x)=F(x(1+h_2/\sqrt{n}) +h_1/\sqrt{n}),$
+где $F$ --- произвольная функция распределения,с плотностью $f(x)$ симметричной относительно некоторой точки и обладающая свойством (3), $h_1,h_2$ - произвольные заданные числa
+. \\ Тогда 
+функция распределения $nT_n$ сходится при выполнении гипотезы  $H_1$ к распределению случайной величины
+\begin{equation}\label{dist}
+(aL
++\sqrt{b_1^2+b_2^2}\, )^2+ c,
+\end{equation}
+где $b_1$ имеет вид (\ref{shift}),  $b_2$ определено в (\ref{form}), а и c  заданы формулой (\ref{add}).  
+
+Мощность критерия $nT_n$ с уровнем значимости $\alpha$  асимптотически равна 
+
+\begin{equation} \label{newformula}
+Pr\{L\geq z_{1-\alpha/2}-b/a\}
++ Pr\{L\leq - z_{1-\alpha/2}- b/a\},
+\end{equation}
+
+где $b= \sqrt{b_1^2+b_2^2}$, $z_{1-\alpha/2}$ является таким, что
+$$
+Pr \{L\geq z_{1-\alpha/2}\}= \alpha/2.
+$$
+\end{theorem}
+
+Прежде, чем доказывать теорему, проиллюстрируем её применение на двух примерах для случая, когда два распределения  различаются только параметром масштаба. 
+Рассмотрим случай $g(x)= \ln (1+x^2),$ который уже изучался в работе
+ \cite{MelasSalnikov2021}. Непосредственная проверка показывает, что условие (\ref{Class}) выполняется для нормального распределения и распределения Коши среди многих других.
+На двух примерах мы демонстрируем, что асимптотические формулы дают хорошее соответствие эмпирическим оценкам мощности для случая, когда распределения различаются (только) параметром  масштаба. Для этих же примеров, но с распределениями, различающимися только сдвигом, подобное соответсвие было установлено в статье  \cite{
+Melas2023}.
+\begin{example} Нормальное распределение.
+Пусть $f(x)$ - функция плотности стандартного нормального распределения, $h_1=0$, $\alpha=0.05$.
+Численное интегрирование дает следующие результаты
+$$
+J_1 = 0.810113,
+J_2 = 1.155022, J_3 = 0.763368.
+$$
+Вычисляя коэффициент a по формуле из теоремы 3.1, получаем a = 0.7303767. Также $ b_2$
+ вычисляем по формуле (\ref{form}).
+В таблице 3.1 представлены теоретические значения мощности,
+вычисленные по формуле (\ref{newformula}),
+и эмпирические мощности, полученные в результате численной обработки данных N= 1000 повторений  статистического моделирования двух выборок размера n=100. Критическое значение критерия $T_n$ вычислялось с помощью 700 случайных перестановок.
+
+\begin{table}[h!]
+	\caption{Значение эмпирической  (Э)	
+	 и асимптотической (А)
+мощности
+ для нормального распределения}
+		\begin{tabular}{ |p{2cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+		\hline
+			$h_2$ & 1.0 & 2.0 & 3.0&
+4.0& 5.0 &
+		 6.0 & 7.0 & 
+		  9.0\\ \hline
+		Э.Мощность
+		 &  &   &&  & &&  &  \\ \hline
+		А.Мощность
+		 &  &   &&  & &&  &  \\ \hline
+	\end{tabular}
+	
+\end{table}
+
+
+\end{example}
+
+\begin {example} Распределение Коши. Пусть $f(x)$ - плотность стандартного распределения Коши, $h_1=0$, $\alpha=0.05$, n=100. В этом случае в работе \cite{MelasSalnikov2021} с помощью таблиц интегралов показано, что
+$$
+J_1= \ln 9, \bar b=\frac {1}{3}.
+$$
+Численным интегрированием находим
+$$
+J_2=9.577512, \,J_3=6.881056.
+$$ 
+По теореме 3.1 получаем, что a=0.8955417.
+Теоретические и эмпирические значения мощности представлены в таблице 3.2. Эмипирические мощности вычислялись тем же способом, что в Примере 3.1. \begin{table}[h!]
+	\caption{ Мощности для распределения Коши}
+	\begin{tabular}{ |p{2cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
+		\hline
+		$v$ & 0.1
+		 & 0.2 & 0.3&
+0.4& 0.5 &
+		 0.6 &0.7 & 
+		  0.9\\ \hline
+		Э.Мощность
+		 &0.074& 0.108  &0.172& 0.272 &0.376 &0.482&0.587  &0.760  \\ \hline
+		А.Мощность
+		 &0.061  & 0.095  &0,160&0.247  &0.349 &0.476&0.592  & 0.804 \\ \hline
+	\end{tabular}
+\end{table}
+\end{example}
+Доказательство теоремы. Сначала докажем, что теорема верна для случая $g(x)=\frac{1}{2}x^2$. В этом случае критерий может быть записан в более простом виде.
+
+\begin{lemma} Рассмотрим тест 
+$(\ref{K})$ с функцией $g(x)
+=g^*(x)=\frac{1}{2}x^2$.
+ Если условие (\ref{Class}) выполняется для $g(x)=g^*(x)$, то справедливо  следующее тождество
+$$
+\Phi_{nn}= \frac{1}{2}(\bar x - \bar y)^2
+$$
+где
+$$
+\bar x = (\sum_{i=1}^n X_i)/n,
+\bar y = (\sum_{i=1}^n Y_i)/n.
+$$
+При $n\to\infty$ распределение величины 
+$\sqrt{
+n\Phi_{nn}}$ сходится к нормальному распределению с дисперсией $J_1$ и математическим ожиданием 0 при выполнении  
+гипотезы $H_0$.
+\end{lemma}
+Доказательство этой леммы можно найти в работе \cite
+{Melas2023}. Для удобства читателя и в связи с тем, что этот результат имеет ключевое значение для доказательства теоремы, мы приводим полное доказательство этой леммы (которое отличается от доказательства в \cite
+{Melas2023} небольшими деталями)в Приложении.
+
+В силу Леммы 3.1 при $g(x)=\frac{1}{2}x^2$ при выполнении гипотезы  $H_0$ величина $nT_n$ имеет вид ($\ref{Distr}$) при $a^2=J_1,c=0$. Таким образом, утверждение (i) теоремы в этом случае справедливо.
+Для доказательства части (ii) теоремы заметим, что в силу Леммы 3.1 при $g(x)=\frac{1}{2}x^2$ при выполнении
+ гипотезы $H_1$ величина $nT_n$ имеет асимптотически то же распределение, что величина $(aL+b)^2$, где $b=h_1$. Непосредственным вычислением можно проверить, что $ b_2=0$ для любого $h_2$. Утверждение о мощности вытекает из того, что $(\sqrt{nT_n} - b)$ имеет нормальное распределение с дисперсией $\frac{1}{2}J_1.$ 
+
+ Рассмотрим далее случай функции $g(x)$ общего вида.  Имеет место
+
+\begin{lemma} 
+(i)В условиях части (I) теоремы 3.1 распределение величины $ nT_n$ сходится при  $n\to\infty$ к распределению величины
+\begin{equation}\label{Distr}
+a^2L^2 ,
+\end{equation}
+где $L$ имеет стандартное нормальное распределение, a 
+ - некоторырое число.\\
+
+(ii) В условиях части (II) теоремы 3.1. распределение величины $ nT_n$ сходится при  $n\to\infty$ к распределению величины
+\begin{equation}\label{Distr1}
+(aL + b)^2, b=b_1 +b_2,
+\end{equation}
+где $L$ имеет стандартное нормальное распределение, a то же самое, что в части (i),$b_1$ определено равенством (\ref{shift}) $b_2$ определено в (\ref{form}).
+\end{lemma}
+Доказательство Леммы 3.2 дано в приложении.
+
+Обозначим
+$$
+R(L,a,c)= a^2L^2 + c,
+$$ 
+предельное распределение величины $nT_n$.
+В силу равенства
+$$ 
+\lim_{n\to \infty} E nT_n = E R(L,a,c)= a^2+c
+$$
+мы получаем, применяя к величине $nT_n$ закон больших чисел для U-статистик (см. \cite{Hoeffding})
+$$
+c =J_1 - a^2.
+$$
+Заметим, что величину $(nT_n)^2$ можно представить как
+\begin{equation}\label{square}
+\frac{1}{n^2}\{\sum_{i,j=1,\dots,n}(g(X_i-Y_j)-J_1)-\sum_{1\leq <i,j\leq n}(g(X_i-X_j)-J_1)-\sum_{1\leq <i,j\leq n}(g(Y_i-Y_j)-J_1)+nJ_1\}^2.
+\end{equation}
+
+Используя формулу ($\ref{square}$), представим предел $(nT_n)^2$ при $n\to\infty$ в виде
+\begin {equation}\label{var}
+\lim_{n\to\infty}(nT_n)^2 =J_1^2 + \lim_{n\to\infty}(\hat J_1(n)-J_1)^2 + \lim_{n\to\infty}\frac{1}{n^2}\{ 2n(\hat J_1(n)-J_1) V_n+V_n^2\},
+\end{equation}
+где
+$$
+\hat J_1(n)= \sum_{i=1}^n\frac{1}{n}(g(X_i-Y_i),
+$$
+$$
+V_n= \{2\sum_{1\leq i<j\leq n}(g(X_i-Y_j)-J_1)-\sum_{1\leq i<j\leq n}(g(X_i-X_j)-J_1)-\sum_{1\leq i<j\leq n}(g(Y_i-Y_j)-J_1)\}.
+$$
+Прямое вычисление с использованием закона больших чисел для $U-$статистик показывает, что $\lim_{n\to\infty}\frac{1}{n}V_n=E\frac{1}{n} V_n=0$. Таким образом,
+$$
+ \lim_{n\to \infty}(nT_n)^2= J_1^2 +\lim_{n\to \infty} \frac{1}{n^2}V_n^2.
+$$
+Заметим, что $V_n^2$ является алгебраической суммой произведений вида
+$$
+R_{(i,j),(s,k)}=(g(Z_i-Z_j)-J_1)(g(Z_s-Z_k)-J_1),
+$$
+где
+$Z= (Z_1,\dots,Z_{2n})=(X_1,\dots,X_n,Y_1,\dots, Y_n)$.
+
+
+
+В силу независимости и одинаковой распределенности величин $ X_i,Y_j, i,j=1,\dots,n$ получаем в силу закона больших чисел,что если все индексы различны, то  
+$$
+ER_{(i,j),(s,k)}=0, i,j,s,k \in \{1,\dots,2n\}. 
+$$
+Если пары индексов совпадают, $(i,j)=(s,k)$,то получаем
+$$
+ER_{(i,j),(i,j)} = J_2 -J_1^2.
+$$
+В случае, когда совпадает только один из индексов, получаем с помощью предельной теоремы для U-статистик ([6]), что имеет место равенство 
+\begin{equation}
+ER_{(i,j),(i,k)}=J_3-J_1^2,
+\end{equation}
+если $ j\ne i, k\ne i,j$.
+Такое же соотношение выполняется для аналогичных случаев. Соответствующие произведения будем называть произведениями третьего вида.
+
+Заметим, что число произведений вида $R_{(i,j),(i,j)}$ равно $2n(n-1)$.
+ А число  сумм третьего вида, входящих в $V_n^2$ со знаком минус равно $4n(n-1)^2$, и число произведений  со знаком плюс равно $4n(n-1)(n-2)$. Таким образом, математическое ожидание алгебраической суммы таких произведений равно $- 4n(n-1)(J_3-J_1^2)$.
+
+Таким образом,
+$$
+E\lim_{n\to\infty} (nT_n)^2 = J_1^2 + E\lim_{n\to\infty} (\frac{1}{n^2}V_n)=
+J_1^2 + 2(J_2-J_1^2) -4(J_3-J_1^2).
+$$
+Из соотношения 
+$$
+E\lim_{n\to\infty}(nT_n)^2 = E(R(L,a,c))^2=2a^4+J_1^2,
+$$
+получаем, переходя к пределу при $n\to\infty$, что $a^2= \sqrt{J_2 +J_1^2-2J_3}$.
+
+Пусть теперь $H_1$ имеет место, тогда по Лемме 3.2, часть(ii) функция распределения величины $nT_n$ сходится при выполнении $H_1$ при $n\to\infty$ к функции распределения величины 
+$$
+(aL + b)^2 + c,
+$$ 
+где $b=\sqrt{b_1^2 +b_2^2}$ ,  a и c те же самые, что в части (i).
+ Из этого представления вытекает формула для асимптотической мощности, что завершает доказательство теоремы.
+
+
+\section{Приложение}
+Доказательство Леммы 3.1.
+Обозначим
+$$ 
+ Z=(X,Y)= (X_1,\dots, X_n,Y_1,\dots, Y_n),
+V(Z)=\frac{1}{2}\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2.
+$$
+Доказательство следует из известной формулы (см., например, \cite{Hoeffding}, p.296)
+\begin{equation}\label{step1} 
+\frac {1}{n(n-1)}\sum_{1\leq i<j\leq n
+} (X_i-X_j)^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+\end{equation}
+и очевидного тождества
+\begin{equation}\label{step2}
+\sum_{i=1}^{2n}\sum_{j=1}^{2n} (Z_i-Z_j)^2=\sum_{i,j=1}^n(X_i-X_j)^2+
+\sum_{i,j=1}^n (Y_i-Y_j)^2+2\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2,
+\end{equation}
+путем прямых, но нетривиальных вычислений.
+
+Действительно, давайте использовать стандартную форму записи
+$$
+S_x^2=\frac {1}{(n-1)} \sum_{i=1}^n (X_i - \bar x)^2
+$$
+И  $S_y^2$, и $S_z^2$ будем понимать аналогичным образом.
+Обозначим
+$$
+S_{xy}=\frac{1}{n^2}\sum_{i=1}^n\sum_{j=1}^n (X_i-Y_j)^2.
+$$
+Используя формулы $(\ref{step1})$, получаем
+\begin{equation}\label{step3a}
+V(Z)=2n[\sum_{i=1}^n(X_i- (\bar x + \bar y)/2)^2 +\sum_{j=1}^n(Y_i- (\bar x + \bar y)/2)^2] = 2n(n-1) (S_x^2 + S_y^2) +n^2(\bar x- \bar y)^2.
+\end{equation}
+Из ($\ref{step1}$) и  ($\ref{step2}$) получаем
+\begin{equation}\label{step3}
+n^2S_{xy}=V(Z)-n(n-1)(S_x^2+S_y^2).
+\end{equation}
+Следовательно
+$$
+S_{xy} =\frac{1}{n}(n-1)(S_x^2+S_y^2)+ (\bar x-\bar y)^2,
+$$
+и мы получаем
+
+$$
+\Phi_{nn}=
+[S_{xy} - \frac{1}{n}(n-1)(S_x^2+S_y^2
+)]/2
+=
+(\bar x - \bar y)^2/2.
+$$
+По классической центральной предельной теореме величина $\sqrt{n\Phi_{nn}}$ имеет распределение, сходящееся при выпонении $H_0$ для $n\to\infty$  к нормальному распределению с дисперсией $J_1$ и математическим ожиданием 0.
+Таким образом, лемма 3.1 доказана.
+Из этой леммы следует, что критерий $\Phi_{nn}$ в этом случае эквивалентен критерию $(\bar x - \bar y)^2.$
+
+Доказательство Леммы 3.2.
+Начнем с доказательства части (i). Обозначим
+\begin{eqnarray}
+U_n(u,g) = (\begin{array}{c}
+                     n  \\                     
+                     2 \\
+                   \end{array})^{-1}\sum_{1\leq u_i <u_j\leq n}g(u_i-u_j),\,\,u=(u_1,\dots,u_n).
+\end{eqnarray}
+Функция  $U_n(u,g)$ есть по определению (см.\cite{Hoeffding}) U-статистика.
+Напомним, что мы приняли $m=n$ и
+$$
+\Phi_{AB}= \Phi_{AB}(X,Y,g)=-\frac{1}{n^2}\sum_{i,j=1}^n g(X_i - Y_j),
+$$
+$$
+\Phi_{A}(X,g)
++ \Phi_{B}(Y,g)=-\frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(X_i - X_j)-
+\frac{1}{n^2}\sum_{1\leq i<j\leq n}  g(Y_i - Y_j).
+$$
+Следовательно, 
+\begin{eqnarray*}
+ \Phi_{A}(X,g)=-\frac{1}{2}\frac{n-1}{n}U_n(X,g),\,\,\,
+ \Phi_{B}(Y,g) =-\frac{1}{2}\frac{n-1}{n}U_n(Y,g),
+ \end{eqnarray*}
+ \begin{eqnarray}\label{repr}
+ \Phi_{AB}(X,Y,g)
+=\frac{1}{n^2}  
+ (\begin{array}{c}
+                    2n  \\                     
+                     2 \\
+                   \end{array})
+ U_{2n}(Z,g)-\frac{1}{2}\frac{n-1}{n}U_n(X,g)-\frac{1}{2}\frac{n-1}{n}U_n(Y,g),
+\end{eqnarray}
+where $Z=(Z_1,\dots,Z_{2n})=((X_1\dots,X_n,Y_1,\dots,Y_n)$.
+Применим предельную теорему (см. Теорему 7.1  \cite{Hoeffding}) к каждому из выражений $\Phi_{A}(X,g),\Phi_{B}(Y,g)$ и
+$\Phi_{AB}(X,Y,g))$. Прямое вычисление показывает, что условие невырожденности
+выполняется.
+По этой теореме  величины 
+$n \Phi_{A}(X,g)$ and $n\Phi_{A}(X,g^*)$ имееют в пределе нормальное распределение.
+Так как нормальные распределения полностью определяются параметрами сдвига и масштаба, то имеет место равенство
+\begin{equation}\label{repr2}
+\frac {1}{n}\sum_{1\leq i<j\leq n} g(X_i - X_j)= a^2
+\frac {1}{n}\sum_{1\leq i<j\leq n} g^*(X_i - X_j)+ \tilde c + \tilde \eta_n,
+\end{equation}
+где a и $\tilde c$ некоторые числа, а величина $\tilde \eta_n$ есть случайная величина, сходящаяся по распределению к постоянной, равной нулю.
+И так как   величины $X_i -X_j$ и $Y_i -Y_j,$ $1\leq i<j\leq n$ имеют одно и то же распределение, это равенство имеет место при замене X на Y с теми же самыми постоянными  a и $\tilde c$.\newline
+По той же причине и принимая во внимание  (\ref{repr}),
+ мы получаем формулу
+$$
+\frac{1}{n}\sum_{i,j=1}^n g(X_i - Y_j)=a^2
+\frac{1}{n}\sum_{i,j=1}^n g^*(X_i - Y_j)+ \bar\eta_n +
+\bar c,
+$$
+где постоянная a такая же как в  (\ref{repr2}) и  $\bar c = \tilde c$,  но 
+$\bar\eta_n \ne \tilde\eta_n$
+И мы получаем 
+$$
+nT_n (X,Y,g)= a^2 nT_n (X,Y,g^*)+c + \eta_n,
+$$
+где $\eta_n$ сходится по вероятности к  0,a и c есть постоянные, и a есть то же самое, что в формуле (\ref{repr2}).
+По Лемме 3.1 $\frac{1}{2} nT_n (X,Y,g^*)$ сходится по распределению к $L^2$.
+Таким образом предельное распределение $nT_n (X,Y,g)$ имеет вид $a^2L^2 +c$.
+
+Рассмотрим теперь случай, когда условие
+($\ref{Class}$) не выполняется для $g(x)=\frac{1}{2}x^2$
+
+Пусть  $K$ - произвольное положительное число,
+$$
+\tilde{X}=(\tilde{X_{1}},\ldots,\tilde{X_{n}}),\,\,\,
+\tilde{Y}=(\tilde{Y_{1}},\ldots, \tilde{Y_{n}}),
+$$
+где $\tilde{X_{i}}=X_{i}$, если $
+|X_{i}| \leq K$ и  $\tilde{X_i}= K$ и $X_{i}>0$,
+  $\tilde{X_i}=- K$  $X_{i}<0$в противном случае. Пусть $\tilde{Y_{i}}$ определены подобным образом.
+  Через $\tilde f$   обозначим плотность распределения $\tilde X_1$(которая есть также плотность распределения  $\tilde X_i, i=2,\dots,n$ and  $\tilde Y_i, i=1,\dots,n$).
+  Теперь условие ($\ref{Class}$) очевидно выполняется для заданной функции  g и для $g=g^*$ с функцией  f(x) замененной на  $\tilde f(x)$.
+ 
+ Рассмотрим величину
+\begin{equation}\label{T_n1}
+n\{\frac{1}{n^2}\sum_{i,j=1}^n g(\tilde{X_{i}} - \tilde{Y_j}) -\frac{1}{n^2}\sum_{i<j} g(\tilde{X_i} - \tilde{X_j}) -
+\end{equation}
+\begin{equation}\label{T_n2}
+ \frac{1}{n^2}\sum_{i<j}  g(\tilde{Y_i} - \tilde{Y_j})\}.
+\end{equation}
+В силу представленных выше аргументов предельное распределение этой величины имеет вид
+$R(L,a,c)$. При  $K\to \infty$ предельное распределение существует (по теореме 7.1\cite{Hoeffding}) и имеет такой же вид.
+Таким образом, часть (i) Леммы 3.2
+доказана.
+
+ Часть (ii) доказывается следующим  образом. 
+ Обозначим
+$$
+\tilde Y=(Y_1(1+h_2/\sqrt{n}) +  h_1/\sqrt{n}, \dots, Y_n(1+h_2/\sqrt{n}) + h_1/\sqrt{n}).
+$$
+При выполнении гипотезы $H_1$ величины $\tilde Y_i, i=1, 2, \dots,n$ - независимые случайные величины с функцией распределения $F_1(x)$.
+Заметим, что $nT_n (X,Y)$ имеет вид
+\begin{equation}\label{basic}
+nT_n (X,Y)=\frac{1}{n}\sum_{i=1}^n g((X_i-\tilde Y_i)-Y_i h_2/\sqrt{n}- h_1/\sqrt{n})+\eta_n,
+\end{equation}
+где $\eta_n$ -случайная величина, такая что $E \eta_n \to 0$ при $n\to \infty$/
+что вытекает из закона больших чисел для U-статистик.
+
+Положим $\beta =\sqrt{n}$. Так как функция $g(x)$, по предположению, симметрична и дважды непрерывно дифференцируема, то
+\begin{eqnarray*}
+g((x-y)-y h_2/\sqrt{n}- h_1/\sqrt{n})= g(x-y)+ (y h_2- h_1)\beta g'_\beta((x-y)+y h_2\beta- h_1\beta)|_{\beta=0} \\+ \frac{1}{2}((y h_2- h_1)\beta)^2 g''_\beta((x-y) - h_2\beta- h_1\beta)|_{\beta=0} + o(\beta^2).
+\end{eqnarray*}
+Вычисляя математическое ожидание от обеих частей ($\ref{basic}$) с использованием этого равенства мы получаем переходом к пределу при  $n\to\infty$, что функция распределения $nT_n$ сходится при выполнении гипотезы  $H_1$ к распределению случайной величины
+\begin{equation}\label{dist}
+(aL
++b)^2,
+\end{equation}
+где
+$$
+b=b_1+b_2,
+$$
+a то же, что и в части (1).
+  \section{Заключение} 
+В данной работе получено асимптотическое распределение рассматриваемого критерия и найдена формула для асимптотической мощности
+в случае функций g общего вида  для альтернативных распределений, отличающися от нулевого величиной параметра сдвига и/или параметра масштаба.
+С помощью статистического моделирования установлено, что найденная формула позволяет получать теоретические значения мощности, которые статистически незначимо отличаются
+от эмпирических мощностей, найденных с помощью моделирования. 
+ Полученные результаты могут быть использованы для определения рационального размера выборки.
+
+ 
+\begin{thebibliography}{3}
+
+
+
+\bibitem{AslanZech2005}
+Zech, G., Aslan, B.: New test for the multivariate two-sample problem based on the concept of minimum energy. Journal of Statistical Computation and Simulation 75(2), pp. 109-119 (2005).
+
+\bibitem{MelasSalnikov2021}
+Melas V. and Salnikov D.: On Asymptotic Power of the New Test for Equality
+of Two Distributions.
+In: A. N. Shiryaev et al. (eds.), Recent Developments in Stochastic Methods and Applications, Springer Proceedings in
+Mathematics and Statistics 371, рр. 204-214 (2021).
+
+\bibitem{Melas2023}
+Мелас В.Б. Об асимптотической мощности одного метода проверки гипотез о равенстве распределений. Вестник СПбГУ, Сер. 1, Вып. 2 (2023)(в печати).
+
+
+\bibitem{Rocha2022}
+Rocha, D.F.S., Bittencourt, I.I., de Amorim Silva, R. et al. An assistive technology based on Peirce’s semiotics for the inclusive education of deaf and hearing children. Univ Access Inf Soc (2022). 
+
+\bibitem{Hoeffding}
+Hoeffding W.: A class of statistics with asymptotically normal distribution. Ann. Math. Statistics 19, pp. 293-325 (1948).
+
+
+
+\end{thebibliography}
+
+\end{document}
+Обратим внимание, что если параметры известны, то тест, основанный на отношении правдоподобия,  является самым мощным среди тестов с заданными параметрами. 
+Для этих распределений, различающися параметром сдвига численное сравнение асимптотических мощностей и эмпирических мощностей было проведено в \cite{
+Melas2023}.
+ Обозначим
+$$
+\tilde Y=(Y_1(1+h_1/\sqrt{n}), \dots, Y_n(1+h_1/\sqrt{n}),
+\tilde T_n =T_n(X,\tilde Y),
+$$
+Тогда
+$$
+nT_n=nT_n(X,Y)=nT_n(X,Y)+[n(\tilde T_n-
+T_n(X,Y)].
+$$
+
+
+И мы получаем переходом к пределу при  $n\to\infty$, что
+$$
+b_3 = (\bar b1 - \bar b2/2)h_1,
+$$ 
