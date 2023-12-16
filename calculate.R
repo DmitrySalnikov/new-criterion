@@ -104,7 +104,7 @@ teor = c(5, 6.6, 11.6, 20.1, 31.9, 46.2, 60.8, 74, 84.6, 91.8, 96.1)
 row.names(table) = paste0("n=", row.names(table))
 table = rbind(table, teor)
 
-file = paste0(path, '/reports/cauchy.tex')
+file = paste0(path, '/reports/', distr, '.tex')
 res = table[, -1]
 cat('$h_2$ & ', file = file)
 write.table(res, file, quote = F, sep = ' & ', eol = ' \\\\ \\hline \n', row.names = T, col.names = T, append = TRUE)
